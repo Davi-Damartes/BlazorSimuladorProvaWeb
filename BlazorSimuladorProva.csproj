@@ -7,25 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\CriarProva.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="6.20.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\CriarProva.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\CriarProva.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\CriarProva.razor" />
   </ItemGroup>
 
   <ItemGroup>
