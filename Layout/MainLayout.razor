@@ -6,8 +6,14 @@
 
 <MudLayout>
     <MudAppBar Color="Color.Success">
-        <MudIconButton Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Inherit" 
-        Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudToggleIconButton @onclick="DrawerToggle"
+                             Icon="@Icons.Material.Filled.Menu"
+                             Color="Color.Dark"
+                             ToggledIcon="@Icons.Material.Filled.MenuOpen"
+                             ToggledTitle="Esconder Menu"
+                             ToggledColor="Color.Inherit"
+                             Edge="Edge.Start"
+                             Toggled="@_drawerOpen" />
      
         <MudText Typo="Typo.h5" Align="Align.Center">     
             <MudContainer >
@@ -20,7 +26,8 @@
                              Title="Modo Escuro" Color="Color.Dark"
                              ToggledIcon="@Icons.Material.Filled.LightMode"
                              ToggledColor="Color.Inherit"
-                             ToggledTitle="Modo Claro"/>
+                             ToggledTitle="Modo Claro"
+                             />
 
         <MudLink Color="Color.Dark" href="https://github.com/Davi-Damartes">
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" Color="Color.Inherit" />
