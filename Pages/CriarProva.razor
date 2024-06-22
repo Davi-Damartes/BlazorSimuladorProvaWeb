@@ -1,10 +1,19 @@
 ﻿@page "/CriarProva"
 
-<MudContainer MaxWidth="MaxWidth.Large">
-    <MudButton Color="Color.Dark" Variant="Variant.Filled"> 
-        Test
-    </MudButton>
-</MudContainer>
+<MudPaper Height="500px" Width="100%" Class="mud-theme-primary mt-3">
+    <MudContainer MaxWidth="MaxWidth.Medium" Fixed="true" >
+        <MudPaper Height="400px" Width="50%" Square="true" 
+        Style="@($"color:{Theme.Palette.Dark}; background:{Theme.Palette.Warning};")">
+            <MudButton Color="Color.Dark" Variant="Variant.Filled"> 
+                Test
+            </MudButton>
+        </MudPaper>
+    </MudContainer>
+</MudPaper>
+
 
 @code{
+    private MudTheme Theme = new MudTheme();
+
+   
 }
