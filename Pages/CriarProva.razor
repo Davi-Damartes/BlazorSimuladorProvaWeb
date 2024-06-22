@@ -1,19 +1,41 @@
 ﻿@page "/CriarProva"
 
-<MudPaper Height="500px" Width="100%" Class="mud-theme-primary mt-3">
-    <MudContainer MaxWidth="MaxWidth.Medium" Fixed="true" >
-        <MudPaper Height="400px" Width="50%" Square="true" 
-        Style="@($"color:{Theme.Palette.Dark}; background:{Theme.Palette.Warning};")">
-            <MudButton Color="Color.Dark" Variant="Variant.Filled"> 
-                Test
-            </MudButton>
-        </MudPaper>
+<MudPaper Height="500px" Width="100%" Style="@($"color:{Colors.Indigo.Default}; background:{Theme.Palette.DarkLighten};")">
+    <MudContainer MaxWidth="MaxWidth.Medium"> 
+            
+        <MudText Typo="Typo.h5" Style="@($"color:{Colors.Grey.Lighten5};")">
+            Criar Prova
+        </MudText>  
+        
+        <MudTextField @bind-Value="@Prova.NomeProfessor"
+                      T="string" Label="Nome Professor"
+                      Required="true" 
+                      RequiredError="Campo Obrigatório!"
+                      Class="mb-3"/>
+
+        <MudNumericField @bind-Value="@Prova.QuantidadeAlunos"
+                         T="int" Label="Quantidade Alunos"
+                         Min="10"
+                         Max="30"
+                         Class="mb-3"/>
+
+        <MudNumericField @bind-Value="@Prova.QuantidadePerguntas"
+                         T="int" Label="Quantidade Perguntas"                      
+                         Min="3" 
+                         Max="10" 
+                         Class="mb-3"/>
+
     </MudContainer>
 </MudPaper>
 
 
 @code{
     private MudTheme Theme = new MudTheme();
-
    
+    public Prova Prova { get; set; } = new Prova();
+
+    public string ErroMessage { get; set; } = string.Empty;
+
+
+
 }
