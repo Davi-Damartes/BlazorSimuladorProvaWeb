@@ -1,5 +1,23 @@
-﻿<h3>RealizarProva</h3>
+﻿@page "/RealizarProva"
+<h3>RealizarProvas</h3>
 
-@code {
+ <mudpaper height="400px" width="100%">
+    <mudcontainer maxwidth="maxwidth.small">
+        <mudpaper height="400px" width="100%" square="true" class="mud-theme-primary">
+
+            @foreach (var pergunta in prova.perguntas)
+            {
+                <mudtext typo="typo.h5">@pergunta</mudtext>
+            }
+        </mudpaper>
+    </mudcontainer>
+</mudpaper>
+ 
+
+
+@code{
 
 }
+
+
+ 
