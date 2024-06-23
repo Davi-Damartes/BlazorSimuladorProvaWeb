@@ -1,41 +1,127 @@
 ﻿@page "/CriarProva"
 
-<MudPaper Height="500px" Width="100%" Style="@($"color:{Colors.Indigo.Default}; background:{Theme.Palette.DarkLighten};")">
+<MudPaper Class="mt-3" Height="500px;" Width="100%;" Style="@($"color:{Colors.Indigo.Default};")">
     <MudContainer MaxWidth="MaxWidth.Medium"> 
             
         <MudText Typo="Typo.h5" Style="@($"color:{Colors.Grey.Lighten5};")">
             Criar Prova
         </MudText>  
+
+
+        <EditForm Model="@Prova" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
         
-        <MudTextField @bind-Value="@Prova.NomeProfessor"
-                      T="string" Label="Nome Professor"
-                      Required="true" 
-                      RequiredError="Campo Obrigatório!"
-                      Class="mb-3"/>
+            <MudTextField @bind-Value="@Prova.NomeProfessor"
+                          For="@(() => Prova.NomeProfessor)"
+                          T="string" Label="Nome Professor"
+                          Required="true" 
+                          RequiredError="Campo Obrigatório!"
+                          InputType="InputType.Text"
+                          Class="mb-3"/>
 
-        <MudNumericField @bind-Value="@Prova.QuantidadeAlunos"
-                         T="int" Label="Quantidade Alunos"
-                         Min="10"
-                         Max="30"
-                         Class="mb-3"/>
+            <MudNumericField @bind-Value="@Prova.QuantidadeAlunos"
+                             For="@(() => Prova.QuantidadeAlunos)"
+                             T="int" Label="Quantidade Alunos"
+                             RequiredError="Campo Obrigatório!"
+                             HelperText="Minímo 5 Máximo 30 Alunos!"
+                             Class="mb-3"/>
 
-        <MudNumericField @bind-Value="@Prova.QuantidadePerguntas"
-                         T="int" Label="Quantidade Perguntas"                      
-                         Min="3" 
-                         Max="10" 
-                         Class="mb-3"/>
+            <MudNumericField @bind-Value="@Prova.QuantidadePerguntas"
+                             For="@(() => Prova.QuantidadePerguntas)"
+                             T="int" Label="Quantidade Perguntas" 
+                             HelperText="Minímo 3 Máximo 10 Perguntas!"
+                             RequiredError="Campo Obrigatório!"
+                             Class="mb-3"/>
 
+            <MudSelect @bind-Value="Prova.TipoProva" Required="true" T="ETipoProva" Color="Color.Success"
+                       For="@(()=> Prova.TipoProva)"
+                       AnchorOrigin="Origin.BottomCenter" 
+                       RequiredError="Campo obrigatório"
+                       Variant="Variant.Outlined" Clearable
+                       Label="Escolha o Tipo da Matéria" 
+                       Dense="true"
+                       OpenIcon="@Icons.Material.Filled.MenuBook" AdornmentColor="Color.Secondary">
+                       @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
+                       {
+                            <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
+                       }
+            </MudSelect>
+
+            <MudCheckBox T="bool" Required="true" Color="Color.Success"
+                         RequiredError="Campo Obrigatório" UnCheckedColor="Color.Success">
+                Termo de Uso!
+            </MudCheckBox>
+
+        </EditForm>
+             @for (int x = 0; x == Prova.QuantidadePerguntas; x++)
+                {
+                    <MudTextField @bind-Value="@perguntaAtual" T="string" Label="Adicionar Pergunta" 
+                                  Class="mb-3" />
+
+                    <MudButton Variant="Variant.Filled" 
+                    OnClick="@(e => AddQuestao())">Adicionar Questão</MudButton>
+                }                
     </MudContainer>
 </MudPaper>
 
 
+
+
 @code{
     private MudTheme Theme = new MudTheme();
-   
+    MudForm form = new MudForm();
+
     public Prova Prova { get; set; } = new Prova();
+
+    public Pergunta Pergunta { get; set; } = new Pergunta();
+
+    public string? perguntaAtual { get; set; }
 
     public string ErroMessage { get; set; } = string.Empty;
 
+    public int Contador = 0;
 
+
+    private void AddQuestao( )
+    {
+        if (!string.IsNullOrEmpty(perguntaAtual) && Pergunta.Questoes.Count() > 4)
+        {
+            Pergunta.Questoes.Add(perguntaAtual);
+            perguntaAtual = string.Empty; 
+        }
+
+    }
+
+   
+  
+    private void OnValidSubmit( )
+    {
+
+        Prova.NomeProfessor = "Prof. Exemplo";
+        Prova.QuantidadeAlunos = 30;
+        Prova.QuantidadePerguntas = 10;
+        Prova.Perguntas = new List<Pergunta>
+        {
+            new Pergunta
+            {
+                Imagem = "caminho/para/imagem.jpg",
+                Questoes = new List<string> { "Questão 1", "Questão 2", "Questão 3" },
+                RespostaCorreta = "Questão 2"
+            },
+            new Pergunta
+            {
+                Imagem = "caminho/para/imagem.jpg",
+                Questoes = new List<string> { "Questão 2", "Questão 2", "Questão 3" },
+                RespostaCorreta = "Questão 2"
+            },
+            new Pergunta
+            {
+                Imagem = "caminho/para/imagem.jpg",
+                Questoes = new List<string> { "Questão 23", "Questão 2", "Questão 3" },
+                RespostaCorreta = "Questão 2"
+            },
+
+        };
+    }
 
 }
