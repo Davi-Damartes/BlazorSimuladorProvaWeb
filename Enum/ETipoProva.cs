@@ -2,6 +2,7 @@
 {
     public enum ETipoProva
     {
+        ConhecimentoGeral = 0,
         Matematica = 1,
         Portugues = 2,
         Historia = 3,
