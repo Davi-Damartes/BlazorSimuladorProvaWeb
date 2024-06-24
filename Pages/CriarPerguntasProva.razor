@@ -1,0 +1,104 @@
+﻿@page "/CriacaoPerguntas"
+
+<MudPaper Class="mud-theme-tertiary" Height="100vh" Width="100%">
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
+
+            @for (int x = 0; x < 3; x++)
+            {
+                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
+                              Label="Perguntas"
+                              InputType="InputType.Text">
+                    Perguntas
+                </MudTextField>
+
+                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
+                              Label="Respostas 1"
+                              InputType="InputType.Text">
+                    Respostas
+                </MudTextField>
+                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
+                              Label="Respostas 2"
+                              InputType="InputType.Text">
+                    Respostas
+                </MudTextField>
+
+                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
+                              Label="Respostas 3"
+                              InputType="InputType.Text">
+                    Respostas
+                </MudTextField>
+
+                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
+                              Label="Respostas 4"
+                              InputType="InputType.Text">
+                    Respostas
+                </MudTextField>
+
+            }
+            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                       OnClick="@(() => AddPerguntaNaProva())">
+                Adicionar Questão
+            </MudButton>
+        </MudForm>
+    </MudContainer>
+</MudPaper>
+
+
+
+@code {
+    bool success;
+
+    string[] errors = { };
+
+    MudForm form = new MudForm();
+
+    [Parameter]
+    public Prova Prova { get; set; } = new();
+
+    public Pergunta Pergunta { get; set; } = new();
+
+    public Questao Questao { get; set; } = new();
+
+    public Alternativa Alternativa { get; set; } = new();
+
+    public string? perguntaAtual { get; set; }
+
+    protected override void OnInitialized( )
+    {
+
+        Prova.Perguntas.Add(new Pergunta
+            {
+                Texto = "Pergunta 1",
+                Questoes = new List<Questao>
+            {
+                new Questao
+                {
+                    Enunciado = "Questão 1",
+                    Alternativas = new List<Alternativa>
+                    {
+                        new Alternativa { Texto = "Alternativa A", IsCorreta = false },
+                        new Alternativa { Texto = "Alternativa B", IsCorreta = true },
+                        new Alternativa { Texto = "Alternativa C", IsCorreta = false },
+                        new Alternativa { Texto = "Alternativa D", IsCorreta = false }
+                    }
+                }
+            }
+            });
+    }
+
+    private void AddPergunta( )
+    {
+        Prova.Perguntas.Add(new Pergunta { Texto = $"Pergunta {Prova.Perguntas.Count + 1}" });
+    }
+
+    private void AddQuestao(Pergunta pergunta)
+    {
+        Pergunta.Questoes.Add(new Questao { Enunciado = $"Questão {Pergunta.Questoes.Count + 1}" });
+    }
+
+    private void AddPerguntaNaProva( )
+    {
+
+    }
+}
