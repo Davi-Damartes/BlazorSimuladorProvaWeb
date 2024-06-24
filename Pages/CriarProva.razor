@@ -1,127 +1,139 @@
 ﻿@page "/CriarProva"
 
-<MudPaper Class="mt-3" Height="500px;" Width="100%;" Style="@($"color:{Colors.Indigo.Default};")">
-    <MudContainer MaxWidth="MaxWidth.Medium"> 
-            
-        <MudText Typo="Typo.h5" Style="@($"color:{Colors.Grey.Lighten5};")">
-            Criar Prova
+<MudPaper Class="mt-3" Height="700px;" Width="100%;" Style="@($"color:{Colors.Green.Accent2};")">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="mud-theme-info; border-radius: 15px">
+
+        <MudText Typo="Typo.h3" Color="Color.Info"
+                 Class="d-flex align-center justify-center">
+                Criar Prova
         </MudText>  
-
-
-        <EditForm Model="@Prova" OnValidSubmit="OnValidSubmit">
-            <DataAnnotationsValidator />
         
-            <MudTextField @bind-Value="@Prova.NomeProfessor"
-                          For="@(() => Prova.NomeProfessor)"
-                          T="string" Label="Nome Professor"
-                          Required="true" 
-                          RequiredError="Campo Obrigatório!"
-                          InputType="InputType.Text"
-                          Class="mb-3"/>
+        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">  
 
+            <div class="mb-3">
+                <MudTextField @bind-Value="@Prova.NomeProfessor" Required="true"
+                              T="string" 
+                              Label="Nome Professor"                         
+                              RequiredError="Campo Obrigatório!"
+                              />
+            </div>
+
+            <div class="mb-3">
             <MudNumericField @bind-Value="@Prova.QuantidadeAlunos"
-                             For="@(() => Prova.QuantidadeAlunos)"
                              T="int" Label="Quantidade Alunos"
+                             Required="true"
                              RequiredError="Campo Obrigatório!"
                              HelperText="Minímo 5 Máximo 30 Alunos!"
-                             Class="mb-3"/>
+                             Validation="@(new RangeAttribute(5,30)
+                             {ErrorMessage= "Valores entre 5 e 30 Disponíveis!"})"
+                             />
+            </div>
 
-            <MudNumericField @bind-Value="@Prova.QuantidadePerguntas"
-                             For="@(() => Prova.QuantidadePerguntas)"
-                             T="int" Label="Quantidade Perguntas" 
-                             HelperText="Minímo 3 Máximo 10 Perguntas!"
-                             RequiredError="Campo Obrigatório!"
-                             Class="mb-3"/>
+            <div class="mb-3">
+            <MudNumericField @bind-Value="@Prova.QuantidadePerguntas" Required="true"
+                                 T="int" Label="Quantidade de Perguntas"                      
+                                 HelperText="Minímo 3 Máximo 10 Perguntas!"
+                                 RequiredError="Campo Obrigatório!"
+                                 Validation="@(new RangeAttribute(3,10)
+                                 {ErrorMessage= "Valores entre 3 e 10 Disponíveis!"})" />
+            </div>
 
-            <MudSelect @bind-Value="Prova.TipoProva" Required="true" T="ETipoProva" Color="Color.Success"
-                       For="@(()=> Prova.TipoProva)"
-                       AnchorOrigin="Origin.BottomCenter" 
-                       RequiredError="Campo obrigatório"
+            <MudSelect T="ETipoProva" @bind-Value="@Prova.TipoProva" 
+                       Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter" 
                        Variant="Variant.Outlined" Clearable
-                       Label="Escolha o Tipo da Matéria" 
-                       Dense="true"
-                       OpenIcon="@Icons.Material.Filled.MenuBook" AdornmentColor="Color.Secondary">
-                       @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
-                       {
-                            <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
-                       }
+                       OpenIcon="@Icons.Material.Filled.MenuBook" AdornmentColor="Color.Tertiary">
+
+                        @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
+                        {
+                        <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
+                        }
+
             </MudSelect>
+           
+            <div class="mt-5 butoes-Validacao">
+                <MudButton Variant="Variant.Filled" Color="Color.Info" DisableElevation="true"
+                            OnClick="@(()=>form.Validate())">
+                            Validar Campos
+                 </MudButton>
 
-            <MudCheckBox T="bool" Required="true" Color="Color.Success"
-                         RequiredError="Campo Obrigatório" UnCheckedColor="Color.Success">
-                Termo de Uso!
-            </MudCheckBox>
+                <MudButton Variant="Variant.Filled" Color="Color.Warning" 
+                            DisableElevation="true" OnClick="@(()=>form.ResetAsync())" Class="mx-2">
+                            Limpar formulário
+                </MudButton>
 
-        </EditForm>
-             @for (int x = 0; x == Prova.QuantidadePerguntas; x++)
-                {
-                    <MudTextField @bind-Value="@perguntaAtual" T="string" Label="Adicionar Pergunta" 
-                                  Class="mb-3" />
+            </div>
 
-                    <MudButton Variant="Variant.Filled" 
-                    OnClick="@(e => AddQuestao())">Adicionar Questão</MudButton>
-                }                
+            <div class="d-flex Confirmacao">
+                <MudCheckBox T="bool" Required="true"
+                             Color="Color.Success"
+                             RequiredError="Campo Obrigatório" UnCheckedColor="Color.Success"
+                             Label="Termos de Uso!" />
+                           
+
+                <MudButton OnClick="@(()=> EnviarProva())"  Variant="Variant.Filled" Color="Color.Primary" 
+                             Disabled="@(!success)" Class="ml-auto">
+                             Enviar Formulário                
+                </MudButton>
+            </div>
+        </MudForm> 
     </MudContainer>
 </MudPaper>
 
 
 
 @code{
-    private MudTheme Theme = new MudTheme()
-    ;
+    bool success;
+
+    string[] errors = { };
+
     MudForm form = new MudForm();
+
+    private MudTheme Theme = new MudTheme();
+
 
     public Prova Prova { get; set; } = new Prova();
 
     public Pergunta Pergunta { get; set; } = new Pergunta();
 
+    ETipoProva ETipoProva;
+
     public string? perguntaAtual { get; set; }
 
     public string ErroMessage { get; set; } = string.Empty;
 
-    public int Contador = 0;
-
-
-    private void AddQuestao( )
+    private void EnviarProva( )
     {
-        if (!string.IsNullOrEmpty(perguntaAtual) && Pergunta.Questoes.Count() > 4)
-        {
-            Pergunta.Questoes.Add(perguntaAtual);
-            perguntaAtual = string.Empty; 
-        }
-
+        
     }
 
-   
-  
-    private void OnValidSubmit( )
-    {
+    // private void OnValidSubmit( )
+    // {
 
-        Prova.NomeProfessor = "Prof. Exemplo";
-        Prova.QuantidadeAlunos = 30;
-        Prova.QuantidadePerguntas = 10;
-        Prova.Perguntas = new List<Pergunta>
-        {
-            new Pergunta
-            {
-                Imagem = "caminho/para/imagem.jpg",
-                Questoes = new List<string> { "Questão 1", "Questão 2", "Questão 3" },
-                RespostaCorreta = "Questão 2"
-            },
-            new Pergunta
-            {
-                Imagem = "caminho/para/imagem.jpg",
-                Questoes = new List<string> { "Questão 2", "Questão 2", "Questão 3" },
-                RespostaCorreta = "Questão 2"
-            },
-            new Pergunta
-            {
-                Imagem = "caminho/para/imagem.jpg",
-                Questoes = new List<string> { "Questão 23", "Questão 2", "Questão 3" },
-                RespostaCorreta = "Questão 2"
-            },
+    //     Prova.NomeProfessor = "Prof. Exemplo";
+    //     Prova.QuantidadeAlunos = 30;
+    //     Prova.QuantidadePerguntas = 10;
+    //     Prova.Perguntas = new List<Pergunta>
+    //     {
+    //         new Pergunta
+    //         {
+    //             Imagem = "caminho/para/imagem.jpg",
+    //             Questoes = new List<string> { "Questão 1", "Questão 2", "Questão 3" },
+    //             RespostaCorreta = "Questão 2"
+    //         },
+    //         new Pergunta
+    //         {
+    //             Imagem = "caminho/para/imagem.jpg",
+    //             Questoes = new List<string> { "Questão 2", "Questão 2", "Questão 3" },
+    //             RespostaCorreta = "Questão 2"
+    //         },
+    //         new Pergunta
+    //         {
+    //             Imagem = "caminho/para/imagem.jpg",
+    //             Questoes = new List<string> { "Questão 23", "Questão 2", "Questão 3" },
+    //             RespostaCorreta = "Questão 2"
+    //         },
 
-        };
-    }
+    //     };
+    // }
 
 }
