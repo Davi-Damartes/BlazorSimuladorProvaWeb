@@ -1,4 +1,4 @@
-﻿@page "/RealizarProva"
+﻿@* @page "/RealizarProva"
 
 @if (Prova != null && Prova.Perguntas.Count() == 0)
 {
@@ -45,7 +45,7 @@
             new Pergunta
             {
                 Imagem = "caminho/para/imagem.jpg",
-                Questoes = new List<string> { "Questão 23", "Questão 2", "Questão 3" },
+                Questoes = new List<string> { "Questão 3", "Questão 2", "Questão 3" },
                 RespostaCorreta = "Questão 2"
             },
 
@@ -55,4 +55,4 @@
 }
 
 
- 
+  *@
