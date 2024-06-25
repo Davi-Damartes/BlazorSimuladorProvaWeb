@@ -1,8 +1,12 @@
-﻿namespace BlazorSimuladorProva.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BlazorSimuladorProva.Models
 {
     public class Alternativa
     {
-        public string Texto { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Campo alternativa é obrigatório")]
+        [StringLength(400, ErrorMessage = "Número máximo de caracteres 400")]
+        public string TextoDasAlternativa { get; set; } = string.Empty;
         public bool IsCorreta { get; set; }
     }
 }
