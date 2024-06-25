@@ -1,57 +1,79 @@
 ﻿@page "/CriacaoPerguntas"
 
-<MudPaper Class="mud-theme-tertiary" Height="100vh" Width="100%">
-    <MudContainer MaxWidth="MaxWidth.Large">
-        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
+@if (mostrarAlert)
+{
+<MudAlert Severity="Severity.Error" 
+    ContentAlignment="HorizontalAlignment.Center" 
+    ShowCloseIcon="true" CloseIconClicked="(() => CloseMe(false))">
+    @Erros
+</MudAlert>
+}
 
-            @for (int x = 0; x < 3; x++)
-            {
-                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
-                              Label="Perguntas"
-                              InputType="InputType.Text">
-                    Perguntas
-                </MudTextField>
+<MudPaper Height="100vh" Width="100%">
+    <MudContainer MaxWidth="MaxWidth.Medium">
 
-                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
-                              Label="Respostas 1"
-                              InputType="InputType.Text">
-                    Respostas
-                </MudTextField>
-                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
-                              Label="Respostas 2"
-                              InputType="InputType.Text">
-                    Respostas
-                </MudTextField>
+        <EditForm Model="@Alternativa" OnValidSubmit="AdicionarPerguntas">
+            <DataAnnotationsValidator />
+            <ValidationSummary/>
 
-                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
-                              Label="Respostas 3"
-                              InputType="InputType.Text">
-                    Respostas
-                </MudTextField>
+            <MudTextField @bind-Text="Questao.EnunciadoQuestao"
+                          Required="true"
+                          T="string"
+                          Label="Enunciado da questão"
+                          InputType="InputType.Text" />
 
-                <MudTextField @bind-Value="Alternativa.Texto" Required="true"
-                              Label="Respostas 4"
-                              InputType="InputType.Text">
-                    Respostas
-                </MudTextField>
+            <MudTextField @bind-Value="perguntaAtual"
+                          For="(() => perguntaAtual)"
+                          Required="true"
+                          T="string"
+                          Label="Alternativa"
+                          InputType="InputType.Text" 
+                          Disabled="@disableQuestoes" />
 
-            }
-            <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                       OnClick="@(() => AddPerguntaNaProva())">
+            <div class="mt-5">
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Secondary"
+                           Disabled="@disableQuestoes">
+                    Adicionar Pergunta
+                </MudButton>
+            </div>
+
+        </EditForm>
+
+        <div class="mt-5">
+            <MudButton OnClick="(()=> AddQuestao())"
+                       ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Success">
                 Adicionar Questão
             </MudButton>
-        </MudForm>
+        </div>
+
+         <MudItem xs="12" md="6">
+            <MudText Typo="Typo.h6" GutterBottom="true">Altenativas da Pergunta</MudText>
+            <MudPaper Width="100%">
+                <MudList>
+                    @foreach(var alternativa in ListaAlternativas)
+                    {
+                        <MudText>Pergunta </MudText>
+                        <MudListItem Text="@alternativa.TextoDasAlternativa" />                  
+                    }
+                </MudList>
+            </MudPaper>
+        </MudItem> 
     </MudContainer>
 </MudPaper>
+}
 
 
 
 @code {
-    bool success;
-
-    string[] errors = { };
-
     MudForm form = new MudForm();
+
+    bool IsCorretaAlternativa;
+
+    bool disableQuestoes = false;
 
     [Parameter]
     public Prova Prova { get; set; } = new();
@@ -60,45 +82,87 @@
 
     public Questao Questao { get; set; } = new();
 
-    public Alternativa Alternativa { get; set; } = new();
+    public Alternativa Alternativa { get; set; } = new Alternativa();
 
-    public string? perguntaAtual { get; set; }
+    public List<Alternativa> ListaAlternativas { get; set; } = new List<Alternativa>();
 
-    protected override void OnInitialized( )
+    public string? perguntaAtual { get; set; } = string.Empty;
+
+    public string? Erros { get; set; } = string.Empty;
+
+    public List<string>? perguntasAtuais { get; set; } = new List<string>();
+
+    private bool mostrarAlert = false;
+    private bool fecharAlert = false;
+
+    private void CloseMe(bool value)
     {
-
-        Prova.Perguntas.Add(new Pergunta
-            {
-                Texto = "Pergunta 1",
-                Questoes = new List<Questao>
-            {
-                new Questao
-                {
-                    Enunciado = "Questão 1",
-                    Alternativas = new List<Alternativa>
-                    {
-                        new Alternativa { Texto = "Alternativa A", IsCorreta = false },
-                        new Alternativa { Texto = "Alternativa B", IsCorreta = true },
-                        new Alternativa { Texto = "Alternativa C", IsCorreta = false },
-                        new Alternativa { Texto = "Alternativa D", IsCorreta = false }
-                    }
-                }
-            }
-            });
+        if (value)
+        {
+            fecharAlert = false;
+        }
+        else
+        {
+            mostrarAlert = false;
+        }
+    }
+    private void ShowAlerts( )
+    {
+        mostrarAlert = true;
+        fecharAlert = true;
     }
 
-    private void AddPergunta( )
+    private void AdicionarPerguntas()
     {
-        Prova.Perguntas.Add(new Pergunta { Texto = $"Pergunta {Prova.Perguntas.Count + 1}" });
+        if (!string.IsNullOrWhiteSpace(perguntaAtual))
+        {
+            AddAlternativa(perguntaAtual, IsCorretaAlternativa);
+
+        }
+        else
+        {
+            Erros = "Erros ao adicionar Pergunta";
+            ShowAlerts();
+        }
     }
 
-    private void AddQuestao(Pergunta pergunta)
+
+    private void AddAlternativa(string alternativaTexto, bool IsCorreta)
     {
-        Pergunta.Questoes.Add(new Questao { Enunciado = $"Questão {Pergunta.Questoes.Count + 1}" });
+        if (ListaAlternativas.Count != 4)
+        {
+            var alternativa = new Alternativa 
+            { 
+                TextoDasAlternativa = alternativaTexto,
+                IsCorreta = IsCorreta 
+            };
+            ListaAlternativas.Add(alternativa);
+
+            perguntaAtual = string.Empty;
+        }
+
+        if (ListaAlternativas.Count == 4)
+        {
+            disableQuestoes = true;
+
+        }
+
     }
 
-    private void AddPerguntaNaProva( )
+    private void AddQuestao()
     {
+        if (ListaAlternativas.Count() > 1 
+                        && 
+        ListaAlternativas.Count() <= Prova.QuantidadePerguntas)
+        {        
+            Questao.AlternativasQuestao.AddRange(ListaAlternativas);
+        }
+        else
+        {
+            Erros = "Erros ao adicionar Questão";
+            ShowAlerts();
+        }
+
 
     }
 }
