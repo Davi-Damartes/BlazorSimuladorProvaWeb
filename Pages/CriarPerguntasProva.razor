@@ -1,70 +1,153 @@
-﻿@page "/CriacaoPerguntas"
+﻿@page "/"
+
+@inject QuestaoService QuestaoServices
 
 @if (mostrarAlert)
 {
-<MudAlert Severity="Severity.Error" 
-    ContentAlignment="HorizontalAlignment.Center" 
-    ShowCloseIcon="true" CloseIconClicked="(() => CloseMe(false))">
-    @Erros
-</MudAlert>
+    <MudAlert Severity="Severity.Error"
+              ContentAlignment="HorizontalAlignment.Center"
+              ShowCloseIcon="true" CloseIconClicked="(() => CloseMe(false))">
+        @Erros
+    </MudAlert>
 }
-
 <MudPaper Height="100vh" Width="100%">
-    <MudContainer MaxWidth="MaxWidth.Medium">
+    <MudContainer MaxWidth="MaxWidth.Large">
 
-        <EditForm Model="@Alternativa" OnValidSubmit="AdicionarPerguntas">
-            <DataAnnotationsValidator />
+        <EditForm Model="Questao" OnValidSubmit="AddQuestao">
+            <DataAnnotationsValidator /> 
             <ValidationSummary/>
 
-            <MudTextField @bind-Text="Questao.EnunciadoQuestao"
+            <MudTextField @bind-Text="Questao.EnunciadoQuestao"                    
                           Required="true"
+                          RequiredError="Campotexfdsfd"
                           T="string"
                           Label="Enunciado da questão"
                           InputType="InputType.Text" />
+        </EditForm>
 
-            <MudTextField @bind-Value="perguntaAtual"
-                          For="(() => perguntaAtual)"
-                          Required="true"
-                          T="string"
-                          Label="Alternativa"
-                          InputType="InputType.Text" 
-                          Disabled="@disableQuestoes" />
 
+
+        <EditForm Model="@AlternativaModel1" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary/>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                        <MudTextField @bind-Value="AlternativaModel1!.TextoDasAlternativa"
+                                      Validation="(() => new ValidationSummary())"
+                                      Lines="5"
+                                      Label="Alternativa 1"
+                                      InputType="InputType.Text" />
+                        <ValidationMessage For="@(() => AlternativaModel1.TextoDasAlternativa)" />
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
             <div class="mt-5">
-                <MudButton ButtonType="ButtonType.Submit"
+                <MudButton OnClick="(()=> AdicionarPerguntas(AlternativaModel1))"
+                    ButtonType="ButtonType.Submit"
                            Variant="Variant.Filled"
-                           Color="Color.Secondary"
+                           Color="Color.Success"
                            Disabled="@disableQuestoes">
-                    Adicionar Pergunta
+                    Adicionar Pergunta 1
                 </MudButton>
             </div>
+        </EditForm>
 
+
+        <EditForm Model="@AlternativaModel2">
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                        <MudTextField @bind-Text="AlternativaModel2.TextoDasAlternativa"
+                                      Required="true"
+                                      T="string"
+                                      Label="Alternativa 2"
+                                      InputType="InputType.Text" />
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <div class="mt-5">
+                <MudButton OnClick="(()=> AdicionarPerguntas(AlternativaModel2))"
+                           ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Disabled="@disableQuestoes">
+                    Adicionar Pergunta 2
+                </MudButton>
+            </div>
+        </EditForm>
+
+
+        <EditForm Model="@AlternativaModel3">
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                        <MudTextField @bind-Text="AlternativaModel3.TextoDasAlternativa"
+                                      Required="true"
+                                      T="string"
+                                      Label="Alternativa 3"
+                                      InputType="InputType.Text" />
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <div class="mt-5">
+                <MudButton OnClick="(()=> AdicionarPerguntas(AlternativaModel3))"
+                           ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Disabled="@disableQuestoes">
+                    Adicionar Pergunta 3
+                </MudButton>
+            </div>
+        </EditForm>
+
+
+        <EditForm Model="@AlternativaModel4">
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                        <MudTextField @bind-Text="AlternativaModel4.TextoDasAlternativa"
+                                      Required="true"
+                                      T="string"
+                                      Label="Alternativa 4"
+                                      InputType="InputType.Text" />
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <div class="mt-5">
+                <MudButton OnClick="(()=> AdicionarPerguntas(AlternativaModel4))"
+                           ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Disabled="@disableQuestoes">
+                    Adicionar Pergunta 4
+                </MudButton>
+            </div>
         </EditForm>
 
         <div class="mt-5">
             <MudButton OnClick="(()=> AddQuestao())"
                        ButtonType="ButtonType.Submit"
                        Variant="Variant.Filled"
-                       Color="Color.Success">
+                       Color="Color.Success"
+                       Disabled="@BotaoAddQuestaoDisable">
                 Adicionar Questão
             </MudButton>
         </div>
 
-         <MudItem xs="12" md="6">
-            <MudText Typo="Typo.h6" GutterBottom="true">Altenativas da Pergunta</MudText>
-            <MudPaper Width="100%">
-                <MudList>
-                    @foreach(var alternativa in ListaAlternativas)
-                    {
-                        <MudText>Pergunta </MudText>
-                        <MudListItem Text="@alternativa.TextoDasAlternativa" />                  
-                    }
-                </MudList>
-            </MudPaper>
-        </MudItem> 
+
     </MudContainer>
 </MudPaper>
-}
+
 
 
 
@@ -73,27 +156,91 @@
 
     bool IsCorretaAlternativa;
 
+    bool BotaoAddQuestaoDisable = true;
+
     bool disableQuestoes = false;
 
     [Parameter]
     public Prova Prova { get; set; } = new();
 
+
     public Pergunta Pergunta { get; set; } = new();
 
     public Questao Questao { get; set; } = new();
 
-    public Alternativa Alternativa { get; set; } = new Alternativa();
+    public List<Questao> ListaQuestoes { get; set; } = new List<Questao>();
 
-    public List<Alternativa> ListaAlternativas { get; set; } = new List<Alternativa>();
+    public Alternativa? AlternativaModel1 { get; set; } = new Alternativa();
 
-    public string? perguntaAtual { get; set; } = string.Empty;
+    public Alternativa AlternativaModel2 { get; set; } = new();
+
+    public Alternativa AlternativaModel3 { get; set; } = new();
+
+    public Alternativa AlternativaModel4 { get; set; } = new();
+
+    public List<Alternativa> ListaAlternativas { get; set; } = new();
+
+
 
     public string? Erros { get; set; } = string.Empty;
-
-    public List<string>? perguntasAtuais { get; set; } = new List<string>();
-
     private bool mostrarAlert = false;
     private bool fecharAlert = false;
+
+
+    private void OnValidSubmit(EditContext context)
+    {
+        bool success = true;
+        StateHasChanged();
+    }
+
+    private void AdicionarPerguntas(Alternativa alternativa)
+    {
+        if (!string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
+        {
+            AddAlternativa(alternativa);
+        }
+        else
+        {
+            Erros = "Campo inválido, erro ao adicionar Pergunta";
+            ShowAlerts();
+        }
+    }
+
+
+    private void AddAlternativa(Alternativa alternativaModel)
+    {
+        if (ListaAlternativas.Count < 4)
+        {
+            ListaAlternativas.Add(alternativaModel);
+            BotaoAddQuestaoDisable = false;
+        }
+
+        if (ListaAlternativas.Count == 4)
+        {
+            disableQuestoes = true;
+
+        }
+
+    }
+
+    private void AddQuestao( )
+    {
+        if (ListaAlternativas.Count() > 0)
+        {
+            Questao.ListaAlternativas.AddRange(ListaAlternativas);
+            QuestaoServices.QuestaoInstancia
+            .ListaAlternativas.AddRange(ListaAlternativas);
+
+            ListaQuestoes.Add(Questao);
+        }
+        else
+        {
+            Erros = "Erros ao adicionar Questão";
+            ShowAlerts();
+        }
+
+
+    }
 
     private void CloseMe(bool value)
     {
@@ -112,57 +259,4 @@
         fecharAlert = true;
     }
 
-    private void AdicionarPerguntas()
-    {
-        if (!string.IsNullOrWhiteSpace(perguntaAtual))
-        {
-            AddAlternativa(perguntaAtual, IsCorretaAlternativa);
-
-        }
-        else
-        {
-            Erros = "Erros ao adicionar Pergunta";
-            ShowAlerts();
-        }
-    }
-
-
-    private void AddAlternativa(string alternativaTexto, bool IsCorreta)
-    {
-        if (ListaAlternativas.Count != 4)
-        {
-            var alternativa = new Alternativa 
-            { 
-                TextoDasAlternativa = alternativaTexto,
-                IsCorreta = IsCorreta 
-            };
-            ListaAlternativas.Add(alternativa);
-
-            perguntaAtual = string.Empty;
-        }
-
-        if (ListaAlternativas.Count == 4)
-        {
-            disableQuestoes = true;
-
-        }
-
-    }
-
-    private void AddQuestao()
-    {
-        if (ListaAlternativas.Count() > 1 
-                        && 
-        ListaAlternativas.Count() <= Prova.QuantidadePerguntas)
-        {        
-            Questao.AlternativasQuestao.AddRange(ListaAlternativas);
-        }
-        else
-        {
-            Erros = "Erros ao adicionar Questão";
-            ShowAlerts();
-        }
-
-
-    }
 }
