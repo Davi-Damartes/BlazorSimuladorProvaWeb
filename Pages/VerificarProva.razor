@@ -1,0 +1,41 @@
+﻿@page "/VerificarProva"
+@inject QuestaoService Questoes
+
+@if (Questao != null && Questao.ListaAlternativas.Count() == 0)
+{
+    <MudText Typo="Typo.h3" Color="Color.Warning"> Não existe Provas Criadas!!!</MudText>
+}
+<MudPaper Class="mt-3" Height="500px;" Width="100%;" >
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <MudPaper Height="400px" Width="100%" Square="true">
+
+            @foreach (var alternativa in Questao!.ListaAlternativas!)
+            {
+                <MudText Typo="Typo.h5">@alternativa.TextoDasAlternativa</MudText>
+
+                <MudRadioGroup @bind-Value="@alternativa.IsCorreta">
+                    <MudRadio Value="true"
+                              Color="Color.Primary"
+                              Size="Size.Small">
+                        Alternativa Correta?
+                    </MudRadio>
+                </MudRadioGroup>
+            }
+        </MudPaper>
+    </MudContainer>
+</MudPaper>
+    
+
+
+@code{
+    public Questao Questao { get; set; } = new();
+
+
+    protected override void OnInitialized()
+    {
+        Questao = Questoes.QuestaoInstancia;
+    }
+}
+
+
+ 
