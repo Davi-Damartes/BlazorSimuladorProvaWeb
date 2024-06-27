@@ -1,41 +1,88 @@
 ﻿@page "/VerificarProva"
 @inject QuestaoService Questoes
 
-@if (Questao != null && Questao.ListaAlternativas.Count() == 0)
+@inject ProvaService ProvaFinal
+
+@if (QuestaoProva != null && QuestaoProva.ListaAlternativas.Count() == 0)
 {
     <MudText Typo="Typo.h3" Color="Color.Warning"> Não existe Provas Criadas!!!</MudText>
 }
-<MudPaper Class="mt-3" Height="500px;" Width="100%;" >
+<MudPaper Class="mt-3" Height="100%;" Width="100%;">
     <MudContainer MaxWidth="MaxWidth.Small">
-        <MudPaper Height="400px" Width="100%" Square="true">
+        <MudPaper Class="mud-theme-primary" Height="100%" Width="600px" Square="true">
 
-            @foreach (var alternativa in Questao!.ListaAlternativas!)
+            @foreach (var alternativa in QuestaoProva!.ListaAlternativas!)
             {
                 <MudText Typo="Typo.h5">@alternativa.TextoDasAlternativa</MudText>
-
-                <MudRadioGroup @bind-Value="@alternativa.IsCorreta">
-                    <MudRadio Value="true"
-                              Color="Color.Primary"
-                              Size="Size.Small">
-                        Alternativa Correta?
-                    </MudRadio>
-                </MudRadioGroup>
             }
+
+            <MudRadioGroup @bind-Value="QuestaoProva!.AlternativaCorretaIndex">
+                @for (int i = 0; i < QuestaoProva!.ListaAlternativas.Count; i++)
+                {
+                    <MudItem xs="12" Class="mb-3">
+                        <MudText Typo="Typo.h5">@QuestaoProva.ListaAlternativas[i].TextoDasAlternativa</MudText>
+                        <MudRadio Value="@i"
+                                  Color="Color.Secondary"
+                                  Size="Size.Large">
+                            Alternativa Correta?
+                        </MudRadio>
+                    </MudItem>
+                }
+            </MudRadioGroup>
+
+
+
+
+
+            <MudButton OnClick="AddQuetoesEPerguntaNaProva"
+                       Color="Color.Tertiary"
+                       Variant="Variant.Filled">
+                Adicionar Questao Na Prova
+            </MudButton>
+
         </MudPaper>
+
+        <MudText>@ProvaFinal.ProvaInstancia.NomeProfessor</MudText>
     </MudContainer>
 </MudPaper>
-    
 
 
-@code{
-    public Questao Questao { get; set; } = new();
+
+@code {
+    public Questao QuestaoProva { get; set; } = new();
+
+    public List<Questao> ListaQuestoes { get; set; } = new();
+
+    public Pergunta PerguntaAtual { get; set; } = new();
+
+    public List<Pergunta> ListaPerguntas { get; set; } = new();
+
+    public Alternativa AlternativaCorreta { get; set; }
 
 
-    protected override void OnInitialized()
+    public bool Basic_CheckBox1 { get; set; } = false;
+
+
+    private void AddQuetoesEPerguntaNaProva( )
     {
-        Questao = Questoes.QuestaoInstancia;
+        foreach (var alternativa in ListaQuestoes)
+        {
+            
+        }
+        ListaQuestoes.Add(QuestaoProva);
+
+        PerguntaAtual.Questoes.AddRange(ListaQuestoes);
+
+        ListaPerguntas.Add(PerguntaAtual);
+
+        ProvaFinal.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
+
+    }
+
+    protected override void OnInitialized( )
+    {
+        QuestaoProva = Questoes.QuestaoInstancia;
     }
 }
 
 
- 
