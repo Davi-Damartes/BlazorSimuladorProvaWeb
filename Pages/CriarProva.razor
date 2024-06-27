@@ -1,5 +1,7 @@
 ﻿@page "/CriarProva"
 
+@inject ProvaService ProvaServices
+
 <MudPaper Class="mt-3" Height="700px;" Width="100%;" Style="@($"color:{Colors.Green.Accent2};")">
     <MudContainer MaxWidth="MaxWidth.Large" Class="mud-theme-info; border-radius: 15px">
 
@@ -8,11 +10,12 @@
                 Criar Prova
         </MudText>  
         
-        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">  
+        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"> 
 
             <div class="mb-3">
-                <MudTextField @bind-Value="@Prova.NomeProfessor" Required="true"
+                <MudTextField @bind-Value="@Prova.NomeProfessor" 
                               T="string" 
+                              Required="true"
                               Label="Nome Professor"                         
                               RequiredError="Campo Obrigatório!" />
             </div>
@@ -89,6 +92,9 @@
 
     private MudTheme Theme = new MudTheme();
 
+    [Inject]
+    public ProvaService ProvaFinal { get; set; } = new();
+
 
     public Prova Prova { get; set; } = new Prova();
 
@@ -102,37 +108,14 @@
 
     private void EnviarProva( )
     {
-        
+        ProvaServices.ProvaInstancia = Prova;
+        ProvaFinal.ProvaInstancia = Prova;
     }
 
-    // private void OnValidSubmit( )
-    // {
 
-    //     Prova.NomeProfessor = "Prof. Exemplo";
-    //     Prova.QuantidadeAlunos = 30;
-    //     Prova.QuantidadePerguntas = 10;
-    //     Prova.Perguntas = new List<Pergunta>
-    //     {
-    //         new Pergunta
-    //         {
-    //             Imagem = "caminho/para/imagem.jpg",
-    //             Questoes = new List<string> { "Questão 1", "Questão 2", "Questão 3" },
-    //             RespostaCorreta = "Questão 2"
-    //         },
-    //         new Pergunta
-    //         {
-    //             Imagem = "caminho/para/imagem.jpg",
-    //             Questoes = new List<string> { "Questão 2", "Questão 2", "Questão 3" },
-    //             RespostaCorreta = "Questão 2"
-    //         },
-    //         new Pergunta
-    //         {
-    //             Imagem = "caminho/para/imagem.jpg",
-    //             Questoes = new List<string> { "Questão 23", "Questão 2", "Questão 3" },
-    //             RespostaCorreta = "Questão 2"
-    //         },
-
-    //     };
-    // }
+    public void teste()
+    {
+        
+    }
 
 }
