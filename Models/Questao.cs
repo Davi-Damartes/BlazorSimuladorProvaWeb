@@ -7,5 +7,7 @@ namespace BlazorSimuladorProva.Models
         [Required(ErrorMessage ="Campo Enunciado é obrigatório")]
         public string EnunciadoQuestao { get; set; } = string.Empty;
         public List<Alternativa> ListaAlternativas { get; set; } = new List<Alternativa>();
+
+        public int AlternativaCorretaIndex { get; set; } = -1;
     }
 }
