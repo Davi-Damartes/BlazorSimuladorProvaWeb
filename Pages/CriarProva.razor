@@ -1,6 +1,7 @@
 ﻿@page "/CriarProva"
 
-@inject ProvaService ProvaServices
+@inject ProvaService Prova
+@inject NavigationManager NavigationManager 
 
 <MudPaper Class="mt-3" Height="700px;" Width="100%;" Style="@($"color:{Colors.Green.Accent2};")">
     <MudContainer MaxWidth="MaxWidth.Large" Class="mud-theme-info; border-radius: 15px">
@@ -13,7 +14,7 @@
         <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"> 
 
             <div class="mb-3">
-                <MudTextField @bind-Value="@Prova.NomeProfessor" 
+                <MudTextField @bind-Value="ProvaClasse.NomeProfessor"
                               T="string" 
                               Required="true"
                               Label="Nome Professor"                         
@@ -21,7 +22,7 @@
             </div>
 
             <div class="mb-3">
-            <MudNumericField @bind-Value="@Prova.QuantidadeAlunos"
+                <MudNumericField @bind-Value="ProvaClasse.QuantidadeAlunos"
                              T="int" Label="Quantidade Alunos"
                              Required="true"
                              RequiredError="Campo Obrigatório!"
@@ -32,7 +33,7 @@
             </div>
 
             <div class="mb-3">
-            <MudNumericField @bind-Value="@Prova.QuantidadePerguntas" Required="true"
+                <MudNumericField @bind-Value="ProvaClasse.QuantidadePerguntas" Required="true"
                                  T="int" Label="Quantidade de Perguntas"                      
                                  HelperText="Minímo 3 Máximo 10 Perguntas!"
                                  RequiredError="Campo Obrigatório!"
@@ -40,14 +41,14 @@
                                  {ErrorMessage= "Valores entre 3 e 10 Disponíveis!"})" />
             </div>
 
-            <MudSelect T="ETipoProva" @bind-Value="@Prova.TipoProva" 
+            <MudSelect T="ETipoProva" @bind-Value="ProvaClasse.TipoProva" 
                        Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter" 
                        Variant="Variant.Outlined" Clearable
                        OpenIcon="@Icons.Material.Filled.MenuBook" AdornmentColor="Color.Tertiary">
 
                         @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
                         {
-                        <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
+                            <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
                         }
 
             </MudSelect>
@@ -68,12 +69,12 @@
             <div class="d-flex mt-5">
                 <MudCheckBox T="bool" Required="true"
                              Color="Color.Success"
-                             RequiredError="Campo Obrigatório" UnCheckedColor="Color.Success"
+                             RequiredError="Campo Obrigatório!" UnCheckedColor="Color.Success"
                              Label="Termos de Uso!" />
                            
 
-                <MudButton OnClick="@(()=> EnviarProva())"  Variant="Variant.Filled" Color="Color.Primary" 
-                             Disabled="@(!success)" Class="ml-auto">
+                <MudButton OnClick="@(()=> CadastrarProva())" Variant="Variant.Filled" Color="Color.Primary"
+                           Disabled="@(!success)" Class="ml-auto">
                              Enviar Formulário                
                 </MudButton>
             </div>
@@ -92,30 +93,27 @@
 
     private MudTheme Theme = new MudTheme();
 
-    [Inject]
-    public ProvaService ProvaFinal { get; set; } = new();
-
-
-    public Prova Prova { get; set; } = new Prova();
+    public Prova ProvaClasse { get; set; } = new();
 
     public Pergunta Pergunta { get; set; } = new Pergunta();
-
-    ETipoProva ETipoProva;
 
     public string? perguntaAtual { get; set; }
 
     public string ErroMessage { get; set; } = string.Empty;
 
-    private void EnviarProva( )
-    {
-        ProvaServices.ProvaInstancia = Prova;
-        ProvaFinal.ProvaInstancia = Prova;
-    }
 
-
-    public void teste()
+    private void CadastrarProva()
     {
-        
+        if(ProvaClasse != null)
+        {
+            Prova.ProvaInstancia = ProvaClasse;
+
+            NavigationManager!.NavigateTo("/CriarPerguntas ");      
+        }
+        else
+        {
+            ErroMessage = "Erro ao cadastra Prova!!!";
+        }
     }
 
 }
