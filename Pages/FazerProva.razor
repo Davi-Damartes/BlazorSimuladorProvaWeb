@@ -1,3 +1,51 @@
 ﻿@page "/FazerProva"
 
-<h3>FazerProva</h3>
+@inject ProvaService Prova
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudPaper Class="p-4" Elevation="4">
+        <MudText Typo="Typo.h4" Class="mb-4">
+            @Prova.ProvaInstancia.NomeProfessor - Simulador de Prova
+        </MudText>
+
+        @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
+        {
+            <MudText Typo="Typo.h5" Class="mb-2 mt-4">
+                @pergunta.EnunciadoDaPergunta
+            </MudText>
+
+            @foreach (var questao in pergunta.Questoes)
+            {
+                <MudText Typo="Typo.h6" Class="mb-2">
+                    @questao.EnunciadoQuestao
+                </MudText>
+
+                <MudRadioGroup T="string" @bind-SelectedValue="@questaoSelecionada[questao]">
+                    @foreach (var alternativa in questao.ListaAlternativas)
+                    {
+                        <MudRadio Value="@alternativa.TextoDasAlternativa"
+                                  Label="@($"{alternativa.OpcaoAlternativa}. {alternativa.TextoDasAlternativa}")" />
+                    }
+                </MudRadioGroup>
+            }
+        }
+
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   OnClick="EnviarProva"
+                   Class="mt-4">
+            Enviar Prova
+        </MudButton>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private Dictionary<Questao, string> questaoSelecionada = new Dictionary<Questao, string>();
+
+    private void EnviarProva( )
+    {
+        // Lógica para enviar a prova e verificar as respostas
+    }
+
+}
+
