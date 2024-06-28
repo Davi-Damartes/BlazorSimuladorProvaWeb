@@ -1,6 +1,4 @@
-﻿@page "/"
-
-@inject QuestaoService QuestaoServices
+﻿@page "/CriarPerguntas"
 
 @inject ProvaService Prova
 
@@ -16,16 +14,17 @@
 <MudPaper Height="100%" Width="100%">
     <MudContainer MaxWidth="MaxWidth.Large">
 
-        <MudText Class="mt-5 d-flex align-center justify-center" Typo="Typo.h5">
-            Prova de @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")         
+        <MudText Class="mt-5 d-flex align-center justify-center" Typo="Typo.h4">
+            Criar as perguntas da Prova de @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")         
         </MudText>
 
         <div class="mb-5">
             <MudText Class="mt-5 mud-spacing-md pd-4">
-                <b>Digite o Enunciado da Questão</b>
+                <b>Digite o Enunciado da {1ºQuestão} </b>
             </MudText>
-            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudTextField @bind-Value="@Questao.EnunciadoQuestao"
+            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"
+               Style="margin-bottom: 50px;">
+                <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
                               Lines="2"
                               T="string"
                               Required="true"
@@ -34,7 +33,6 @@
                               Variant="Variant.Text" />
             </MudForm>
         </div>
-
 
         <div class="mb-3 mt-5">
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
@@ -47,15 +45,23 @@
                                       Label="Alternativa 1"
                                       InputType="InputType.Text"
                                       Variant="Variant.Text" />
+
+                        <MudRadioGroup @bind-Value="AlternativaModel1.IsCorreta">
+                            <MudRadio Value="true"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>
+                        </MudRadioGroup>
        
                      </MudItem>
                        <MudItem xs="3">
                             <div class="mt-1 mb-4">
-                                <MudButton OnClick="(() => AdicionarPerguntas(AlternativaModel1))"
+                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@disableQuestoes">
-                                    Adicionar Pergunta 1
+                                Adicionar Alternataiva 1
                                 </MudButton>
                             </div>
                     </MudItem>
@@ -76,14 +82,26 @@
                                       Label="Alternativa 2"
                                       InputType="InputType.Text"
                                       />
+                        <MudRadioGroup @bind-Value="AlternativaModel2.IsCorreta">
+                            <MudRadio Value="true"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>
+                            <MudRadio Value="false"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>z
+                        </MudRadioGroup>
                     </MudItem>          
                        <MudItem xs="3">
                         <div class="mt-5 mb-4">
-                            <MudButton OnClick="(() => AdicionarPerguntas(AlternativaModel2))"
+                            <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel2))"
                                        Variant="Variant.Filled"
                                        Color="Color.Success"
                                        Disabled="@disableQuestoes">
-                                Adicionar Pergunta 2
+                                Adicionar Alternataiva 2
                             </MudButton>
                         </div>
                     </MudItem>
@@ -104,14 +122,26 @@
                                           Variant="Variant.Text"
                                           InputType="InputType.Text" />
                         </MudPaper>
+                        <MudRadioGroup @bind-Value="AlternativaModel3.IsCorreta">
+                            <MudRadio Value="true"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>
+                            <MudRadio Value="false"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>
+                        </MudRadioGroup>
                     </MudItem>
                          <MudItem xs="3">
                                 <div class="mt-5 mb-4">
-                                    <MudButton OnClick="(() => AdicionarPerguntas(AlternativaModel3))"
+                                    <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel3))"
                                                Variant="Variant.Filled"
                                                Color="Color.Success"
                                                Disabled="@disableQuestoes">
-                                        Adicionar Pergunta 3
+                                Adicionar Alternataiva 3
                                     </MudButton>
                                 </div>
                         </MudItem>
@@ -133,22 +163,27 @@
                                           Variant="Variant.Text"
                                           InputType="InputType.Text" />
                         </MudPaper>
+                        <MudRadioGroup @bind-Value="AlternativaModel4.IsCorreta">
+                            <MudRadio Value="true"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Correta?
+                            </MudRadio>
+                        </MudRadioGroup>
                     </MudItem>
                           <MudItem xs="12">
                                 <div class="mt-5 mb-4">
-                                    <MudButton OnClick="(() => AdicionarPerguntas(AlternativaModel4))"
+                                    <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel4))"
                                                Variant="Variant.Filled"
                                                Color="Color.Success"
                                                Disabled="@disableQuestoes">
-                                        Adicionar Pergunta 4
+                                        Adicionar Alternataiva 4
                                     </MudButton>
                                 </div>
                         </MudItem>
                 </MudGrid>
             </MudForm>
         </div>
-
-
 
         <div class="mt-5 d-flex align-center justify-center">
             <MudButton OnClick="(()=> AddQuestao())"
@@ -169,9 +204,7 @@
 
 @code {
     bool success;
-
-    string[ ] errors = { };
-
+    string[] errors = { };
 
     MudForm form = new MudForm();
 
@@ -182,35 +215,53 @@
     bool disableQuestoes = false;
 
 
-    public Pergunta Pergunta { get; set; } = new();
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
 
-    public Questao Questao { get; set; } = new();
+
+    public Questao UmaQuestao { get; set; } = new();
 
     public List<Questao> ListaQuestoes { get; set; } = new List<Questao>();
 
-    public Alternativa? AlternativaModel1 { get; set; } = new Alternativa();
+    public Alternativa? AlternativaModel1 { get; set; } = new()
+    {
+        OpcaoAlternativa = EOpcaoAlternativa.A
+    };
 
-    public Alternativa AlternativaModel2 { get; set; } = new();
+    public Alternativa AlternativaModel2 { get; set; } = new()
+        {
+            OpcaoAlternativa = EOpcaoAlternativa.B
+        };
 
-    public Alternativa AlternativaModel3 { get; set; } = new();
+    public Alternativa AlternativaModel3 { get; set; } = new()
+        {
+            OpcaoAlternativa = EOpcaoAlternativa.C
+        };
 
-    public Alternativa AlternativaModel4 { get; set; } = new();
+    public Alternativa AlternativaModel4 { get; set; } = new()
+        {
+            OpcaoAlternativa = EOpcaoAlternativa.D
+        };
 
     public List<Alternativa> ListaAlternativas { get; set; } = new();
 
 
+    public List<Pergunta> ListaPerguntas { get; set; } = new();
+
+    public Pergunta UmaPergunta { get; set; } = new();
 
     public string? Erros { get; set; } = string.Empty;
+    public string? Success { get; set; } = string.Empty;
+
     private bool mostrarAlert = false;
     private bool fecharAlert = false;
 
-
-
-    private void AdicionarPerguntas(Alternativa alternativa)
+    private void AdicionarAlternativa(Alternativa alternativa)
     {
+
         if (!string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
         {
-            AddAlternativa(alternativa);
+            AddAlternativaNaPergunta(alternativa);
         }
         else
         {
@@ -220,34 +271,37 @@
     }
 
 
-    private void AddAlternativa(Alternativa alternativaModel)
+    private void AddAlternativaNaPergunta(Alternativa alternativaModel)
     {
-        if (ListaAlternativas.Count < 4)
-        {
-            ListaAlternativas.Add(alternativaModel);
+        ListaAlternativas.Add(alternativaModel);
+
+        if(ListaAlternativas.Count == 4)
+        {             
+            disableQuestoes = true;
             BotaoAddQuestaoDisable = false;
         }
-
-        if (ListaAlternativas.Count == 4)
-        {
-            disableQuestoes = true;
-
-        }
-
     }
 
-    private void AddQuestao( )
+    private void AddQuestao()
     {
         if (ListaAlternativas.Count() > 0)
         {
-            Questao.ListaAlternativas.AddRange(ListaAlternativas);
-            QuestaoServices.QuestaoInstancia.ListaAlternativas.AddRange(ListaAlternativas);
+            UmaQuestao.ListaAlternativas.AddRange(ListaAlternativas);
 
-            ListaQuestoes.Add(Questao);
+            ListaQuestoes.Add(UmaQuestao);
+
+            UmaPergunta.Questoes.AddRange(ListaQuestoes);
+
+            ListaPerguntas.Add(UmaPergunta);
+
+            Prova.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
+
+            NavigationManager!.NavigateTo("/VerificarProva");
+
         }
         else
         {
-            Erros = "Erros ao adicionar Questão";
+            Erros = "Erro ao adicionar Questão!";
             ShowAlerts();
         }
 
@@ -265,7 +319,7 @@
             mostrarAlert = false;
         }
     }
-    private void ShowAlerts( )
+    private void ShowAlerts()
     {
         mostrarAlert = true;
         fecharAlert = true;
