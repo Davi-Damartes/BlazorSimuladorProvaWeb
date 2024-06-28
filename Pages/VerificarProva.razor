@@ -1,87 +1,74 @@
 ﻿@page "/VerificarProva"
-@inject QuestaoService Questoes
 
 @inject ProvaService ProvaFinal
+@inject NavigationManager NavigationManager
 
-@if (QuestaoProva != null && QuestaoProva.ListaAlternativas.Count() == 0)
+@if (ProvaFinal.ProvaInstancia.Perguntas.Count() == 0)
 {
-    <MudText Typo="Typo.h3" Color="Color.Warning"> Não existe Provas Criadas!!!</MudText>
+        <MudText Typo="Typo.h3"
+                 Class="d-flex align-center justify-center"
+                 Color="Color.Warning">
+            Não há perguntas criadas!
+        </MudText>
+
+        <MudButton ButtonType="ButtonType.Button"
+                   Variant="Variant.Filled"
+                   Color="Color.Error"
+                   Size="Size.Small"
+                   Href="/CriarPerguntas"
+                   Class="d-flex align-center"
+                   Style="margin-top: 15px;">
+            Clique Aqui para Adicionar Perguntas
+        </MudButton>
+
 }
-<MudPaper Class="mt-3" Height="100%;" Width="100%;">
-    <MudContainer MaxWidth="MaxWidth.Small">
-        <MudPaper Class="mud-theme-primary" Height="100%" Width="600px" Square="true">
+else
+{
 
-            @foreach (var alternativa in QuestaoProva!.ListaAlternativas!)
+    <MudPaper Class="mt-3" Height="100%;" Width="100%;">
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            <MudText Typo="Typo.h4" Color="Color.Tertiary" Style="margin-bottom: 25px;">
+
+                <MudText> @ProvaFinal.ProvaInstancia.NomeProfessor
+                    Confirme o envio das Perguntas!!!
+                </MudText>
+            </MudText>
+
+            @foreach (var pergunta in ListaPerguntas)
             {
-                <MudText Typo="Typo.h5">@alternativa.TextoDasAlternativa</MudText>
-            }
-
-            <MudRadioGroup @bind-Value="QuestaoProva!.AlternativaCorretaIndex">
-                @for (int i = 0; i < QuestaoProva!.ListaAlternativas.Count; i++)
+                <h3>@pergunta.EnunciadoDaPergunta</h3>
+                @foreach (var questao in pergunta.Questoes)
                 {
-                    <MudItem xs="12" Class="mb-3">
-                        <MudText Typo="Typo.h5">@QuestaoProva.ListaAlternativas[i].TextoDasAlternativa</MudText>
-                        <MudRadio Value="@i"
-                                  Color="Color.Secondary"
-                                  Size="Size.Large">
-                            Alternativa Correta?
-                        </MudRadio>
-                    </MudItem>
+                    <MudText Typo="Typo.h5">
+                        @questao.EnunciadoQuestao
+                        @questao.ListaAlternativas
+                    </MudText>
+                    @foreach (var alternativa in questao.ListaAlternativas)
+                    {
+                        <MudText Typo="Typo.h5">
+                            @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
+                        </MudText>
+                    }
                 }
-            </MudRadioGroup>
-
-
-
-
-
-            <MudButton OnClick="AddQuetoesEPerguntaNaProva"
-                       Color="Color.Tertiary"
-                       Variant="Variant.Filled">
-                Adicionar Questao Na Prova
-            </MudButton>
-
-        </MudPaper>
-
-        <MudText>@ProvaFinal.ProvaInstancia.NomeProfessor</MudText>
-    </MudContainer>
-</MudPaper>
+            }
+        </MudContainer>
+    </MudPaper>
+}
 
 
 
 @code {
-    public Questao QuestaoProva { get; set; } = new();
-
-    public List<Questao> ListaQuestoes { get; set; } = new();
 
     public Pergunta PerguntaAtual { get; set; } = new();
 
     public List<Pergunta> ListaPerguntas { get; set; } = new();
 
-    public Alternativa AlternativaCorreta { get; set; }
-
 
     public bool Basic_CheckBox1 { get; set; } = false;
 
-
-    private void AddQuetoesEPerguntaNaProva( )
-    {
-        foreach (var alternativa in ListaQuestoes)
-        {
-            
-        }
-        ListaQuestoes.Add(QuestaoProva);
-
-        PerguntaAtual.Questoes.AddRange(ListaQuestoes);
-
-        ListaPerguntas.Add(PerguntaAtual);
-
-        ProvaFinal.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
-
-    }
-
     protected override void OnInitialized( )
     {
-        QuestaoProva = Questoes.QuestaoInstancia;
+        ListaPerguntas = ProvaFinal.ProvaInstancia.Perguntas;
     }
 }
 
