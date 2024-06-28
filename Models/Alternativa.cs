@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BlazorSimuladorProva.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlazorSimuladorProva.Models
 {
@@ -8,5 +9,7 @@ namespace BlazorSimuladorProva.Models
         [StringLength(400, ErrorMessage = "Número máximo de caracteres 400")]
         public string TextoDasAlternativa { get; set; } = string.Empty;
         public bool IsCorreta { get; set; }
+
+        public EOpcaoAlternativa OpcaoAlternativa { get; set; }
     }
 }
