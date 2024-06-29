@@ -1,0 +1,42 @@
+﻿@page "/RealizarProva"
+@inject ProvaService Prova
+
+
+<MudGrid>
+    @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
+    {
+        <MudItem xs="12">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"
+                      Style="margin-top: 15px">
+                <MudText Typo="Typo.h3">
+                    @pergunta.EnunciadoDaPergunta
+                </MudText>
+
+
+            </MudPaper>
+        </MudItem>
+        @foreach (var questao in pergunta.Questoes)
+        {
+
+            @foreach (var alternativa in questao.ListaAlternativas)
+            {
+                <MudItem xs="10">
+                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"
+                              Style="margin-top: 30px">
+                        <MudText Typo="Typo.h5">
+                            @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
+                        </MudText>
+                    </MudPaper>
+                </MudItem>
+            }
+        }
+    }
+</MudGrid>
+
+@code {
+
+
+
+}
+
+
