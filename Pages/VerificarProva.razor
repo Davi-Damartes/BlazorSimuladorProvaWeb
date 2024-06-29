@@ -3,6 +3,8 @@
 @inject ProvaService ProvaFinal
 @inject NavigationManager NavigationManager
 
+<PageTitle>Enviar Prova</PageTitle>
+
 @if (ProvaFinal.ProvaInstancia.Perguntas.Count() == 0)
 {
         <MudText Typo="Typo.h3"
@@ -25,32 +27,46 @@
 else
 {
 
-    <MudPaper Class="mt-3" Height="100%;" Width="100%;">
+    <MudPaper Class="mt-3" Height="400px;" Width="100%;">
         <MudContainer MaxWidth="MaxWidth.Medium">
-            <MudText Typo="Typo.h4" Color="Color.Tertiary" Style="margin-bottom: 25px;">
+            <MudPaper Height="400px" Width="100%" Square="true" Class="mud-theme-primary">
 
-                <MudText> @ProvaFinal.ProvaInstancia.NomeProfessor
-                    Confirme o envio das Perguntas!!!
+                <MudText Typo="Typo.h4" Color="Color.Tertiary" Style="margin-bottom: 25px;">
+
+                    <MudText Typo="Typo.h5">Professor: [@ProvaFinal.ProvaInstancia.NomeProfessor]
+                        Verifique as Pergunta para ver se tem algum erro!!!
+                    </MudText>
                 </MudText>
-            </MudText>
 
-            @foreach (var pergunta in ListaPerguntas)
-            {
-                <h3>@pergunta.EnunciadoDaPergunta</h3>
-                @foreach (var questao in pergunta.Questoes)
+                @foreach (var pergunta in ListaPerguntas)
                 {
                     <MudText Typo="Typo.h5">
-                        @questao.EnunciadoQuestao
-                        @questao.ListaAlternativas
+                        @pergunta.EnunciadoDaPergunta
                     </MudText>
-                    @foreach (var alternativa in questao.ListaAlternativas)
+
+                    @foreach (var questao in pergunta.Questoes)
                     {
-                        <MudText Typo="Typo.h5">
-                            @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
-                        </MudText>
+
+                        @foreach (var alternativa in questao.ListaAlternativas)
+                        {
+                            <MudText Typo="Typo.h5">
+                                @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
+                            </MudText>
+                        }
                     }
                 }
-            }
+
+                <MudButton OnClick="ConfirmarEnvioProva"
+                           ButtonType="ButtonType.Button"
+                           Variant="Variant.Filled"
+                           Color="Color.Success"
+                           Size="Size.Large"
+                           Href="/RealizarProva"
+                           Style="margin-top: 15px;">
+                    Clique Aqui para Confirmar o envio da Prova!!!
+                </MudButton>
+
+            </MudPaper>
         </MudContainer>
     </MudPaper>
 }
@@ -63,8 +79,15 @@ else
 
     public List<Pergunta> ListaPerguntas { get; set; } = new();
 
-
     public bool Basic_CheckBox1 { get; set; } = false;
+
+
+    private void ConfirmarEnvioProva()
+    {
+        
+
+    }
+
 
     protected override void OnInitialized( )
     {
