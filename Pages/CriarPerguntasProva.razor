@@ -1,4 +1,4 @@
-﻿@page "/CriarPerguntas"
+﻿@page "/CriarPerguntasProva"
 
 @inject ProvaService Prova
 
@@ -10,17 +10,33 @@
         @Erros
     </MudAlert>
 }
+else @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
+{
+    <MudText Typo="Typo.h3"
+             Class="d-flex align-center justify-center"
+             Color="Color.Warning">
+        Não existe uma prova!!!
+    </MudText>
 
+    <MudButton ButtonType="ButtonType.Button"
+               Variant="Variant.Filled"
+               Color="Color.Error"
+               Size="Size.Small"
+               Href="/CriarProva"
+               Class="d-flex align-center"
+               Style="margin-top: 15px;">
+        Clique Aqui para Criar uma Prova
+    </MudButton>
+}
+else
+{
+   
 <MudPaper Height="100%" Width="100%">
     <MudContainer MaxWidth="MaxWidth.Large">
 
-        <MudText Class="mt-5 d-flex align-center justify-center" Typo="Typo.h4">
-            Criar as perguntas da Prova de @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")         
-        </MudText>
-
         <div class="mb-5">
             <MudText Class="mt-5 mud-spacing-md pd-4">
-                <b>Digite o Enunciado da {1ºQuestão} </b>
+                    <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
             </MudText>
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"
                Style="margin-bottom: 50px;">
@@ -57,7 +73,7 @@
                      </MudItem>
                        <MudItem xs="3">
                             <div class="mt-1 mb-4">
-                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1))"
+                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1!))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@disableQuestoes">
@@ -91,8 +107,8 @@
                             <MudRadio Value="false"
                                       Color="Color.Secondary"
                                       Size="Size.Large">
-                                Alternativa Correta?
-                            </MudRadio>z
+                                Alternativa Errada?
+                            </MudRadio>
                         </MudRadioGroup>
                     </MudItem>          
                        <MudItem xs="3">
@@ -131,7 +147,7 @@
                             <MudRadio Value="false"
                                       Color="Color.Secondary"
                                       Size="Size.Large">
-                                Alternativa Correta?
+                                Alternativa Errada?
                             </MudRadio>
                         </MudRadioGroup>
                     </MudItem>
@@ -170,6 +186,13 @@
                                 Alternativa Correta?
                             </MudRadio>
                         </MudRadioGroup>
+                        <MudRadioGroup @bind-Value="AlternativaModel4.IsCorreta">
+                            <MudRadio Value="false"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large">
+                                Alternativa Errada?
+                            </MudRadio>
+                        </MudRadioGroup>
                     </MudItem>
                           <MudItem xs="12">
                                 <div class="mt-5 mb-4">
@@ -200,6 +223,10 @@
 </MudPaper>
 
 
+}
+    
+
+
 
 
 @code {
@@ -217,6 +244,9 @@
 
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
+
+    [Parameter]
+    public int? NumeroQuestao { get; set; }
 
 
     public Questao UmaQuestao { get; set; } = new();
@@ -296,7 +326,7 @@
 
             Prova.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
 
-            NavigationManager!.NavigateTo("/VerificarProva");
+            disableQuestoes = true;       
 
         }
         else
