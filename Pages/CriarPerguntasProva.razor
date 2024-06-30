@@ -30,233 +30,200 @@ else @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 }
 else
 {
-   
-<MudPaper Height="100%" Width="100%">
-    <MudContainer MaxWidth="MaxWidth.Large">
 
-        <div class="mb-5">
-            <MudText Class="mt-5 mud-spacing-md pd-4">
-                    <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
-            </MudText>
-            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"
-               Style="margin-bottom: 50px;">
-                <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
-                              Lines="2"
-                              T="string"
-                              Required="true"
-                              RequiredError="Campo Obrigatorio"
-                              Label="Enunciado da Questão"
-                              Variant="Variant.Text" />
-            </MudForm>
-        </div>
-
-        <div class="mb-3 mt-5">
+    <MudPaper Height="100%" Width="100%">
+        <MudContainer MaxWidth="MaxWidth.Large">
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudGrid>
-                    <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
-                        <MudTextField @bind-Value="AlternativaModel1!.TextoDasAlternativa"
-                                      Required="true"
-                                      RequiredError="Campo Obrigatório"
-                                      Lines="3"
-                                      Label="Alternativa 1"
-                                      InputType="InputType.Text"
-                                      Variant="Variant.Text" />
 
-                        <MudRadioGroup @bind-Value="AlternativaModel1.IsCorreta">
-                            <MudRadio Value="true"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Correta?
-                            </MudRadio>
-                        </MudRadioGroup>
-       
-                     </MudItem>
-                       <MudItem xs="3">
+                <div class="mb-5">
+                    <MudText Class="mt-5 mud-spacing-md pd-4">
+                        <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
+                    </MudText>
+                    <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
+                                  Lines="2"
+                                  T="string"
+                                  Required="true"
+                                  RequiredError="Campo Obrigatorio"
+                                  Label="Enunciado da Questão"
+                                  Variant="Variant.Text" />
+                </div>
+                
+                <div class="mb-3 mt-5">
+                    <MudGrid>
+                        <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudTextField @bind-Value="AlternativaModel1!.TextoDasAlternativa"
+                                          Required="true"
+                                          RequiredError="Campo Obrigatório"
+                                          Lines="3"
+                                          Label="Alternativa A"
+                                          InputType="InputType.Text"
+                                          Variant="Variant.Text"
+                                          Disabled="@AlternativaModel1!.alternativaAdicionada" />
+
+                            <MudRadioGroup @bind-Value="AlternativaModel1.IsCorreta">
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          @onchange="(e) => AlternativaSelecionada(AlternativaModel1)">
+                                    Alternativa Correta?
+                                </MudRadio>
+                            </MudRadioGroup>
+                        </MudItem>
+                        <MudItem xs="12">
                             <div class="mt-1 mb-4">
                                 <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1!))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
-                                           Disabled="@disableQuestoes">
-                                Adicionar Alternataiva 1
+                                           Disabled="@AlternativaModel1!.alternativaAdicionada">
+                                    Adicionar Alternataiva A
                                 </MudButton>
                             </div>
-                    </MudItem>
-                </MudGrid>
-            </MudForm>
-        </div>
+                        </MudItem>
+                    </MudGrid>
+                </div>
 
-
-        <div class="mb-3">
-            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudGrid>
-                    <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
-                        <MudTextField @bind-Value="AlternativaModel2!.TextoDasAlternativa"
-                                      Required="true"
-                                      RequiredError="Campo Obrigatório"
-                                      Lines="3"
-                                      Variant="Variant.Text"
-                                      Label="Alternativa 2"
-                                      InputType="InputType.Text"
-                                      />
-                        <MudRadioGroup @bind-Value="AlternativaModel2.IsCorreta">
-                            <MudRadio Value="true"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Correta?
-                            </MudRadio>
-                            <MudRadio Value="false"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Errada?
-                            </MudRadio>
-                        </MudRadioGroup>
-                    </MudItem>          
-                       <MudItem xs="3">
-                        <div class="mt-5 mb-4">
-                            <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel2))"
-                                       Variant="Variant.Filled"
-                                       Color="Color.Success"
-                                       Disabled="@disableQuestoes">
-                                Adicionar Alternataiva 2
-                            </MudButton>
-                        </div>
-                    </MudItem>
-                </MudGrid>
-            </MudForm>
-        </div>
-
-        <div class="mb-3">
-            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudGrid>
-                    <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
-                        <MudPaper>
-                            <MudTextField @bind-Value="AlternativaModel3!.TextoDasAlternativa"
+                <div class="mb-3">
+                    <MudGrid>
+                        <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudTextField @bind-Value="AlternativaModel2!.TextoDasAlternativa"
                                           Required="true"
                                           RequiredError="Campo Obrigatório"
                                           Lines="3"
-                                          Label="Alternativa 3"
                                           Variant="Variant.Text"
-                                          InputType="InputType.Text" />
-                        </MudPaper>
-                        <MudRadioGroup @bind-Value="AlternativaModel3.IsCorreta">
-                            <MudRadio Value="true"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Correta?
-                            </MudRadio>
-                            <MudRadio Value="false"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Errada?
-                            </MudRadio>
-                        </MudRadioGroup>
-                    </MudItem>
-                         <MudItem xs="3">
-                                <div class="mt-5 mb-4">
-                                    <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel3))"
-                                               Variant="Variant.Filled"
-                                               Color="Color.Success"
-                                               Disabled="@disableQuestoes">
-                                Adicionar Alternataiva 3
-                                    </MudButton>
-                                </div>
+                                          Label="Alternativa B"
+                                          InputType="InputType.Text"
+                                          Disabled="@AlternativaModel2.alternativaAdicionada" />
+
+                            <MudRadioGroup @bind-Value="AlternativaModel2.IsCorreta">
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          @onchange="(e) => AlternativaSelecionada(AlternativaModel2)">
+                                    Alternativa Correta?
+                                </MudRadio>
+                            </MudRadioGroup>
                         </MudItem>
-                </MudGrid>
-            </MudForm>
-        </div>
-
-        <div class="mb-3">
-            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-
-                <MudGrid>
-                    <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
-                        <MudPaper>
-                            <MudTextField @bind-Value="AlternativaModel4!.TextoDasAlternativa"
-                                          Required="true"
-                                          RequiredError="Campo Obrigatório"
-                                          Lines="3"
-                                          Label="Alternativa 4"
-                                          Variant="Variant.Text"
-                                          InputType="InputType.Text" />
-                        </MudPaper>
-                        <MudRadioGroup @bind-Value="AlternativaModel4.IsCorreta">
-                            <MudRadio Value="true"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Correta?
-                            </MudRadio>
-                        </MudRadioGroup>
-                        <MudRadioGroup @bind-Value="AlternativaModel4.IsCorreta">
-                            <MudRadio Value="false"
-                                      Color="Color.Secondary"
-                                      Size="Size.Large">
-                                Alternativa Errada?
-                            </MudRadio>
-                        </MudRadioGroup>
-                    </MudItem>
-                          <MudItem xs="12">
-                                <div class="mt-5 mb-4">
-                                    <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel4))"
-                                               Variant="Variant.Filled"
-                                               Color="Color.Success"
-                                               Disabled="@disableQuestoes">
-                                        Adicionar Alternataiva 4
-                                    </MudButton>
-                                </div>
+                        <MudItem xs="12">
+                            <div class="mt-5 mb-4">
+                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel2))"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Success"
+                                           Disabled="@AlternativaModel2.alternativaAdicionada">
+                                    Adicionar Alternataiva B
+                                </MudButton>
+                            </div>
                         </MudItem>
-                </MudGrid>
+                    </MudGrid>
+                </div>
+
+                <div class="mb-3">
+                    <MudGrid>
+                        <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudPaper>
+                                <MudTextField @bind-Value="AlternativaModel3!.TextoDasAlternativa"
+                                              Required="true"
+                                              RequiredError="Campo Obrigatório"
+                                              Lines="3"
+                                              Label="Alternativa C"
+                                              Variant="Variant.Text"
+                                              InputType="InputType.Text"
+                                              Disabled="@AlternativaModel3.alternativaAdicionada" />
+                            </MudPaper>
+                            <MudRadioGroup @bind-Value="AlternativaModel3.IsCorreta">
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          @onchange="(e) => AlternativaSelecionada(AlternativaModel3)"
+                                          Size="Size.Large">
+                                    Alternativa Correta?
+                                </MudRadio>
+                            </MudRadioGroup>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <div class="mt-5 mb-4">
+                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel3))"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Success"
+                                           Disabled="@AlternativaModel3.alternativaAdicionada">
+                                    Adicionar Alternataiva C
+                                </MudButton>
+                            </div>
+                        </MudItem>
+                    </MudGrid>
+                </div>
+
+                <div class="mb-3">
+                    <MudGrid>
+                        <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudPaper>
+                                <MudTextField @bind-Value="AlternativaModel4!.TextoDasAlternativa"
+                                              Required="true"
+                                              RequiredError="Campo Obrigatório"
+                                              Lines="3"
+                                              Label="Alternativa D"
+                                              Variant="Variant.Text"
+                                              Disabled="@AlternativaModel4.alternativaAdicionada"
+                                              InputType="InputType.Text" />
+                            </MudPaper>
+                            <MudRadioGroup @bind-Value="AlternativaModel4!.IsCorreta">
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          @onchange="(e) => AlternativaSelecionada(AlternativaModel4)">
+                                    Alternativa Correta?
+                                </MudRadio>
+                            </MudRadioGroup>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <div class="mt-5 mb-4">
+                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel4))"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Success"
+                                           Disabled="@AlternativaModel4.alternativaAdicionada">
+                                    Adicionar Alternataiva D
+                                </MudButton>
+                            </div>
+                        </MudItem>
+                    </MudGrid>
+                </div>
+                
+                <div class="d-flex align-center justify-center">
+                    <MudButton OnClick="(()=> AddPergunta())"
+                               Variant="Variant.Filled"
+                               Color="Color.Success"
+                               Style="margin-bottom: 20px; margin-top: 15px"
+                               Disabled="@habilitarBotaoAddPergunta">
+                        Adicionar Pergunta
+                    </MudButton>
+                </div>
+
             </MudForm>
-        </div>
-
-        <div class="mt-5 d-flex align-center justify-center">
-            <MudButton OnClick="(()=> AddQuestao())"
-                       ButtonType="ButtonType.Submit"
-                       Variant="Variant.Filled"
-                       Color="Color.Success"
-                       Disabled="@BotaoAddQuestaoDisable">
-                Adicionar Questão
-            </MudButton>
-        </div>
-
-
-    </MudContainer>
-</MudPaper>
+        </MudContainer>
+    </MudPaper>
 
 
 }
-    
+
 
 
 
 
 @code {
-    bool success;
-    string[] errors = { };
-
-    MudForm form = new MudForm();
-
-    bool IsCorretaAlternativa;
-
-    bool BotaoAddQuestaoDisable = true;
-
-    bool disableQuestoes = false;
-
-
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
 
     [Parameter]
     public int? NumeroQuestao { get; set; }
 
+    MudForm form = new MudForm();
 
     public Questao UmaQuestao { get; set; } = new();
 
     public List<Questao> ListaQuestoes { get; set; } = new List<Questao>();
 
     public Alternativa? AlternativaModel1 { get; set; } = new()
-    {
-        OpcaoAlternativa = EOpcaoAlternativa.A
-    };
+        {
+            OpcaoAlternativa = EOpcaoAlternativa.A
+        };
 
     public Alternativa AlternativaModel2 { get; set; } = new()
         {
@@ -280,17 +247,47 @@ else
 
     public Pergunta UmaPergunta { get; set; } = new();
 
+
+    bool success;
+    string[] errors = { };
+
+
+    bool desabilitarAlternativas = false;
+
+    bool habilitarBotaoAddPergunta = true;
+
+
+    bool botaoADDProvaCorreta = false;
+
+
     public string? Erros { get; set; } = string.Empty;
     public string? Success { get; set; } = string.Empty;
 
     private bool mostrarAlert = false;
     private bool fecharAlert = false;
 
+   
+    private void AlternativaSelecionada(Alternativa alternativaSelecionada)
+    {
+        alternativaSelecionada.IsCorreta = true;
+
+        foreach (var alternativa in ListaAlternativas)
+        {
+            if (alternativa != alternativaSelecionada)
+            {
+                alternativa.IsCorreta = false;
+            }
+        }
+    }
+
+
+
     private void AdicionarAlternativa(Alternativa alternativa)
     {
 
         if (!string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
         {
+            alternativa.alternativaAdicionada = true;
             AddAlternativaNaPergunta(alternativa);
         }
         else
@@ -303,16 +300,16 @@ else
 
     private void AddAlternativaNaPergunta(Alternativa alternativaModel)
     {
-        ListaAlternativas.Add(alternativaModel);
-
-        if(ListaAlternativas.Count == 4)
-        {             
-            disableQuestoes = true;
-            BotaoAddQuestaoDisable = false;
+        if(ListaAlternativas.All(x => !string.IsNullOrWhiteSpace(x.TextoDasAlternativa)
+                                             && 
+           ListaAlternativas.Any(x => x.IsCorreta == true)))
+        {
+            desabilitarAlternativas = true;
+            habilitarBotaoAddPergunta = false;
         }
     }
 
-    private void AddQuestao()
+    private void AddPergunta()
     {
         if (ListaAlternativas.Count() > 0)
         {
@@ -326,7 +323,8 @@ else
 
             Prova.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
 
-            disableQuestoes = true;       
+            habilitarBotaoAddPergunta = true;
+
 
         }
         else
@@ -337,6 +335,7 @@ else
 
 
     }
+
 
     private void CloseMe(bool value)
     {
@@ -349,10 +348,28 @@ else
             mostrarAlert = false;
         }
     }
-    private void ShowAlerts()
+    private void ShowAlerts( )
     {
         mostrarAlert = true;
         fecharAlert = true;
     }
 
 }
+   @*  private void VerificarProvaQnt()
+    {
+        if(ListaPerguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
+        {
+            NavigationManager!.NavigateTo("/VerificarProva");
+        }
+    } *@
+@*  protected override void OnInitialized( )
+    {
+        // Adicionar os modelos de alternativa à lista apenas uma vez
+        ListaAlternativas.Add(AlternativaModel1!);
+        ListaAlternativas.Add(AlternativaModel2);
+        ListaAlternativas.Add(AlternativaModel3);
+        ListaAlternativas.Add(AlternativaModel4);
+
+        base.OnInitialized();
+    }
+ *@
