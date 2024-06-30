@@ -1,47 +1,12 @@
 ﻿@page "/"
 
-@inject NavigationManager NavigationManager
-@inject ProvaService Prova
-@* 
-<PageTitle>Página Principal</PageTitle> *@
-@if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
-{
-    <MudText Typo="Typo.h3"
-             Class="d-flex align-center justify-center"
-             Color="Color.Warning">
-        Não existe uma prova!!!
-    </MudText>
-
-    <MudButton ButtonType="ButtonType.Button"
-               Variant="Variant.Filled"
-               Color="Color.Error"
-               Size="Size.Small"
-               Href="/CriarProva"
-               Class="d-flex align-center"
-               Style="margin-top: 15px;">
-        Clique Aqui para Criar uma Prova
-    </MudButton>
-}
-else
-{
-    <MudText Class="mt-5 d-flex align-center justify-center" Typo="Typo.h4">
-        Criar as perguntas da Prova de @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")
-    </MudText>
-    @for(int x=1; x <= Prova.ProvaInstancia.QuantidadePerguntas; x++)
-    {
-        <CriarPerguntasProva NumeroQuestao="@x"> </CriarPerguntasProva>
-    }
+<MudText Typo="Typo.h1" Align="Align.Center">Bem-Vindo ao simulador de Prova online</MudText>
 
 
-    @*  <MudText Typo="Typo.h4" Class="mt-5 d-flex align-center justify-center">
-        Todas as perguntas foram adicionadas.
-    </MudText>
-    <MudButton Variant="Variant.Filled"
-                Color="Color.Primary"
-                OnClick="@(() => NavigationManager.NavigateTo("/RealizarProva"))">
-        Ver Prova Completa
-    </MudButton> *@
+<MudButton Variant="Variant.Filled" Size="Size.Large" Style="align-content: center;" Href="/CriarProva" Color="Color.Error">   
+    Clique aqui para Criar a sua Prova!!!
+</MudButton>
 
-}
+
 
 
