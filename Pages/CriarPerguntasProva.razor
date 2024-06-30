@@ -347,7 +347,7 @@ else
     }
       private void VerificarProvaQntERedirecionar()
     {
-        if(ListaPerguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
+        if (Prova.ProvaInstancia.Perguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
         {
             NavigationManager!.NavigateTo("/VerificarProva");
         }
