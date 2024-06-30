@@ -26,21 +26,19 @@
 }
 else
 {
-
-    <MudPaper Class="mt-3" Height="400px;" Width="100%;">
         <MudContainer MaxWidth="MaxWidth.Medium">
-            <MudPaper Height="400px" Width="100%" Square="true" Class="mud-theme-primary">
+            <MudPaper Height="100%" Width="100%" Square="true" Style="@($"color:{Colors.Purple.Accent3};")">
 
                 <MudText Typo="Typo.h4" Color="Color.Tertiary" Style="margin-bottom: 25px;">
 
-                    <MudText Typo="Typo.h5">Professor: [@ProvaFinal.ProvaInstancia.NomeProfessor]
+                    <MudText Class="mud-secondary-dark" Typo="Typo.h5">Professor: <u>@ProvaFinal.ProvaInstancia.NomeProfessor</u>
                         Verifique as Pergunta para ver se tem algum erro!!!
                     </MudText>
                 </MudText>
 
                 @foreach (var pergunta in ListaPerguntas)
                 {
-                    <MudText Typo="Typo.h5">
+                    <MudText Typo="Typo.h5" Class="mud-secondary-text">
                         @pergunta.EnunciadoDaPergunta
                     </MudText>
 
@@ -49,7 +47,7 @@ else
 
                         @foreach (var alternativa in questao.ListaAlternativas)
                         {
-                            <MudText Typo="Typo.h5">
+                            <MudText Typo="Typo.h5" Class="mud-secondary-text" Style="margin-bottom: 20px;">
                                 @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
                             </MudText>
                         }
@@ -68,7 +66,6 @@ else
 
             </MudPaper>
         </MudContainer>
-    </MudPaper>
 }
 
 
