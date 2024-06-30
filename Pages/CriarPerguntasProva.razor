@@ -280,7 +280,17 @@ else
         }
     }
 
+     protected override void OnInitialized( )
+    {
+        // Adicionar os modelos de alternativa à lista apenas uma vez
+        ListaAlternativas.Add(AlternativaModel1!);
+        ListaAlternativas.Add(AlternativaModel2);
+        ListaAlternativas.Add(AlternativaModel3);
+        ListaAlternativas.Add(AlternativaModel4);
 
+        base.OnInitialized();
+    }
+ 
 
     private void AdicionarAlternativa(Alternativa alternativa)
     {
@@ -362,14 +372,3 @@ else
             NavigationManager!.NavigateTo("/VerificarProva");
         }
     } *@
-@*  protected override void OnInitialized( )
-    {
-        // Adicionar os modelos de alternativa à lista apenas uma vez
-        ListaAlternativas.Add(AlternativaModel1!);
-        ListaAlternativas.Add(AlternativaModel2);
-        ListaAlternativas.Add(AlternativaModel3);
-        ListaAlternativas.Add(AlternativaModel4);
-
-        base.OnInitialized();
-    }
- *@
