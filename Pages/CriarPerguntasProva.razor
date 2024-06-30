@@ -266,7 +266,7 @@ else
     private bool mostrarAlert = false;
     private bool fecharAlert = false;
 
-   
+
     private void AlternativaSelecionada(Alternativa alternativaSelecionada)
     {
         alternativaSelecionada.IsCorreta = true;
@@ -280,7 +280,7 @@ else
         }
     }
 
-     protected override void OnInitialized( )
+    protected override void OnInitialized( )
     {
         // Adicionar os modelos de alternativa à lista apenas uma vez
         ListaAlternativas.Add(AlternativaModel1!);
@@ -290,7 +290,7 @@ else
 
         base.OnInitialized();
     }
- 
+
 
     private void AdicionarAlternativa(Alternativa alternativa)
     {
@@ -335,7 +335,7 @@ else
 
             habilitarBotaoAddPergunta = true;
 
-
+            VerificarProvaQntERedirecionar();
         }
         else
         {
@@ -345,7 +345,13 @@ else
 
 
     }
-
+      private void VerificarProvaQntERedirecionar()
+    {
+        if(ListaPerguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
+        {
+            NavigationManager!.NavigateTo("/VerificarProva");
+        }
+    } 
 
     private void CloseMe(bool value)
     {
@@ -365,10 +371,4 @@ else
     }
 
 }
-   @*  private void VerificarProvaQnt()
-    {
-        if(ListaPerguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
-        {
-            NavigationManager!.NavigateTo("/VerificarProva");
-        }
-    } *@
+   
