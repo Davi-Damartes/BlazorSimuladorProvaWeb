@@ -1,6 +1,4 @@
-﻿@inject IDialogService DialogSerbive
-
-@inject ISnackbar Snackbar
+﻿@inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
 
 <MudDialog>
@@ -14,10 +12,14 @@
         <MudText>@Conteudo</MudText>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancelar">
+        <MudButton OnClick="Cancelar" 
+                   Disabled="desabilitarButao"
+                   Color="Color.Error" Variant="Variant.Filled">
             Cancelar
         </MudButton>
-        <MudButton Color="@Color" Variant="Variant.Filled" OnClick="MensagemConfirmacaoAsync">
+        <MudButton OnClick="MensagemConfirmacao"
+                   Disabled="desabilitarButao"
+                   Color="@Color" Variant="Variant.Filled" >
             Confirmar Envio!
         </MudButton>
     </DialogActions>
@@ -31,6 +33,9 @@
     [Parameter]
     public string? Titulo { get; set; }
 
+
+    public bool desabilitarButao = false;
+
     [Parameter]
     public string? Conteudo { get; set; }
 
@@ -43,41 +48,29 @@
 
 
 
-    // private void MensagemConfirmacao()
-    // {
-
-    //     Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
-    //     Snackbar.Add("Prova Enviada Com Sucesso!!!", Severity.Success, config =>
-    //       {
-    //           config.Icon = Icons.Material.Filled.DoneOutline;
-    //           config.IconColor = Color.Dark;
-    //           config.IconSize = Size.Large;
-    //       });
-
-    //     MudDialog!.Close(DialogResult.Ok(true));
-
-    //     NavigationManager.NavigateTo("/RealizarProva");
-    // }
-   private async Task MensagemConfirmacaoAsync( )
+    private async Task MensagemConfirmacao()
     {
+
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
         Snackbar.Add("Prova Enviada Com Sucesso!!!", Severity.Success, config =>
-        {
-            config.Icon = Icons.Material.Filled.DoneOutline;
-            config.IconColor = Color.Dark;
-            config.IconSize = Size.Large;
-        });
+          {
+              config.Icon = Icons.Material.Filled.DoneOutline;
+              config.IconColor = Color.Dark;
+              config.IconSize = Size.Large;
+              config.CloseAfterNavigation = true;
 
-
-        MudDialog!.Close(DialogResult.Ok(true));
+          });
+        desabilitarButao = true;
 
         await Task.Delay(2000);
-
+        NavigationManager.NavigateTo("/RealizarProva");
     }
 
-
-    //private void Cancelar() => MudDialog!.Cancel();
-    private void Cancelar() => MudDialog!.Close();
+    private void Cancelar( )
+    {
+        MudDialog!.Close();
+        
+    }
 
 
 }
