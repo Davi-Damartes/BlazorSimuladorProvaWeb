@@ -1,7 +1,8 @@
 ﻿@page "/VerificarProva"
 
 @inject ProvaService ProvaFinal
-@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <PageTitle>Enviar Prova</PageTitle>
 
@@ -25,7 +26,8 @@
 
 }
 else
-{
+{ 
+    <MudPaper Height="100%" Width="100%">
         <MudContainer MaxWidth="MaxWidth.Medium">
             <MudPaper Height="100%" Width="100%" Square="true" Style="@($"color:{Colors.Purple.Accent3};")">
 
@@ -38,7 +40,7 @@ else
 
                 @foreach (var pergunta in ListaPerguntas)
                 {
-                    <MudText Typo="Typo.h5" Class="mud-secondary-text">
+                    <MudText Typo="Typo.h5" Class="mt-5 mud-secondary-text">
                         @pergunta.EnunciadoDaPergunta
                     </MudText>
 
@@ -66,8 +68,8 @@ else
 
             </MudPaper>
         </MudContainer>
+    </MudPaper>
 }
-
 
 
 @code {
@@ -76,20 +78,28 @@ else
 
     public List<Pergunta> ListaPerguntas { get; set; } = new();
 
-    public bool Basic_CheckBox1 { get; set; } = false;
-
-
-    private void ConfirmarEnvioProva()
-    {
-        
-
-    }
+    public bool ProvaConfirmada = false;
 
 
     protected override void OnInitialized( )
     {
         ListaPerguntas = ProvaFinal.ProvaInstancia.Perguntas;
     }
+    private async Task ConfirmarEnvioProva()
+    {
+        var parameters = new DialogParameters<DialogConfirmarProva> 
+        { 
+            { x => x.Titulo,  "Verificação de Envio da Prova !!!"},
+
+            { x => x.Conteudo, "Você tem certeza?, essa ação não pode ser defeita!" }
+
+        };
+
+        var dialog = await DialogService.ShowAsync<DialogConfirmarProva>("Delete Server", parameters);
+
+    }
+
+    
 }
 
 
