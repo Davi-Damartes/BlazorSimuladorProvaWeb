@@ -31,7 +31,7 @@ else @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
     </MudButton>
 }
 else
-{
+{ 
 
     <MudPaper Height="100%" Width="100%">
         <MudContainer MaxWidth="MaxWidth.Large">
@@ -361,6 +361,7 @@ else
 
             ListaQuestoes.Add(UmaQuestao);
 
+            UmaPergunta.NumeroPergunta = NumeroQuestao;
             UmaPergunta.Questoes.AddRange(ListaQuestoes);
 
             ListaPerguntas.Add(UmaPergunta);
