@@ -14,8 +14,10 @@
         <MudText>@Conteudo</MudText>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancelar">Cancelar</MudButton>
-        <MudButton Color="@Color" Variant="Variant.Filled" OnClick="DeleteServer">
+        <MudButton OnClick="Cancelar">
+            Cancelar
+        </MudButton>
+        <MudButton Color="@Color" Variant="Variant.Filled" OnClick="MensagemConfirmacaoAsync">
             Confirmar Envio!
         </MudButton>
     </DialogActions>
@@ -41,31 +43,42 @@
 
 
 
-    private async Task DeleteServer( )
-    {
+    // private void MensagemConfirmacao()
+    // {
 
+    //     Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+    //     Snackbar.Add("Prova Enviada Com Sucesso!!!", Severity.Success, config =>
+    //       {
+    //           config.Icon = Icons.Material.Filled.DoneOutline;
+    //           config.IconColor = Color.Dark;
+    //           config.IconSize = Size.Large;
+    //       });
+
+    //     MudDialog!.Close(DialogResult.Ok(true));
+
+    //     NavigationManager.NavigateTo("/RealizarProva");
+    // }
+   private async Task MensagemConfirmacaoAsync( )
+    {
         Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
         Snackbar.Add("Prova Enviada Com Sucesso!!!", Severity.Success, config =>
-          {
-              config.Icon = Icons.Material.Filled.DoneOutline;
-              config.IconColor = Color.Dark;
-              config.IconSize = Size.Large;
-          });
+        {
+            config.Icon = Icons.Material.Filled.DoneOutline;
+            config.IconColor = Color.Dark;
+            config.IconSize = Size.Large;
+        });
+
 
         MudDialog!.Close(DialogResult.Ok(true));
 
-        await Task.Delay(1000);
-
-        NavigationManager.NavigateTo("/RealizarProva");
-    }
-
-    private void Cancelar() => MudDialog!.Cancel();
-
-
-    private void DialogConfirmacao()
-    {
-        DialogSerbive.Show<DialogGenerico>("Confirmarção");
+        await Task.Delay(2000);
 
     }
+
+
+    //private void Cancelar() => MudDialog!.Cancel();
+    private void Cancelar() => MudDialog!.Close();
+
+
 }
 
