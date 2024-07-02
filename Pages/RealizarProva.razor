@@ -1,7 +1,27 @@
 ﻿@page "/RealizarProva"
 @inject ProvaService Prova
 
+@if (Prova.ProvaInstancia.Perguntas.Count() == 0)
+{
+        <MudText Typo="Typo.h3"
+                 Class="d-flex align-center justify-center"
+                 Color="Color.Warning">
+            Não há perguntas criadas!
+        </MudText>
 
+        <MudButton ButtonType="ButtonType.Button"
+                   Variant="Variant.Filled"
+                   Color="Color.Error"
+                   Size="Size.Small"
+                   Href="/CriarPerguntas"
+                   Class="d-flex align-center"
+                   Style="margin-top: 15px;">
+            Clique Aqui para Adicionar Perguntas!
+        </MudButton>
+
+}
+else
+{
 <MudGrid>
     @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
     {
@@ -33,6 +53,7 @@
     }
 </MudGrid>
 
+}
 @code {
 
 
