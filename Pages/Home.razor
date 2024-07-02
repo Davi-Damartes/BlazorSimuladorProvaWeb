@@ -1,20 +1,69 @@
 ﻿@page "/"
 
+@inject ProvaService Prova
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+
 <MudPaper>
     <MudText Typo="Typo.h2" Align="Align.Center">
-        Bem-Vindo ao simulador de Prova online
-        
+        Bem-Vindo ao simulador de Prova online     
     </MudText>
-
-
-    <MudButton Href="/CriarProva" Color="Color.Error"
-               Class="d-flex align-center justify-center mud-width-full py-8"
-               Variant="Variant.Filled"
-               Size="Size.Large" 
-               Style="align-content: center; justify-content: center;">
-        Clique aqui para Criar a sua Prova!!!
+    <MudButton @onclick="@(() => ChangePosition("Top-Center"))" Variant="Variant.Filled" Color="Color.Success">Top-Center
     </MudButton>
+
+    <MudButton @onclick="@(() => ConfimarEnvio())" Variant="Variant.Filled" Color="Color.Success">
+        Top-Center
+    </MudButton>
+    
+
+    @if(string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
+    {
+        <MudButton Href="/CriarProva" Color="Color.Error"
+                   Class="d-flex align-center justify-center mud-width-full py-8"
+                   Variant="Variant.Filled"
+                   Size="Size.Large" 
+                   Style="align-content: center; justify-content: center;">
+            Clique aqui para Criar a sua Prova!!!
+        </MudButton>
+    }
+    else
+    {
+        NavigationManager.NavigateTo("/CriarPerguntas");
+    }
 </MudPaper>
+
+
+@code{
+    void ChangePosition(string message)
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+
+        Snackbar.Add("Verificação da Prova Confirmada!!!", Severity.Success, config =>
+           {
+               config.Icon = Icons.Material.Filled.DoneOutline;
+               config.IconColor = Color.Dark;
+               config.IconSize = Size.Large;
+           });
+    }  
+
+ 
+    public void ConfimarEnvio()
+    {
+        var parameters = new DialogParameters<DialogConfirmarProva>
+        {
+            { x => x.Titulo, "Titulo"},
+            { x => x.Conteudo, "Conteudo"},
+            { x => x.ButtonText, "Sim" },
+            { x => x.Color, Color.Success }
+        };
+
+        DialogService.Show<DialogConfirmarProva>("Confirmar", parameters);
+
+    }
+
+}
 
 
 
