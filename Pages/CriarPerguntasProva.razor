@@ -36,10 +36,15 @@ else
     <MudPaper Height="100%" Width="100%">
         <MudContainer MaxWidth="MaxWidth.Large">
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudText Typo="Typo.h4" 
+                         Class="d-flex align-center justify-center"
+                         Style="margin-top: 45px; margin-bottom: 15px;">
+                    Pegunta (@NumeroQuestao)
+                </MudText>
 
                 <div class="mb-5">
-                    <MudPaper>
-                        <MudText Class="mt-5 mud-spacing-md pd-4">
+                    <MudPaper Style="margin-bottom: 40px;">
+                        <MudText Class="mud-spacing-md pd-4">
                             <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
                         </MudText>
                         <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
@@ -48,6 +53,7 @@ else
                                       Required="true"
                                       RequiredError="Campo Obrigatorio"
                                       Label="Enunciado da Questão"
+                                      Disabled="@botaoDasOpcoesCorretas"
                                       Variant="Variant.Text" />
                     </MudPaper>
                 </div>
@@ -70,13 +76,14 @@ else
                                 <MudRadio Value="true"
                                           Color="Color.Secondary"
                                           Size="Size.Large"
+                                          Disabled="botaoDasOpcoesCorretas"
                                           @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1)">
                                     Alternativa Correta?
                                 </MudRadio>
                             </MudRadioGroup>
                         </MudItem>
                         <MudItem xs="12">
-                            <div class="mt-5 mb-4">
+                            <div class="mb-4">
                                 <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1!))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
@@ -106,13 +113,14 @@ else
                                 <MudRadio Value="true"
                                           Color="Color.Secondary"
                                           Size="Size.Large"
+                                          Disabled="botaoDasOpcoesCorretas"
                                           @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel2)">
                                     Alternativa Correta?
                                 </MudRadio>
                             </MudRadioGroup>
                         </MudItem>
                         <MudItem xs="12">
-                            <div class="mt-5 mb-4">
+                            <div class="mb-4">
                                 <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel2))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
@@ -140,6 +148,7 @@ else
                             <MudRadioGroup @bind-Value="AlternativaModel3.IsCorreta">
                                 <MudRadio Value="true"
                                           Color="Color.Secondary"
+                                          Disabled="botaoDasOpcoesCorretas"
                                           @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel3)"
                                           Size="Size.Large">
                                     Alternativa Correta?
@@ -147,7 +156,7 @@ else
                             </MudRadioGroup>
                         </MudItem>
                         <MudItem xs="12">
-                            <div class="mt-5 mb-4">
+                            <div class="mb-4">
                                 <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel3))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
@@ -160,7 +169,7 @@ else
                 </div>
 
                 <div class="mb-3">
-                    <MudGrid>
+                    <MudGrid Style="margin-bottom: 20px;">
                         <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
                             <MudPaper>
                                 <MudTextField @bind-Value="AlternativaModel4!.TextoDasAlternativa"
@@ -176,13 +185,14 @@ else
                                 <MudRadio Value="true"
                                           Color="Color.Secondary"
                                           Size="Size.Large"
+                                          Disabled="botaoDasOpcoesCorretas"
                                           @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel4)">
                                     Alternativa Correta?
                                 </MudRadio>
                             </MudRadioGroup>
                         </MudItem>
                         <MudItem xs="12">
-                            <div class="mt-5 mb-4">
+                            <div class="mb-4">
                                 <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel4))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
@@ -266,6 +276,9 @@ else
     bool botaoADDProvaCorreta = false;
 
 
+    bool botaoDasOpcoesCorretas = false;
+
+
     bool mostrarDialog = false;
 
 
@@ -307,6 +320,12 @@ else
             alternativa.alternativaAdicionada = true;
             AddAlternativaNaPergunta(alternativa);
         }
+        else
+        {
+            OpenDialog($"Campo inválido na Pergunta {NumeroQuestao}º", 
+            $"Por favor, preencha a alternativa ({alternativa.OpcaoAlternativa}) antes de continuar."
+            , DialogPosition.Center);
+        }
     }
 
 
@@ -321,12 +340,22 @@ else
 
     private void AddPerguntaNaProva()
     {
-        if(ListaAlternativas.All(x => x.IsCorreta == false))
+        if (ListaAlternativas.All(x => x.IsCorreta == false))
         {
-            OpenDialog("Escolha 1 alternativa como Correta");
+            OpenDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º", 
+                       "Por favor, escolha pelo menos uma alternativa como correta.", 
+                       DialogPosition.TopCenter);
         }
 
-        if (ListaAlternativas.Count() > 0 && ListaAlternativas.Any(x => x.IsCorreta == true))
+        if (string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta))
+        {
+            OpenDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
+                        $"Por favor, digite o enunciado da pergunta {NumeroQuestao}º antes de continuar.", 
+                        DialogPosition.Center);
+        }
+
+        if (ListaAlternativas.Count() > 0 && ListaAlternativas.Any(x => x.IsCorreta == true)
+        && !string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta))
         {
             UmaQuestao.ListaAlternativas.AddRange(ListaAlternativas);
 
@@ -340,16 +369,10 @@ else
 
             habilitarBotaoAddPergunta = true;
 
+            botaoDasOpcoesCorretas = true;
+
             VerificarProvaQntERedirecionar();
         }
-        // else
-        // {
-        //     habilitarBotaoAddPergunta = false;
-        //     Erros = "Erro ao adicionar Questão!";
-        //     ShowAlerts();
-        // }
-
-
     }
 
 
@@ -362,9 +385,23 @@ else
     }
 
 
-    private void OpenDialog(string texto)
+    private void OpenDialog(string titulo, string conteudo, DialogPosition dialogPosition)
     {
-        DialogService.Show<DialogGenerico>(texto);
+        var parameters = new DialogParameters<DialogGenerico>()
+        {
+            {x => x.Titulo, titulo},
+            {x => x.Conteudo, conteudo}
+        };
+
+        var options = new DialogOptions()
+        { 
+            CloseButton = false, 
+            MaxWidth = MaxWidth.ExtraSmall,
+            Position = dialogPosition,
+           
+        };
+
+        DialogService.Show<DialogGenerico>("Confirmaçao", parameters, options);
     }
 
 
