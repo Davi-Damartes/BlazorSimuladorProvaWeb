@@ -29,16 +29,12 @@ else
             <MudPaper Elevation="15" Class="pa-4" Height="100%" Width="100%"
                       Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
 
-                @{
-                    int contador = 1; // Inicializa o contador
-                }
-            
+
                 @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
                 {
                     <MudText Class="mb-5" Style="@($"color:{Theme.Palette.DarkDarken}; font-size: 25px")">
-                        (@contador) <b>@pergunta.EnunciadoDaPergunta</b>
+                        (@pergunta.NumeroPergunta) <b>@pergunta.EnunciadoDaPergunta</b>
                     </MudText>
-                     contador++;
                     @foreach (var questao in pergunta.Questoes)
                     {
                         @foreach (var alternativa in questao.ListaAlternativas)
