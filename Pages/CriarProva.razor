@@ -3,6 +3,8 @@
 @inject ProvaService Prova
 @inject NavigationManager NavigationManager 
 
+<PageTitle>Criar Prova</PageTitle>
+
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
 <MudPaper Class="mt-3" Height="700px;" Width="100%;" Style="@($"color:{Colors.Green.Accent2};")">
