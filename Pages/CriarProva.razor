@@ -3,6 +3,8 @@
 @inject ProvaService Prova
 @inject NavigationManager NavigationManager 
 
+@if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
+{
 <MudPaper Class="mt-3" Height="700px;" Width="100%;" Style="@($"color:{Colors.Green.Accent2};")">
     <MudContainer MaxWidth="MaxWidth.Large" Class="mud-theme-info; border-radius: 15px">
 
@@ -80,8 +82,13 @@
             </div>
         </MudForm> 
     </MudContainer>
-</MudPaper>
+    </MudPaper>
 
+}
+else
+{
+        NavigationManager.NavigateTo("/CriarPerguntas"); 
+}
 
 
 @code{
