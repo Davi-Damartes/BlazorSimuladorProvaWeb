@@ -6,31 +6,79 @@
 @inject NavigationManager NavigationManager
 
 <PageTitle>Simulador Prova</PageTitle>
+@if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
+{
+    <MudButton Href="/CriarProva" Color="Color.Error"
+               Class="d-flex align-center justify-center"
+               Variant="Variant.Filled"
+               Size="Size.Large"
+               Style="align-content: center; justify-content: center;">
+        Clique aqui para Criar a sua Prova!!!
+    </MudButton>
+}
+else
+{
+    NavigationManager.NavigateTo("/CriarPerguntas");
+}
 
-<MudPaper>
-    <MudText Typo="Typo.h2" Align="Align.Center">
-        Bem-Vindo ao simulador de Prova online     
+<MudPaper Height="100vh" Width="100%">
+    <MudContainer MaxWidth="MaxWidth.Large">
+    <MudText Typo="Typo.h2" Style="d-flex justify-content: center;">
+        Bem-Vindo ao simulador de Prova online
     </MudText>
-    @if(string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
-    {
-        <MudButton Href="/CriarProva" Color="Color.Error"
-                   Class="d-flex align-center justify-center"
-                   Variant="Variant.Filled"
-                   Size="Size.Large" 
-                   Style="align-content: center; justify-content: center;">
-            Clique aqui para Criar a sua Prova!!!
-        </MudButton>
-    }
-    else
-    {
-        NavigationManager.NavigateTo("/CriarPerguntas");
-    }
+
+    <MudButton OnClick="DialogTest"
+               Color="Color.Success"
+               Variant="Variant.Filled"
+               Style="margin-bottom: 20px">
+        Teste Dialog
+    </MudButton>
+
+        <MudPaper Elevation="15" Class="pa-4" Height="100%" 
+                  Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
+
+                        @for(int x = 0; x <= 40; x++)
+                        {
+                            <MudText Class="mud-primary-error"
+                                     Style="margin-bottom: 10px;">
+                                Professor: ProvaInstancia.NomeProfessor
+                                Verifique as Pergunta para ver se tem algum erro!!!
+                            </MudText>                     
+                        }     
+        </MudPaper>
+
+    </MudContainer>
+
 </MudPaper>
 
 
-@code{
 
- 
+@code {
+
+    private MudTheme Theme = new MudTheme();
+
+
+    private void DialogTest( )
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            
+        };
+
+        var parameters = new DialogParameters<DialogConfirmarProva>
+        {
+            { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
+
+            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
+
+            { x => x.Color, Color.Success }
+
+        };
+
+        DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
+
+    }
 }
 
 
