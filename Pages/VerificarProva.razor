@@ -4,7 +4,7 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<PageTitle>Enviar Prova</PageTitle>
+<PageTitle>Verificar Prova</PageTitle>
 
 @if (ProvaFinal.ProvaInstancia.Perguntas.Count() == 0)
 {
@@ -56,7 +56,7 @@ else
                     }
                 }
 
-                <MudButton OnClick="ConfirmarEnvioProva"
+                <MudButton OnClick="ConfirmarEnvio"
                            ButtonType="ButtonType.Button"
                            Variant="Variant.Filled"
                            Color="Color.Success"
@@ -85,13 +85,18 @@ else
     {
         ListaPerguntas = ProvaFinal.ProvaInstancia.Perguntas;
     }
-    private async Task ConfirmarEnvioProva()
+    private async Task ConfirmarEnvio()
+    {
+        await ConfirmarEnvioProva();
+
+    }
+    private async Task ConfirmarEnvioProva( )
     {
         var parameters = new DialogParameters<DialogConfirmarProva> 
         { 
-            { x => x.Titulo,  "Verificação de Envio da Prova !!!"},
+            { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
 
-            { x => x.Conteudo, "Você tem certeza?, essa ação não pode ser defeita!" }
+            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" }
 
         };
 
