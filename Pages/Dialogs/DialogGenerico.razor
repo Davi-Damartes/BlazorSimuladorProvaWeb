@@ -1,0 +1,27 @@
+﻿<MudDialog>
+    <TitleContent>
+        <MudText Style="text-align:center;" 
+                 Typo="Typo.h6">
+            <b>@Titulo</b>
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>@Conteudo</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Submit" Color="Color.Primary">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+    
+    [Parameter]
+    public string? Titulo { get; set; }
+    [Parameter]
+    public string? Conteudo { get; set; }
+
+    private void Submit( ) => MudDialog!.Close();
+
+}
