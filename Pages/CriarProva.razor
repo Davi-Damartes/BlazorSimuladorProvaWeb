@@ -39,10 +39,10 @@
             <div class="mb-3">
                 <MudNumericField @bind-Value="ProvaClasse.QuantidadePerguntas" Required="true"
                                  T="int" Label="Quantidade de Perguntas"                      
-                                 HelperText="Minímo 2 Máximo 10 Perguntas!"
+                                 HelperText="Minímo 1 Máximo 10 Perguntas!"
                                  RequiredError="Campo Obrigatório!"
-                                 Validation="@(new RangeAttribute(2,10)
-                                 {ErrorMessage= "Valores entre 2 e 10 Disponíveis!"})" />
+                                 Validation="@(new RangeAttribute(1,10)
+                                 {ErrorMessage= "Valores entre 1 e 10 Disponíveis!"})" />
             </div>
 
             <MudSelect T="ETipoProva" @bind-Value="ProvaClasse.TipoProva" 
