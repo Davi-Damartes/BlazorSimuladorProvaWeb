@@ -23,12 +23,14 @@
 }
 else
 {
-    <MudText Class="mt-5 d-flex align-center justify-center" Typo="Typo.h4">
-        Criar as perguntas da Prova de @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")
+    <MudText Class="mt-5 d-flex align-center justify-center"
+             Typo="Typo.h3">
+            Criar as perguntas da Prova @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ") 
     </MudText>
     @for (int x = 1; x <= Prova.ProvaInstancia.QuantidadePerguntas; x++)
     {
         <CriarPerguntasProva NumeroQuestao="@x"> </CriarPerguntasProva>
+
     }
 
 }
