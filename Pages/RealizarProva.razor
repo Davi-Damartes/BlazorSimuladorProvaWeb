@@ -3,59 +3,68 @@
 
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
-        <MudText Typo="Typo.h3"
-                 Class="d-flex align-center justify-center"
-                 Color="Color.Warning">
-            Não há perguntas criadas!
-        </MudText>
+    <MudText Typo="Typo.h3"
+             Class="d-flex align-center justify-center"
+             Color="Color.Warning">
+        Não há perguntas criadas!
+    </MudText>
 
-        <MudButton ButtonType="ButtonType.Button"
-                   Variant="Variant.Filled"
-                   Color="Color.Error"
-                   Size="Size.Small"
-                   Href="/CriarPerguntas"
-                   Class="d-flex align-center"
-                   Style="margin-top: 15px;">
-            Clique Aqui para Adicionar Perguntas!
-        </MudButton>
+    <MudButton ButtonType="ButtonType.Button"
+               Variant="Variant.Filled"
+               Color="Color.Error"
+               Size="Size.Small"
+               Href="/CriarPerguntas"
+               Class="d-flex align-center"
+               Style="margin-top: 15px;">
+        Clique Aqui para Adicionar Perguntas!
+    </MudButton>
 
 }
 else
 {
-<MudGrid>
-    @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
-    {
-        <MudItem xs="12">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"
-                      Style="margin-top: 15px">
-                <MudText Typo="Typo.h3">
-                    @pergunta.EnunciadoDaPergunta
-                </MudText>
+ 
+    <MudPaper Height="100%" Width="100%" 
+            Style="@($"color:{Theme.Palette.Error}; background:{Colors.Cyan.Darken2};")">
+        <MudContainer MaxWidth="MaxWidth.Medium" Height="100%">
+            <MudPaper Elevation="15" Class="pa-4" Height="100%" Width="100%"
+                      Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
 
+                @{
+                    int contador = 1; // Inicializa o contador
+                }
+            
+                @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
+                {
+                    <MudText Class="mb-5" Style="@($"color:{Theme.Palette.DarkDarken}; font-size: 25px")">
+                        (@contador) <b>@pergunta.EnunciadoDaPergunta</b>
+                    </MudText>
+                     contador++;
+                    @foreach (var questao in pergunta.Questoes)
+                    {
+                        @foreach (var alternativa in questao.ListaAlternativas)
+                        { <MudGrid>
+                                <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                                    <MudText Class="mb-5"
+                                        Align="Align.Center"
+                                        Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 21px word-wrap: break-word; white-space: pre-wrap;")">
+                                        @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
+                                    </MudText>
+                                </MudItem>
+                            </MudGrid>
+                        }
+                        <MudDivider 
+                            Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-bottom: 60px")">
+                        </MudDivider>
+                    }
 
+                }
             </MudPaper>
-        </MudItem>
-        @foreach (var questao in pergunta.Questoes)
-        {
-
-            @foreach (var alternativa in questao.ListaAlternativas)
-            {
-                <MudItem xs="10">
-                    <MudPaper Class="d-flex align-center justify-center mud-width-full py-8"
-                              Style="margin-top: 30px">
-                        <MudText Typo="Typo.h5">
-                            @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
-                        </MudText>
-                    </MudPaper>
-                </MudItem>
-            }
-        }
-    }
-</MudGrid>
+        </MudContainer>
+    </MudPaper>
 
 }
 @code {
-
+    public MudTheme Theme = new MudTheme();
 
 
 }
