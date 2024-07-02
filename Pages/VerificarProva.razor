@@ -8,40 +8,37 @@
 
 @if (ProvaFinal.ProvaInstancia.Perguntas.Count() == 0)
 {
-        <MudText Typo="Typo.h3"
-                 Class="d-flex align-center justify-center"
-                 Color="Color.Warning">
-            Não há perguntas criadas!
-        </MudText>
+    <MudText Typo="Typo.h3"
+             Class="d-flex align-center justify-center"
+             Color="Color.Warning">
+        Não há perguntas criadas!
+    </MudText>
 
-        <MudButton ButtonType="ButtonType.Button"
-                   Variant="Variant.Filled"
-                   Color="Color.Error"
-                   Size="Size.Small"
-                   Href="/CriarPerguntas"
-                   Class="d-flex align-center"
-                   Style="margin-top: 15px;">
-            Clique Aqui para Adicionar Perguntas
-        </MudButton>
+    <MudButton ButtonType="ButtonType.Button"
+               Variant="Variant.Filled"
+               Color="Color.Error"
+               Size="Size.Small"
+               Href="/CriarPerguntas"
+               Class="d-flex align-center"
+               Style="margin-top: 15px;">
+        Clique Aqui para Adicionar Perguntas
+    </MudButton>
 
 }
 else
-{ 
-    <MudPaper Height="100%" Width="100%">
+{
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center" style="height: 100vh;">
         <MudContainer MaxWidth="MaxWidth.Medium">
-            <MudPaper Height="100%" Width="100%" Square="true" Style="@($"color:{Colors.Purple.Accent3};")">
+            <MudPaper Elevation="25" Class="p-4" Style="width: 100%;">
 
-                <MudText Typo="Typo.h4" Color="Color.Tertiary" Style="margin-bottom: 25px;">
-
-                    <MudText Class="mud-secondary-dark" Typo="Typo.h5">Professor: <u>@ProvaFinal.ProvaInstancia.NomeProfessor</u>
-                        Verifique as Pergunta para ver se tem algum erro!!!
-                    </MudText>
+                <MudText Class="mud-secondary-dark" Typo="Typo.h5">
+                    Professor: <u>@ProvaFinal.ProvaInstancia.NomeProfessor</u>
+                    Verifique as Pergunta para ver se tem algum erro!!!
                 </MudText>
-
                 @foreach (var pergunta in ListaPerguntas)
                 {
                     <MudText Typo="Typo.h5" Class="mt-5 mud-secondary-text">
-                        @pergunta.EnunciadoDaPergunta
+                        (@contador)) @pergunta.EnunciadoDaPergunta
                     </MudText>
 
                     @foreach (var questao in pergunta.Questoes)
@@ -53,26 +50,30 @@ else
                                 @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
                             </MudText>
                         }
+                       <br />
+                       <br />
                     }
                 }
 
-                <MudButton OnClick="ConfirmarEnvio"
-                           ButtonType="ButtonType.Button"
-                           Variant="Variant.Filled"
-                           Color="Color.Success"
-                           Size="Size.Large"
-                           Href="/RealizarProva"
-                           Style="margin-top: 15px;">
-                    Clique Aqui para Confirmar o envio da Prova!!!
-                </MudButton>
-
+                <div class="d-flex justify-content-center">
+                    <MudButton OnClick="ConfirmarEnvio"
+                               ButtonType="ButtonType.Button"
+                               Variant="Variant.Filled"
+                               Color="Color.Success"
+                               Size="Size.Large"
+                               Style="margin-top: 15px; margin-bottom: 60px;">
+                        Clique Aqui para Confirmar o envio da Prova!!!
+                    </MudButton>
+                </div>
             </MudPaper>
         </MudContainer>
-    </MudPaper>
+    </div>
 }
 
 
 @code {
+
+    private int contador = 1;
 
     public Pergunta PerguntaAtual { get; set; } = new();
 
@@ -85,26 +86,30 @@ else
     {
         ListaPerguntas = ProvaFinal.ProvaInstancia.Perguntas;
     }
-    private async Task ConfirmarEnvio()
-    {
-        await ConfirmarEnvioProva();
 
-    }
-    private async Task ConfirmarEnvioProva( )
+    public void ConfirmarEnvio( )
     {
-        var parameters = new DialogParameters<DialogConfirmarProva> 
-        { 
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+
+            };
+
+        var parameters = new DialogParameters<DialogConfirmarProva>
+        {
             { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
 
-            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" }
+            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
+
+            { x => x.Color, Color.Success }
 
         };
 
-        var dialog = await DialogService.ShowAsync<DialogConfirmarProva>("Delete Server", parameters);
+        DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
 
     }
 
-    
+
 }
 
 
