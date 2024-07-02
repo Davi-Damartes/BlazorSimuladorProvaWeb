@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="Pages\CriarPerguntasProva.razor~RFac4c229.TMP" />
     <None Remove="Pages\FazerProva.razor~RFf94969d.TMP" />
+    <None Remove="Pages\VerificarProva.razor~RF1fee713a.TMP" />
   </ItemGroup>
 
   <ItemGroup>
