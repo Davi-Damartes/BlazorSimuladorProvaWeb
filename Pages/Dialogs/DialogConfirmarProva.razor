@@ -61,9 +61,7 @@
 
           });
         desabilitarButao = true;
-
-        await Task.Delay(2000);
-        NavigationManager.NavigateTo("/RealizarProva");
+        MudDialog?.Close(DialogResult.Ok(true));
     }
 
     private void Cancelar( )
