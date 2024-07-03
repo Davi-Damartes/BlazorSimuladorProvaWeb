@@ -6,65 +6,65 @@
 @inject NavigationManager NavigationManager
 
 <PageTitle>Simulador Prova</PageTitle>
-@if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
-{
-    <MudButton Href="/CriarProva" Color="Color.Error"
-               Class="d-flex align-center justify-center"
-               Variant="Variant.Filled"
-               Size="Size.Large"
-               Style="align-content: center; justify-content: center;">
-        Clique aqui para Criar a sua Prova!!!
-    </MudButton>
-}
-else
+@if (!string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
     NavigationManager.NavigateTo("/CriarPerguntas");
 }
-
-<MudPaper Height="100vh" Width="100%">
-    <MudContainer MaxWidth="MaxWidth.Large">
-    <MudText Typo="Typo.h2" Style="d-flex justify-content: center;">
-        Bem-Vindo ao simulador de Prova online
-    </MudText>
-
-    <MudButton OnClick="DialogTest"
-               Color="Color.Success"
-               Variant="Variant.Filled"
-               Style="margin-bottom: 20px">
-        Teste Dialog
-    </MudButton>
-
-        <MudPaper Elevation="15" Class="pa-4" Height="100%" 
-                  Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
-
-                        @for(int x = 0; x <= 40; x++)
-                        {
-                            <MudText Class="mud-primary-error"
-                                     Style="margin-bottom: 10px;">
-                                Professor: ProvaInstancia.NomeProfessor
-                                Verifique as Pergunta para ver se tem algum erro!!!
-                            </MudText>                     
-                        }     
-        </MudPaper>
-
-    </MudContainer>
-
-</MudPaper>
-
+else
+{
+    <MudPaper Height="100vh" Width="100%">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <div class="d-flex justify-center align-center;">
+                <MudText Typo="Typo.h2" Class="anton-sc-regular" Style="font-family: FontTitulo">
+                    Bem-Vindo ao simulador de Prova online
+                </MudText>
+            </div>
+            <div class="d-flex justify-center align-center;">
+                <MudText Typo="Typo.h4" Style="font-family: FontConteudo; margin-top: 20px;">
+                    Um simulador simples e prática na Criação e Realização de Provas.
+                </MudText>
+            </div>
+            <div class="d-flex justify-center align-center;">
+                <MudButton Href="/CriarProva" Color="Color.Error"
+                           Variant="Variant.Filled"
+                           Size="Size.Large"
+                           Style="font-size: 30px; margin-top: 25px; border-radius: 18px;">
+                    Clique aqui para Criar a sua Prova!!!
+                </MudButton>
+            </div>
+            <div class="d-flex justify-center align-center;">
+                <MudButton OnClick="Dialog"
+                           Color="Color.Success"
+                           Variant="Variant.Filled"
+                           Style="margin-top: 40px;">
+                    Teste Dialog
+                </MudButton>
+            </div>
+        </MudContainer>
+    </MudPaper>
+}
 
 
 @code {
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                H2 = new H2()
+                {
+                    FontFamily = new[ ] { "Lobster", "Helvetica", "Arial", "sans-serif" }
+                }
+            }
+        };
 
-    private MudTheme Theme = new MudTheme();
 
-
-    private void DialogTest( )
+    private void Dialog()
     {
         var options = new DialogOptions
-        {
-            CloseOnEscapeKey = true,
-            
-        };
+            {
+                CloseOnEscapeKey = true,
+
+            };
 
         var parameters = new DialogParameters<DialogConfirmarProva>
         {
