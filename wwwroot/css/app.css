@@ -67,3 +67,24 @@
 code {
     color: #c02d76;
 }
+
+@font-face{
+    font-family: FontTitulo;
+    src: url(/fonts/Lobster/Lobster-Regular.ttf)
+    
+}
+@font-face {
+    font-family: FontConteudo;
+    src: url(/fonts/Wittgenstein/Wittgenstein-Italic-VariableFont_wght.ttf);
+    src: url(/fonts/Wittgenstein/Wittgenstein-VariableFont_wght.ttf);
+}
+
+.QuebraLinha {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+}
+
+.Tamanho-label {
+    font-size: 25px;
+}
