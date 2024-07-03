@@ -15,11 +15,13 @@
                              Edge="Edge.Start"
                              Toggled="@_drawerOpen" />
      
-        <MudText Typo="Typo.h5" Align="Align.Center">     
-            <MudContainer >
-                <MudElement HtmlTag="b">Simulador Prova</MudElement>
+            <MudContainer>
+                <MudText Typo="Typo.h5" Align="Align.Center">
+                        <MudElement HtmlTag="b" Style="font-size: 60px; margin-left: 42px;">
+                            Simulador Prova
+                        </MudElement>
+                </MudText>
             </MudContainer>
-        </MudText>
 
         <MudSpacer/>
         <MudToggleIconButton @bind-Toggled="@_isDarkMode" Icon="@Icons.Material.Filled.DarkMode"
