@@ -5,21 +5,27 @@
 
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
-    <MudText Typo="Typo.h3"
-             Class="d-flex align-center justify-center"
-             Color="Color.Warning">
-        Não existe uma prova!!!
-    </MudText>
-
-    <MudButton ButtonType="ButtonType.Button"
-               Variant="Variant.Filled"
-               Color="Color.Error"
-               Size="Size.Small"
-               Href="/CriarProva"
-               Class="d-flex align-center"
-               Style="margin-top: 15px;">
-        Clique Aqui para Criar uma Prova
-    </MudButton>
+    <MudContainer>
+        <MudText Typo="Typo.h3"
+                 Style="margin-top: 18px;"
+                 Align="Align.Center"
+                 Color="Color.Warning">
+            <b>Não há uma Prova criada!</b>
+        </MudText>
+        <div class="d-flex align-center justify-center">
+            <MudButton ButtonType="ButtonType.Button"
+                       Variant="Variant.Filled"
+                       Color="Color.Error"
+                       Href="/CriarProva"
+                       Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">              
+                Clique Aqui para Criar uma Prova!
+            </MudButton>
+        </div>
+    </MudContainer>
+}
+else if (Prova.ProvaInstancia.ProvaCriada == true)
+{
+    NavigationManager.NavigateTo("/RealizarProva");
 }
 else
 {
@@ -32,5 +38,4 @@ else
         <CriarPerguntasProva NumeroQuestao="@x"> </CriarPerguntasProva>
 
     }
-
 }
