@@ -1,44 +1,60 @@
 ﻿@page "/VerificarProva"
 
-@inject ProvaService ProvaFinal
+@inject ProvaService Prova
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Verificar Prova</PageTitle>
 
-@if (ProvaFinal.ProvaInstancia.Perguntas.Count() == 0)
+@if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
-    <MudText Typo="Typo.h3"
-             Class="d-flex align-center justify-center"
-             Color="Color.Warning">
-        Não há perguntas criadas!
-    </MudText>
+    <MudContainer>
+        <MudText Typo="Typo.h3"
+                 Align="Align.Center"
+                 Style="margin-top: 18px;"
+                 Color="Color.Warning">
+            <b>Não há perguntas Adicionadas a Prova!</b>
+        </MudText>
+        
+        <div class="d-flex justify-center align-center">
+            <MudButton ButtonType="ButtonType.Button"
+                       Variant="Variant.Filled"
+                       Color="Color.Error"
+                       Size="Size.Small"
+                       Href="/CriarPerguntas"
+                       Class="d-flex align-center"
+                       Style="margin-top: 20px; font-size: 35px; border-radius: 19px;">
+                Clique Aqui para Adicionar as Perguntas!
+            </MudButton>
+        </div>
+    </MudContainer>
 
-    <MudButton ButtonType="ButtonType.Button"
-               Variant="Variant.Filled"
-               Color="Color.Error"
-               Size="Size.Small"
-               Href="/CriarPerguntas"
-               Class="d-flex align-center"
-               Style="margin-top: 15px;">
-        Clique Aqui para Adicionar Perguntas
-    </MudButton>
-
+}
+else if (Prova.ProvaInstancia.ProvaCriada == true)
+{
+    NavigationManager.NavigateTo("/RealizarProva");
 }
 else
 {
-    <div class="d-flex flex-grow-1 justify-content-center align-items-center" style="height: 100vh;">
-        <MudContainer MaxWidth="MaxWidth.Medium">
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center" >
+        <MudContainer MaxWidth="MaxWidth.Large" Style="height: 100vh; margin-top: 30px;">
             <MudPaper Elevation="25" Class="p-4" Style="width: 100%;">
 
-                <MudText Class="mud-secondary-dark" Typo="Typo.h5">
-                    Professor: <u>@ProvaFinal.ProvaInstancia.NomeProfessor</u>
-                    Verifique as Pergunta para ver se tem algum erro!!!
+                <MudText Class="mud-secondary-dark" 
+                         Typo="Typo.h4"
+                         Align="Align.Center"
+                         Style="font-family: FontConteudo;">
+                    Por favor, revise cuidadosamente as perguntas abaixo para garantir 
+                    que não haja erros antes de confirmar o envio.
+
                 </MudText>
                 @foreach (var pergunta in ListaPerguntas)
                 {
-                    <MudText Typo="Typo.h5" Class="mt-5 mud-secondary-text">
-                        (@contador)) @pergunta.EnunciadoDaPergunta
+                    <MudText Typo="Typo.h5"
+                             Class="mud-secondary-text QuebraLinha"
+                             Color="Color.Info">
+                        <b>(@pergunta.NumeroPergunta) @pergunta.EnunciadoDaPergunta</b>
                     </MudText>
 
                     @foreach (var questao in pergunta.Questoes)
@@ -46,8 +62,10 @@ else
 
                         @foreach (var alternativa in questao.ListaAlternativas)
                         {
-                            <MudText Typo="Typo.h5" Class="mud-secondary-text" Style="margin-bottom: 20px;">
-                                @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
+                            <MudText Typo="Typo.h5" Color="Color.Info"
+                                     Class="mud-secondary-text QuebraLinha"
+                                     Style="font-family: FontConteudo">
+                                     @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
                             </MudText>
                         }
                        <br />
@@ -55,7 +73,7 @@ else
                     }
                 }
 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-center align-center">
                     <MudButton OnClick="ConfirmarEnvio"
                                ButtonType="ButtonType.Button"
                                Variant="Variant.Filled"
@@ -84,10 +102,10 @@ else
 
     protected override void OnInitialized( )
     {
-        ListaPerguntas = ProvaFinal.ProvaInstancia.Perguntas;
+        ListaPerguntas = Prova.ProvaInstancia.Perguntas;
     }
 
-    public void ConfirmarEnvio( )
+    public async Task ConfirmarEnvio( )
     {
         var options = new DialogOptions
             {
@@ -105,8 +123,22 @@ else
 
         };
 
-        DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
+        var dialog = DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
 
+
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool isConfirmed && isConfirmed)
+        {
+            Prova.ProvaInstancia.ProvaCriada = true;
+
+            Prova.ProvaInstancia.HoraEnvio = DateTime.Now;
+
+
+            await Task.Delay(2000);
+            NavigationManager.NavigateTo("/RealizarProva");
+            
+        }
     }
 
 
