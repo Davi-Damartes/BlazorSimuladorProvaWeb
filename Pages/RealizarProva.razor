@@ -3,53 +3,57 @@
 
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
-    <MudText Typo="Typo.h3"
-             Class="d-flex align-center justify-center"
-             Color="Color.Warning">
-        Não há perguntas criadas!
-    </MudText>
+    <MudContainer>
+        <MudText Typo="Typo.h3"
+                 Align="Align.Center"
+                 Style="margin-top: 18px;"
+                 Color="Color.Warning">
+            <b>Não há uma Prova criada!</b>
+        </MudText>
 
-    <MudButton ButtonType="ButtonType.Button"
-               Variant="Variant.Filled"
-               Color="Color.Error"
-               Size="Size.Small"
-               Href="/CriarPerguntas"
-               Class="d-flex align-center"
-               Style="margin-top: 15px;">
-        Clique Aqui para Adicionar Perguntas!
-    </MudButton>
-
+        <div class="d-flex justify-center align-center;">
+            <MudButton ButtonType="ButtonType.Button"
+                       Variant="Variant.Filled"
+                       Color="Color.Error"
+                       Href="/CriarPerguntas"
+                       Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">
+                Clique Aqui para Criar um Prova!
+            </MudButton>
+        </div>
+    </MudContainer>
 }
 else
 {
- 
-    <MudPaper Height="100%" Width="100%" 
-            Style="@($"color:{Theme.Palette.Error}; background:{Colors.Cyan.Darken2};")">
-        <MudContainer MaxWidth="MaxWidth.Medium" Height="100%">
+
+    <MudPaper Height="100%;" Width="100%;" Style="@($"color:{Theme.Palette.Error}; background:{Colors.Cyan.Darken2};")">
+        <MudContainer MaxWidth="MaxWidth.Large" Height="100%">
             <MudPaper Elevation="15" Class="pa-4" Height="100%" Width="100%"
                       Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
 
-
                 @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
                 {
-                    <MudText Class="mb-5" Style="@($"color:{Theme.Palette.DarkDarken}; font-size: 25px")">
-                        (@pergunta.NumeroPergunta) <b>@pergunta.EnunciadoDaPergunta</b>
+                    <MudText Class="QuebraLinha" Align="Align.Start"
+                             Style="@($"color:{Theme.Palette.DarkDarken}; font-size: 25px;")">
+                             (@pergunta.NumeroPergunta) <b>@pergunta.EnunciadoDaPergunta</b>
                     </MudText>
                     @foreach (var questao in pergunta.Questoes)
                     {
                         @foreach (var alternativa in questao.ListaAlternativas)
-                        { <MudGrid>
-                                <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
-                                    <MudText Class="mb-5"
-                                        Align="Align.Center"
-                                        Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 21px word-wrap: break-word; white-space: pre-wrap;")">
-                                        @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
-                                    </MudText>
+                        {
+                            <MudGrid>
+                                <MudItem xs="12" Class="mud-elevation-4 mud-spacing" 
+                                 Style="margin-bottom: 40px;">
+                                 <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                                        <MudText Class="QuebraLinha"
+                                             Align="Align.Start"
+                                             Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 21px;")">
+                                        @alternativa.OpcaoAlternativa.ToString())  @alternativa.TextoDasAlternativa
+                                    </MudText>                             
+                                 </MudPaper>
                                 </MudItem>
                             </MudGrid>
                         }
-                        <MudDivider 
-                            Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-bottom: 60px")">
+                        <MudDivider Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-bottom: 60px")">
                         </MudDivider>
                     }
 
