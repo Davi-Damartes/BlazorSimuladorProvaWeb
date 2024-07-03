@@ -44,7 +44,7 @@ else
 
                 <div class="mb-5">
                     <MudPaper Style="margin-bottom: 40px;">
-                        <MudText Class="mud-spacing-md pd-4">
+                        <MudText Class="mud-spacing-md pd-4" Style="font-size: 20px;">
                             <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
                         </MudText>
                         <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
@@ -53,6 +53,8 @@ else
                                       Required="true"
                                       RequiredError="Campo Obrigatorio"
                                       Label="Enunciado da Questão"
+                                      Validation="@(new StringLengthAttribute(300)
+                                      {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                       Disabled="@botaoDasOpcoesCorretas"
                                       Variant="Variant.Text" />
                     </MudPaper>
@@ -69,6 +71,8 @@ else
                                               Label="Alternativa A"
                                               InputType="InputType.Text"
                                               Variant="Variant.Text"
+                                              Validation="@(new StringLengthAttribute(300)
+                                      {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                               Disabled="@AlternativaModel1!.alternativaAdicionada" />
                             </MudPaper>
                             <MudRadioGroup @bind-Value="AlternativaModel1.IsCorreta"
@@ -106,6 +110,8 @@ else
                                               Variant="Variant.Text"
                                               Label="Alternativa B"
                                               InputType="InputType.Text"
+                                              Validation="@(new StringLengthAttribute(300)
+                                      {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                               Disabled="@AlternativaModel2.alternativaAdicionada" />
                             </MudPaper>
                             <MudRadioGroup @bind-Value="AlternativaModel2.IsCorreta"
@@ -143,6 +149,8 @@ else
                                               Label="Alternativa C"
                                               Variant="Variant.Text"
                                               InputType="InputType.Text"
+                                              Validation="@(new StringLengthAttribute(300)
+                                      {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                               Disabled="@AlternativaModel3.alternativaAdicionada" />
                             </MudPaper>
                             <MudRadioGroup @bind-Value="AlternativaModel3.IsCorreta">
@@ -178,6 +186,8 @@ else
                                               Lines="4"
                                               Label="Alternativa D"
                                               Variant="Variant.Text"
+                                              Validation="@(new StringLengthAttribute(300)
+                                      {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                               Disabled="@AlternativaModel4.alternativaAdicionada"
                                               InputType="InputType.Text" />
                             </MudPaper>
