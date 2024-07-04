@@ -81,16 +81,11 @@ else
     public MudTheme Theme = new MudTheme();
 
 
-    public RespostaProva? ProvaResposta { get; set; } = new();
+    public RespostasDaProva? ProvaResposta { get; set; } = new();
 
     public Alternativa? AlternativaProva { get; set; } = new();
 
-    public class RespostaProva( )
-    {
-        public List<int> NumeroPergunta { get; set; } = new List<int>();
-
-        public int QntAcertos { get; set; } = 0;
-    }
+ 
 
     private void GabaritoProva(Pergunta pergunta, Alternativa alternativa)
     {
