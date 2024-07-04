@@ -40,6 +40,11 @@ else
                     Teste Dialog
                 </MudButton>
             </div>
+
+            <MudText Color="Color.Success" Class="QuebraLinha" Align="Align.Start"
+                        Style="margin-top: 40px;"> (Teste)) TestTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste Dialoge Dialog
+            </MudText>
+
         </MudContainer>
     </MudPaper>
 }
@@ -71,6 +76,8 @@ else
             { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
 
             { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
+
+            { x => x.ButtonText, "Teste"},
 
             { x => x.Color, Color.Success }
 
