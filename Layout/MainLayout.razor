@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="@_isDarkMode"/>
+<MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="@_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -14,23 +14,25 @@
                              ToggledColor="Color.Inherit"
                              Edge="Edge.Start"
                              Toggled="@_drawerOpen" />
-     
-            <MudContainer>
-                <MudText Typo="Typo.h5" Align="Align.Center">
-                        <MudElement HtmlTag="b" 
-                            Style="font-size: 60px; margin-left: 42px;">
-                            Simulador Prova
-                        </MudElement>
-                </MudText>
-            </MudContainer>
 
-        <MudSpacer/>
+
+        <MudContainer>
+            <div class="d-flex justify-center align-center">
+                <MudText Typo="Typo.h5" Align="Align.Center">
+                    <MudElement HtmlTag="b"
+                                Style="font-size: 60px;">
+                        Simulador Prova
+                    </MudElement>
+                </MudText>
+            </div>
+        </MudContainer>
+
+        <MudSpacer />
         <MudToggleIconButton @bind-Toggled="@_isDarkMode" Icon="@Icons.Material.Filled.DarkMode"
                              Title="Modo Escuro" Color="Color.Dark"
                              ToggledIcon="@Icons.Material.Filled.LightMode"
                              ToggledColor="Color.Inherit"
-                             ToggledTitle="Modo Claro"
-                             />
+                             ToggledTitle="Modo Claro" />
 
         <MudLink Color="Color.Dark" href="https://github.com/Davi-Damartes">
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" Color="Color.Inherit" />
@@ -57,7 +59,7 @@
     private bool _isDarkMode = true;
     private MudThemeProvider? _mudThemeProvider;
 
-    void DrawerToggle()
+    void DrawerToggle( )
     {
         _drawerOpen = !_drawerOpen;
     }
