@@ -31,12 +31,12 @@ else @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
     </MudButton>
 }
 else
-{ 
+{
 
     <MudPaper Height="100%" Width="100%">
         <MudContainer MaxWidth="MaxWidth.Large">
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudText Typo="Typo.h4" 
+                <MudText Typo="Typo.h4"
                          Class="d-flex align-center justify-center"
                          Style="margin-top: 45px; margin-bottom: 15px;">
                     Pegunta (@NumeroQuestao)
@@ -88,11 +88,11 @@ else
                         </MudItem>
                         <MudItem xs="12">
                             <div class="mb-4">
-                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel1!))"
+                                <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel1!))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@AlternativaModel1!.alternativaAdicionada">
-                                    Adicionar Alternataiva A
+                                    Adicionar Alternativa A
                                 </MudButton>
                             </div>
                         </MudItem>
@@ -127,11 +127,11 @@ else
                         </MudItem>
                         <MudItem xs="12">
                             <div class="mb-4">
-                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel2))"
+                                <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel2))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@AlternativaModel2.alternativaAdicionada">
-                                    Adicionar Alternataiva B
+                                    Adicionar Alternativa B
                                 </MudButton>
                             </div>
                         </MudItem>
@@ -165,11 +165,11 @@ else
                         </MudItem>
                         <MudItem xs="12">
                             <div class="mb-4">
-                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel3))"
+                                <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel3))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@AlternativaModel3.alternativaAdicionada">
-                                    Adicionar Alternataiva C
+                                    Adicionar Alternativa C
                                 </MudButton>
                             </div>
                         </MudItem>
@@ -203,11 +203,11 @@ else
                         </MudItem>
                         <MudItem xs="12">
                             <div class="mb-4">
-                                <MudButton OnClick="(() => AdicionarAlternativa(AlternativaModel4))"
+                                <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel4))"
                                            Variant="Variant.Filled"
                                            Color="Color.Success"
                                            Disabled="@AlternativaModel4.alternativaAdicionada">
-                                    Adicionar Alternataiva D
+                                    Adicionar Alternativa D
                                 </MudButton>
                             </div>
                         </MudItem>
@@ -239,7 +239,7 @@ else
     public NavigationManager? NavigationManager { get; set; }
 
     [Parameter]
-    public int? NumeroQuestao { get; set; }
+    public int NumeroQuestao { get; set; }
 
     MudForm form = new MudForm();
 
@@ -323,49 +323,49 @@ else
     }
 
 
-    private void AdicionarAlternativa(Alternativa alternativa)
+    private void AdicionarAlternativaBotao(Alternativa alternativa)
     {
-        if (!string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
+        if (alternativa.TextoDasAlternativa.Length > 300
+                                    ||
+            string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
         {
-            alternativa.alternativaAdicionada = true;
-            AddAlternativaNaPergunta(alternativa);
-        }
-        else
-        {
-            OpenDialog($"Campo inválido na Pergunta {NumeroQuestao}º", 
+            OpenDialog($"Campo inválido na Pergunta {NumeroQuestao}º",
             $"Por favor, preencha a alternativa ({alternativa.OpcaoAlternativa}) antes de continuar."
             , DialogPosition.Center);
         }
-    }
-
-
-    private void AddAlternativaNaPergunta(Alternativa alternativaModel)
-    {
-        if (ListaAlternativas.All(x => !string.IsNullOrWhiteSpace(x.TextoDasAlternativa)))
+        else
         {
+            alternativa.alternativaAdicionada = true;
             desabilitarAlternativas = true;
             habilitarBotaoAddPergunta = false;
+
         }
+
     }
 
-    private void AddPerguntaNaProva()
+    private void AddPerguntaNaProva( )
     {
         if (ListaAlternativas.All(x => x.IsCorreta == false))
         {
-            OpenDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º", 
-                       "Por favor, escolha pelo menos uma alternativa como correta.", 
+            OpenDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º",
+                       "Por favor, escolha pelo menos uma alternativa como correta.",
                        DialogPosition.TopCenter);
         }
 
-        if (string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta))
+        if (string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta)
+                                    ||
+            UmaPergunta.EnunciadoDaPergunta.Length > 300)
         {
             OpenDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
-                        $"Por favor, digite o enunciado da pergunta {NumeroQuestao}º antes de continuar.", 
+                        $"Por favor, digite o enunciado da pergunta {NumeroQuestao}º antes de continuar.",
                         DialogPosition.Center);
         }
 
         if (ListaAlternativas.Count() > 0 && ListaAlternativas.Any(x => x.IsCorreta == true)
-        && !string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta))
+                                        &&
+        !string.IsNullOrEmpty(UmaPergunta.EnunciadoDaPergunta)
+                                        &&
+         UmaPergunta.EnunciadoDaPergunta.Length <= 300)
         {
             UmaQuestao.ListaAlternativas.AddRange(ListaAlternativas);
 
@@ -401,16 +401,17 @@ else
         var parameters = new DialogParameters<DialogGenerico>()
         {
             {x => x.Titulo, titulo},
-            {x => x.Conteudo, conteudo}
+            {x => x.Conteudo, conteudo},
+            {x => x.TextoButao, "Ok"}
         };
 
         var options = new DialogOptions()
-        { 
-            CloseButton = false, 
-            MaxWidth = MaxWidth.ExtraSmall,
-            Position = dialogPosition,
-           
-        };
+            {
+                CloseButton = false,
+                MaxWidth = MaxWidth.ExtraSmall,
+                Position = dialogPosition,
+
+            };
 
         DialogService.Show<DialogGenerico>("Confirmaçao", parameters, options);
     }
@@ -432,6 +433,5 @@ else
         mostrarAlert = true;
         fecharAlert = true;
     }
-
 }
 
