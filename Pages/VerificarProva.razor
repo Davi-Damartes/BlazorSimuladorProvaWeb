@@ -44,17 +44,17 @@ else
                 <MudText Class="mud-secondary-dark" 
                          Typo="Typo.h4"
                          Align="Align.Center"
-                         Style="font-family: FontConteudo;">
-                    Por favor, revise cuidadosamente as perguntas abaixo para garantir 
-                    que não haja erros antes de confirmar o envio.
+                         Color="Color.Warning"
+                         Style="font-family: FontConteudo; margin-bottom: 40px;">
+                        <b>Por favor, revise cuidadosamente as perguntas abaixo para garantir
+                        que não haja erros antes de confirmar o envio!!!.
+                    </b>
 
                 </MudText>
                 @foreach (var pergunta in ListaPerguntas)
                 {
-                    <MudText Typo="Typo.h5"
-                             Class="mud-secondary-text QuebraLinha"
-                             Color="Color.Info">
-                        <b>(@pergunta.NumeroPergunta) @pergunta.EnunciadoDaPergunta</b>
+                    <MudText Typo="Typo.h5" Class="QuebraLinha" 
+                            Style="margin-bottom: 15px;"><b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
                     </MudText>
 
                     @foreach (var questao in pergunta.Questoes)
@@ -62,11 +62,22 @@ else
 
                         @foreach (var alternativa in questao.ListaAlternativas)
                         {
-                            <MudText Typo="Typo.h5" Color="Color.Info"
-                                     Class="mud-secondary-text QuebraLinha"
-                                     Style="font-family: FontConteudo">
-                                     @alternativa.OpcaoAlternativa.ToString()) @alternativa.TextoDasAlternativa
-                            </MudText>
+                            @if (alternativa.IsCorreta)
+                            {
+                                <MudText Typo="Typo.h5" Color="Color.Success"
+                                         Style="font-family: FontConteudo; margin-bottom: 15px;"
+                                         Class="mud-secondary-text QuebraLinha">
+                                    <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                </MudText>
+                            }
+                            else
+                            {
+                                <MudText Typo="Typo.h5" Color="Color.Error"
+                                         Style="font-family: FontConteudo; margin-bottom: 15px;"
+                                         Class="mud-secondary-text QuebraLinha"> <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                </MudText>
+                                
+                            }
                         }
                        <br />
                        <br />
@@ -96,8 +107,6 @@ else
     public Pergunta PerguntaAtual { get; set; } = new();
 
     public List<Pergunta> ListaPerguntas { get; set; } = new();
-
-    public bool ProvaConfirmada = false;
 
 
     protected override void OnInitialized( )
