@@ -9,7 +9,7 @@
         <MudText>@Conteudo</MudText>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Submit" Color="Color.Primary">Ok</MudButton>
+        <MudButton OnClick="Submit" Color="Color.Primary">@TextoButao</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -20,7 +20,10 @@
     [Parameter]
     public string? Titulo { get; set; }
     [Parameter]
-    public string? Conteudo { get; set; }
+    public string? Conteudo { get; set; } 
+    
+    [Parameter]
+    public string? TextoButao { get; set; }
 
     private void Submit( ) => MudDialog!.Close();
 
