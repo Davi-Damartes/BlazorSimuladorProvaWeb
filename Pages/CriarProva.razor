@@ -27,7 +27,9 @@
                               T="string" 
                               Required="true"
                               Style="font-size: 25px;"
-                              Label="Nome Professor"                         
+                              Label="Nome Professor"
+                              Validation="@(new StringLengthAttribute(80)
+                              {ErrorMessage= "Máximo de 80 caracteres"})" 
                               RequiredError="Campo Obrigatório!" />
             </div>
 
@@ -60,7 +62,10 @@
                        Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter" 
                        Variant="Variant.Outlined" Clearable
                        IconSize="Size.Large"
-                       OpenIcon="@Icons.Material.Filled.MenuBook" AdornmentColor="Color.Tertiary">
+                       Style="font-size: 900px;"
+                       OpenIcon="@Icons.Material.Filled.MenuBook" 
+                       FullWidth="true"
+                       AdornmentColor="Color.Tertiary">
 
                         @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
                         {
