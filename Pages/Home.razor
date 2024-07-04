@@ -33,7 +33,15 @@ else
                 </MudButton>
             </div>
             <div class="d-flex justify-center align-center;">
-                <MudButton OnClick="Dialog"
+                <MudButton OnClick="DialogGenerico"
+                           Color="Color.Success"
+                           Variant="Variant.Filled"
+                           Style="margin-top: 40px;">
+                    Teste Dialog Generico
+                </MudButton>
+            </div>
+            <div class="d-flex justify-center align-center;">
+                <MudButton OnClick="DialogProva"
                            Color="Color.Success"
                            Variant="Variant.Filled"
                            Style="margin-top: 40px;">
@@ -63,7 +71,28 @@ else
         };
 
 
-    private void Dialog()
+    private void DialogGenerico( )
+    {
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+
+            };
+
+        var parameters = new DialogParameters<DialogGenerico>
+        {
+            { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
+
+            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
+
+            { x => x.TextoButao, "Confirmar"},
+
+        };
+
+        DialogService.Show<DialogGenerico>("ConfirmarProva", parameters, options);
+
+    }   
+    private void DialogProva()
     {
         var options = new DialogOptions
             {
