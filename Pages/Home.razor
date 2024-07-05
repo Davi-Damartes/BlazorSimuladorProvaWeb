@@ -12,8 +12,8 @@
 }
 else
 {
-    <MudPaper Height="100vh" Width="100%">
-        <MudContainer MaxWidth="MaxWidth.Large">
+    <MudPaper Height="100%" Width="100%">
+        <MudContainer MaxWidth="MaxWidth.Large" Style="margin-bottom: 80px">
             <div class="d-flex justify-center align-center;">
                 <MudText Typo="Typo.h2" Class="anton-sc-regular" Style="font-family: FontTitulo">
                     Bem-Vindo ao simulador de Prova online
@@ -48,11 +48,49 @@ else
                     Teste Dialog
                 </MudButton>
             </div>
-
-            <MudText Color="Color.Success" Class="QuebraLinha" Align="Align.Start"
-                        Style="margin-top: 40px;"> (Teste)) TestTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste DialogTeste Dialoge Dialog
+            
+            <div class="d-flex align-center justify-center">
+                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled" Style="font-size: 40px">@CodigoProva</MudChip>
+            </div>
+            <div class="d-flex align-center justify-center">
+                <MudText Color="Color.Info"
+                         Typo="Typo.h6">
+                Digite o código no campo abaixo para Enviar a Prova!
             </MudText>
+            </div>
+            <div class="d-flex justify-center align-center;">
+                <MudButton OnClick="OpenDialogAsync"
+                           Color="Color.Success"
+                           Variant="Variant.Filled"
+                           Style="margin-top: 40px;">
+                    Teste Dialog
+                </MudButton>
+            </div>
 
+            <MudRadioGroup @bind-Value="ProvaResposta!.RespostaSelecionada"
+                           T="EOpcaoAlternativa"
+                           Style="margin-left: 15px"
+                           Required="true"
+                           RequiredError="Campo obrigado">
+                @foreach (var alternativa in Alternativas)
+                {
+                    <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
+                        <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
+                                  Style="margin-bottom: 20px;" Width="100%">
+                            <MudRadio Value="alternativa.OpcaoAlternativa"
+                                      Color="Color.Secondary"
+                                      Size="Size.Large"
+                                      @onchange="(e) => GabaritoProva(alternativa)">
+                            </MudRadio>
+                            <MudText Class="QuebraLinha"
+                                     Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White};    font-size: 25px; Width: 80%;")"
+                                     Align="Align.Start">
+                                <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                            </MudText>
+                        </MudPaper>
+                    </MudItem>
+                }
+            </MudRadioGroup>
         </MudContainer>
     </MudPaper>
 }
@@ -69,7 +107,100 @@ else
                 }
             }
         };
+    MudTheme Theme = new MudTheme();
 
+
+    public List<Questao> Questoes { get; set; } = new();
+
+    public List<Alternativa> Alternativas { get; set; } = new();
+
+
+    public RespostasDaProva? ProvaResposta { get; set; } = new();
+
+    public Alternativa? AlternativaProva { get; set; } = new();
+
+    public string? CodigoProva { get; set; }
+
+
+
+
+    private void GabaritoProva(Alternativa alternativa)
+    {
+        if (alternativa!.IsCorreta == true)
+        {
+            //ProvaResposta!.NumeroPergunta.Add(pergunta.NumeroPergunta);
+            ProvaResposta.Acertou.Add(true);
+
+            ProvaResposta.QntAcertos += 1;
+        }
+        else
+        {
+            ProvaResposta.Acertou.Add(false);
+            ProvaResposta.QntAcertos = 0;
+        }
+    }
+
+
+    protected override void OnInitialized( )
+    {
+        Questoes = GerarQuestoesFalsas(2);
+        Alternativas = GerarAlternativasFalsas();
+        CodigoProva = GerarCodigo();
+    }
+
+    public List<Questao> GerarQuestoesFalsas(int numeroDeQuestoes)
+    {
+        var questoes = new List<Questao>();
+
+        for (int i = 1; i <= numeroDeQuestoes; i++)
+        {
+            var questao = new Questao
+                {
+                    ListaAlternativas = GerarAlternativasFalsas()
+                };
+
+            questoes.Add(questao);
+        }
+
+        return questoes;
+    }
+
+    List<Alternativa> GerarAlternativasFalsas( )
+    {
+        var alternativas = new List<Alternativa>
+            {
+                new Alternativa
+                {
+                    TextoDasAlternativa = "Alternativa A",
+                    IsCorreta = false,
+                    alternativaAdicionada = true,
+                    OpcaoAlternativa = EOpcaoAlternativa.A
+                },
+                new Alternativa
+                {
+                    TextoDasAlternativa = "Alternativa B",
+                    IsCorreta = true,
+                    alternativaAdicionada = true,
+                    OpcaoAlternativa = EOpcaoAlternativa.B
+                },
+                new Alternativa
+                {
+                    TextoDasAlternativa = "Alternativa C",
+                    IsCorreta = false,
+                    alternativaAdicionada = true,
+                    OpcaoAlternativa = EOpcaoAlternativa.C
+                },
+                new Alternativa
+                {
+                    TextoDasAlternativa = "Alternativa D",
+                    IsCorreta = false,
+                    alternativaAdicionada = true,
+                    OpcaoAlternativa = EOpcaoAlternativa.D
+                }
+            };
+
+        return alternativas;
+    }
 
     private void DialogGenerico( )
     {
@@ -91,13 +222,14 @@ else
 
         DialogService.Show<DialogGenerico>("ConfirmarProva", parameters, options);
 
-    }   
-    private void DialogProva()
+    }
+    private void DialogProva( )
     {
         var options = new DialogOptions
             {
                 CloseOnEscapeKey = true,
-
+            
+                CloseButton = true
             };
 
         var parameters = new DialogParameters<DialogConfirmarProva>
@@ -106,7 +238,8 @@ else
 
             { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
 
-            { x => x.ButtonText, "Teste"},
+            { x => x.ButtonText, "Teste"},   
+
 
             { x => x.Color, Color.Success }
 
@@ -114,7 +247,61 @@ else
 
         DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
 
+    } 
+    private async Task OpenDialogAsync( )
+    {
+        var CodigoRandom = GerarCodigo();
+
+        var diagloParams = new DialogParameters<DialogEnvioProvaCodigo>()
+        {
+            {x => x.CodigoRandom, CodigoRandom},
+        };
+        var diagloOptions = new DialogOptions()
+            {
+                CloseButton = false,
+                MaxWidth = MaxWidth.Large,
+                
+                Position = DialogPosition.Center,
+
+            };
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+
+        var dialog = await DialogService.ShowAsync<DialogEnvioProvaCodigo>(" ", diagloParams, diagloOptions);
+        // var result = await dialog.Result;
+        // if (!result.Canceled)
+        // {
+        //     if (CodigoRandom == result.Data.ToString())
+        //     {
+
+        //     }
+        // }
     }
+            public string GerarCodigo( )
+            {
+                Random res = new Random();
+
+                // String that contain both alphabets and numbers
+                String str = "abcdefghijklmnopqrstuvwxyz0123456789";
+                int size = 8;
+
+                // Initializing the empty string
+                String randomstring = "";
+
+                for (int i = 0; i < size; i++)
+                {
+
+                    // Selecting a index randomly
+                    int x = res.Next(str.Length);
+
+                    // Appending the character at the
+                    // index to the random alphanumeric string.
+                    randomstring = randomstring + str[x];
+                }
+
+                return randomstring.ToUpper();
+            }
+    
+
 }
 
 
