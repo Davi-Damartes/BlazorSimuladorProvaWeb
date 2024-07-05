@@ -69,16 +69,14 @@ else
                 }
             }
 
-             <div class="d-flex align-center justify-center">
-                <MudChip Color="Color.Info" T="string" Size="Size.Large">@CodigoProva</MudChip>
-            </div>
-
             <div class="d-flex align-center justify-center">
-                <MudTextField T="string"
-                              Class="QuebraLinha"
-                              Label="Digite o Código para enviar a Prova!">
-
-                </MudTextField>
+                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled" Style="font-size: 40px">@CodigoProva</MudChip>
+            </div>
+            <div class="d-flex align-center justify-center">
+                <MudText Color="Color.Info"
+                         Typo="Typo.h6">
+                    Digite o código no campo abaixo para Enviar a Prova!
+                </MudText>
             </div>
             <div class="d-flex align-center justify-center">
                 <MudButton Variant="Variant.Filled" Color="Color.Success"
@@ -156,19 +154,12 @@ else
                 CloseButton = true,
                 MaxWidth = MaxWidth.ExtraSmall,
                 Position = DialogPosition.Center,
+                CloseOnEscapeKey = true
 
             };
-        var options = new DialogOptions { CloseOnEscapeKey = true };
 
         var dialog = await DialogService.ShowAsync<DialogEnvioProvaCodigo>(" ", diagloParams, diagloOptions);
-        var result = await dialog.Result;
-        if (!result.Canceled)
-        {
-            if (CodigoRandom == result.Data.ToString())
-            {
 
-            }
-        }
     }
 
 
