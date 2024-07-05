@@ -1,0 +1,42 @@
+﻿<MudDialog ContentStyle="width: 400px;">
+    <TitleContent>
+        <MudTextField T="string" Style="text-align:center;" ReadOnly="true" Text="Código Confirmação" />
+    </TitleContent>
+    <DialogContent>
+        <MudTextField T="string" ReadOnly="true" Label="Codigo Aleátorio">@CodigoRandom</MudTextField>
+    </DialogContent> 
+    <DialogContent>
+        <MudTextField @bind-Value="CodigoDigitado" Label="Digite o Código para o Envio da Prova">
+
+        </MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" OnClick="Cancel">Cancelar</MudButton>
+        <MudButton Variant="Variant.Filled" OnClick="Verificacao" Color="Color.Primary">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string? CodigoRandom { get; set; }
+
+
+    private string? CodigoDigitado { get; set; }
+
+
+    private void Verificacao()
+    {
+        if(CodigoDigitado != CodigoRandom)
+        {
+            MudDialog?.Close(DialogResult.Ok(true));
+        }
+        MudDialog?.Close(DialogResult.Ok(false));
+    }
+
+    private void Submit( ) => MudDialog.Close(DialogResult.Ok(true));
+
+    private void Cancel( ) => MudDialog.Cancel();
+}
