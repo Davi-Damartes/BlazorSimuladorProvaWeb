@@ -29,6 +29,7 @@ else
         <MudPaper Elevation="15" Height="100%" Width="100%" Class="pa-16 ma-2" Outlined="true"
                   Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
 
+
             @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
             {
                 <MudText Align="Align.Start"
@@ -38,33 +39,47 @@ else
                 </MudText>
                 @foreach (var questao in pergunta.Questoes)
                 {
-                    @foreach (var alternativa in questao.ListaAlternativas)
-                    {
-                        <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
-                            <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
-                                      Style="margin-bottom: 20px;"  Width="100%">
-                                <MudRadioGroup @bind-Value="AlternativaProva!.IsCorreta"
-                                               Style="margin-left: 15px"
-                                               Required="true"
-                                               RequiredError="Campo obrigado">
-                                    <MudRadio Value="true"
+                    <MudRadioGroup @bind-selectValue="ProvaResposta!.RespostaSelecionada"
+                                   T="EOpcaoAlternativa"
+                                   Style="margin-left: 15px"
+                                   Required="true"
+                                   RequiredError="Campo obrigado">
+                        @foreach (var alternativa in questao.ListaAlternativas)
+                        {
+                            <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
+                                <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
+                                          Style="margin-bottom: 20px;" Width="100%">
+                                    <MudRadio Value="alternativa.OpcaoAlternativa"
                                               Color="Color.Secondary"
                                               Size="Size.Large"
                                               @onchange="(e) => GabaritoProva(pergunta, alternativa)">
                                     </MudRadio>
-                                </MudRadioGroup>
                                     <MudText Class="QuebraLinha"
-                                         Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 25px; Width: 80%;")"
-                                          Align="Align.Start"><b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
-                                </MudText>
-                            </MudPaper>
-                        </MudItem>
-                    }
+                                             Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 25px; Width: 80%;")"
+                                             Align="Align.Start">
+                                        <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                    </MudText>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    </MudRadioGroup>
+
                     <MudDivider Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-top: 20px;margin-bottom: 30px")">
                     </MudDivider>
                 }
             }
 
+             <div class="d-flex align-center justify-center">
+                <MudChip Color="Color.Info" T="string" Size="Size.Large">@CodigoProva</MudChip>
+            </div>
+
+            <div class="d-flex align-center justify-center">
+                <MudTextField T="string"
+                              Class="QuebraLinha"
+                              Label="Digite o Código para enviar a Prova!">
+
+                </MudTextField>
+            </div>
             <div class="d-flex align-center justify-center">
                 <MudButton Variant="Variant.Filled" Color="Color.Success"
                            Class="d-flex align-center justify-center"
@@ -85,20 +100,33 @@ else
 
     public Alternativa? AlternativaProva { get; set; } = new();
 
- 
+
+    public string? CodigoProva { get; set; }
+
+
+    protected override void OnInitialized( )
+    {
+        CodigoProva = GerarCodigo();
+    }
+
+
 
     private void GabaritoProva(Pergunta pergunta, Alternativa alternativa)
     {
-        if (AlternativaProva!.IsCorreta == true)
+        if (alternativa!.IsCorreta == true &&
+            ProvaResposta.PerguntasCertas.All(x => x.NumeroPergunta != pergunta.NumeroPergunta))
         {
-            ProvaResposta!.NumeroPergunta.Add(pergunta.NumeroPergunta);
-            ProvaResposta.QntAcertos += 1;
+            ProvaResposta.PerguntasCertas.Add(pergunta);
+            ProvaResposta.NumeroPergunta.Add(pergunta.NumeroPergunta);
+        }
+        else
+        {
+
         }
     }
 
     private void ConfirmarEnvio( )
     {
-        var teste = AlternativaProva;
         var diagloParams = new DialogParameters<DialogGenerico>()
         {
             {x => x.Titulo, "Confirmação Prova"},
@@ -115,6 +143,59 @@ else
         DialogService.Show<DialogGenerico>(" ", diagloParams, diagloOptions);
     }
 
+    private async Task OpenDialogAsync( )
+    {
+        var CodigoRandom = GerarCodigo();
+
+        var diagloParams = new DialogParameters<DialogEnvioProvaCodigo>()
+        {
+            {x => x.CodigoRandom, CodigoRandom},
+        };
+        var diagloOptions = new DialogOptions()
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.ExtraSmall,
+                Position = DialogPosition.Center,
+
+            };
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+
+        var dialog = await DialogService.ShowAsync<DialogEnvioProvaCodigo>(" ", diagloParams, diagloOptions);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            if (CodigoRandom == result.Data.ToString())
+            {
+
+            }
+        }
+    }
+
+
+    private string GerarCodigo( )
+    {
+        Random res = new Random();
+
+        // String that contain both alphabets and numbers
+        String str = "abcdefghijklmnopqrstuvwxyz0123456789";
+        int size = 8;
+
+        // Initializing the empty string
+        String randomstring = "";
+
+        for (int i = 0; i < size; i++)
+        {
+
+            // Selecting a index randomly
+            int x = res.Next(str.Length);
+
+            // Appending the character at the
+            // index to the random alphanumeric string.
+            randomstring = randomstring + str[x];
+        }
+
+        return randomstring.ToUpper();
+    }
 
 }
 
