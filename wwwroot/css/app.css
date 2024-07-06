@@ -88,3 +88,13 @@ code {
 .Tamanho-label {
     font-size: 25px;
 }
+
+input.mud-input-slot {
+    text-transform: uppercase;
+}
+
+.CentralizarConteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
