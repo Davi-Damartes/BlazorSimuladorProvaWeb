@@ -70,19 +70,21 @@ else
                 }
             }
 
-            <div class="CentralizarConteudo">
+            <div class="d-flex align-center justify-center ">
                 <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
-                         Style="font-size: 40px">
-                    @CodigoProva
+                         Style="padding: 50px; height: 50px; width: 200px;">
+                    <MudText Typo="Typo.h4">
+                        @CodigoProva
+                    </MudText>
                 </MudChip>
             </div>
-            <div class="CentralizarConteudo">
+            <div class="d-flex align-center justify-center">
                 <MudText Color="Color.Info" Style="margin-top: 5px"
                          Typo="Typo.h5" Align="Align.Center">
                     Digite o código no campo abaixo para Enviar a Prova!
                 </MudText>
             </div>
-            <div class="CentralizarConteudo specific-page">
+            <div class="d-flex align-center justify-center specific-page">
                 <MudPaper>
                     <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus">
                         <MudTextField @bind-Value="@CodigoDigitadoUser" Class="mud-input-slot"
@@ -93,9 +95,9 @@ else
             </div>
 
 
-            <div class="CentralizarConteudo">
+            <div class="d-flex align-center justify-center ">
                 <MudButton OnClick="ConfirmarEnvio" Color="Color.Success"
-                           Variant="Variant.Filled" 
+                           Variant="Variant.Filled"
                            Class="CentralizarConteudo"
                            Style="border-radius: 12px; font-size: 30px; margin-top: 30px;">
                     Enviar Prova
@@ -121,7 +123,7 @@ else
 
     public string? CodigoProva { get; set; }
 
-    public string? CodigoDigitadoUser{ get; set; }
+    public string? CodigoDigitadoUser { get; set; }
 
 
     protected override void OnInitialized( )
@@ -158,14 +160,14 @@ else
                     {x => x.TextoButao, "Ok"},
 
                 };
-                var diagloOptions = new DialogOptions()
-                    {
-                        CloseButton = true,
-                        MaxWidth = MaxWidth.ExtraSmall,
-                        Position = DialogPosition.Center,
-                        CloseOnEscapeKey = true
+            var diagloOptions = new DialogOptions()
+                {
+                    CloseButton = true,
+                    MaxWidth = MaxWidth.ExtraSmall,
+                    Position = DialogPosition.Center,
+                    CloseOnEscapeKey = true
 
-                    };
+                };
 
             DialogService.Show<DialogGenerico>(" ", diagloParams, diagloOptions);
         }
