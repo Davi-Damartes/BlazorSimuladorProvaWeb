@@ -1,6 +1,7 @@
 ﻿@page "/RealizarProva"
 @inject ProvaService Prova
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
@@ -12,7 +13,7 @@
             <b>Não há uma Prova criada!</b>
         </MudText>
 
-        <div class="d-flex justify-center align-center;">
+        <div class="CentralizarConteudo">
             <MudButton ButtonType="ButtonType.Button"
                        Variant="Variant.Filled"
                        Color="Color.Error"
@@ -69,20 +70,34 @@ else
                 }
             }
 
-            <div class="d-flex align-center justify-center">
-                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled" Style="font-size: 40px">@CodigoProva</MudChip>
+            <div class="CentralizarConteudo">
+                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
+                         Style="font-size: 40px">
+                    @CodigoProva
+                </MudChip>
             </div>
-            <div class="d-flex align-center justify-center">
-                <MudText Color="Color.Info"
-                         Typo="Typo.h6">
+            <div class="CentralizarConteudo">
+                <MudText Color="Color.Info" Style="margin-top: 5px"
+                         Typo="Typo.h5" Align="Align.Center">
                     Digite o código no campo abaixo para Enviar a Prova!
                 </MudText>
             </div>
-            <div class="d-flex align-center justify-center">
-                <MudButton Variant="Variant.Filled" Color="Color.Success"
-                           Class="d-flex align-center justify-center"
-                           OnClick="ConfirmarEnvio"
-                           Style="border-radius: 12px; font-size: 30px">
+            <div class="CentralizarConteudo specific-page">
+                <MudPaper>
+                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus">
+                        <MudTextField @bind-Value="@CodigoDigitadoUser" Class="mud-input-slot"
+                                      T="string" Style="font-size: 20px;"
+                                      Variant="Variant.Outlined" />
+                    </MudFocusTrap>
+                </MudPaper>
+            </div>
+
+
+            <div class="CentralizarConteudo">
+                <MudButton OnClick="ConfirmarEnvio" Color="Color.Success"
+                           Variant="Variant.Filled" 
+                           Class="CentralizarConteudo"
+                           Style="border-radius: 12px; font-size: 30px; margin-top: 30px;">
                     Enviar Prova
                 </MudButton>
             </div>
@@ -91,8 +106,13 @@ else
 
 }
 @code {
-    public MudTheme Theme = new MudTheme();
 
+    bool Disabled { get; set; }
+
+    DefaultFocus DefaultFocus { get; set; } = DefaultFocus.FirstChild;
+
+
+    public MudTheme Theme = new MudTheme();
 
     public RespostasDaProva? ProvaResposta { get; set; } = new();
 
@@ -101,13 +121,13 @@ else
 
     public string? CodigoProva { get; set; }
 
+    public string? CodigoDigitadoUser{ get; set; }
+
 
     protected override void OnInitialized( )
     {
         CodigoProva = GerarCodigo();
     }
-
-
 
     private void GabaritoProva(Pergunta pergunta, Alternativa alternativa)
     {
@@ -125,20 +145,30 @@ else
 
     private void ConfirmarEnvio( )
     {
-        var diagloParams = new DialogParameters<DialogGenerico>()
+        if (CodigoDigitadoUser == CodigoProva)
         {
-            {x => x.Titulo, "Confirmação Prova"},
-            {x => x.Conteudo, "Digite o código acima para enviar a prova"}
-        };
-        var diagloOptions = new DialogOptions()
-            {
-                CloseButton = false,
-                MaxWidth = MaxWidth.ExtraSmall,
-                Position = DialogPosition.Center,
+            NavigationManager.NavigateTo("/ResultadoProva");
+        }
+        else
+        {
+            var diagloParams = new DialogParameters<DialogGenerico>()
+                {
+                    {x => x.Titulo, "Verificação Código"},
+                    {x => x.Conteudo, "Código Errado"},
+                    {x => x.TextoButao, "Ok"},
 
-            };
+                };
+                var diagloOptions = new DialogOptions()
+                    {
+                        CloseButton = true,
+                        MaxWidth = MaxWidth.ExtraSmall,
+                        Position = DialogPosition.Center,
+                        CloseOnEscapeKey = true
 
-        DialogService.Show<DialogGenerico>(" ", diagloParams, diagloOptions);
+                    };
+
+            DialogService.Show<DialogGenerico>(" ", diagloParams, diagloOptions);
+        }
     }
 
     private async Task OpenDialogAsync( )
@@ -163,29 +193,27 @@ else
     }
 
 
-    private string GerarCodigo( )
+    public string GerarCodigo( )
     {
-        Random res = new Random();
+        Random aleatorio = new Random();
 
         // String that contain both alphabets and numbers
-        String str = "abcdefghijklmnopqrstuvwxyz0123456789";
+        String strings_Letras = "abcdefghijklmnopqrstuvwxyz0123456789";
         int size = 8;
 
         // Initializing the empty string
-        String randomstring = "";
+        String stringAleatoria = "";
 
         for (int i = 0; i < size; i++)
         {
 
             // Selecting a index randomly
-            int x = res.Next(str.Length);
+            int indexAleatorio = aleatorio.Next(strings_Letras.Length);
 
-            // Appending the character at the
-            // index to the random alphanumeric string.
-            randomstring = randomstring + str[x];
+            stringAleatoria = stringAleatoria + strings_Letras[indexAleatorio];
         }
 
-        return randomstring.ToUpper();
+        return stringAleatoria;
     }
 
 }
