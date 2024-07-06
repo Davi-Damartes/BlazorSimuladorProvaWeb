@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Content Remove="Pages\FazerProva.razor" />
-    <Content Remove="Pages\ResultadoProva.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,16 +28,10 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\FazerProva.razor" />
-    <_ContentIncludedByDefault Remove="Pages\ResultadoProva.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Pages\FazerProva.razor" />
-    <None Include="Pages\ResultadoProva.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\ResultadoProva.razor" />
   </ItemGroup>
 
 </Project>
