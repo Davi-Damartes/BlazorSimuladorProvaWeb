@@ -14,25 +14,25 @@ else
 {
     <MudPaper Height="100%" Width="100%">
         <MudContainer MaxWidth="MaxWidth.Large" Style="margin-bottom: 80px">
-            <div class="d-flex justify-center align-center;">
+            <div class="d-flex align-center justify-center">
                 <MudText Typo="Typo.h2" Class="anton-sc-regular" Style="font-family: FontTitulo">
                     Bem-Vindo ao simulador de Prova online
                 </MudText>
             </div>
-            <div class="d-flex justify-center align-center;">
+            <div class="d-flex align-center justify-center">
                 <MudText Typo="Typo.h4" Style="font-family: FontConteudo; margin-top: 20px;">
                     Um simulador simples e prática na Criação e Realização de Provas.
                 </MudText>
             </div>
-            <div class="d-flex justify-center align-center;">
+            <div class="d-flex align-center justify-center">
                 <MudButton Href="/CriarProva" Color="Color.Error"
                            Variant="Variant.Filled"
                            Size="Size.Large"
-                           Style="font-size: 30px; margin-top: 25px; border-radius: 18px;">
+                           Style="font-size: 30px; margin-top: 25px; margin-bottom: 40px;; border-radius: 18px;">
                     Clique aqui para Criar a sua Prova!!!
                 </MudButton>
             </div>
-            <div class="d-flex justify-center align-center;">
+           @*  <div class="d-flex align-center justify-center">
                 <MudButton OnClick="DialogGenerico"
                            Color="Color.Success"
                            Variant="Variant.Filled"
@@ -47,22 +47,35 @@ else
                            Style="margin-top: 40px;">
                     Teste Dialog
                 </MudButton>
-            </div>
-            
+            </div> *@
+
             <div class="d-flex align-center justify-center">
-                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled" Style="font-size: 40px">@CodigoProva</MudChip>
+                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
+                            Style="font-size: 40px">
+                    @CodigoProva
+                </MudChip>
             </div>
             <div class="d-flex align-center justify-center">
-                <MudText Color="Color.Info"
-                         Typo="Typo.h6">
-                Digite o código no campo abaixo para Enviar a Prova!
-            </MudText>
+                <MudText Color="Color.Info" Style="margin-top: 5px"
+                         Typo="Typo.h5" Align="Align.Center">
+                    Digite o código no campo abaixo para Enviar a Prova!
+                </MudText>
             </div>
-            <div class="d-flex justify-center align-center;">
+            <div class="d-flex align-center justify-center ">
+                <MudPaper>
+                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus">
+                        <MudTextField @bind-Value="@CodigoDigitadoUser" 
+                                      T="string" Style="font-size: 20px;  align-content: center;justify-content: center; display: flex;" 
+                        Variant="Variant.Outlined" />
+                    </MudFocusTrap>
+                </MudPaper>
+            </div>
+
+            <div class="d-flex align-center justify-center">
                 <MudButton OnClick="OpenDialogAsync"
                            Color="Color.Success"
                            Variant="Variant.Filled"
-                           Style="margin-top: 40px;">
+                           Style="margin-top: 120px;">
                     Teste Dialog
                 </MudButton>
             </div>
@@ -97,6 +110,12 @@ else
 
 
 @code {
+
+    bool Disabled { get; set; }
+
+    DefaultFocus DefaultFocus { get; set; } = DefaultFocus.FirstChild;
+
+
     MudTheme MyCustomTheme = new MudTheme()
         {
             Typography = new Typography()
@@ -120,6 +139,8 @@ else
     public Alternativa? AlternativaProva { get; set; } = new();
 
     public string? CodigoProva { get; set; }
+
+    public string? CodigoDigitadoUser { get; set; }
 
 
 
@@ -228,7 +249,7 @@ else
         var options = new DialogOptions
             {
                 CloseOnEscapeKey = true,
-            
+
                 CloseButton = true
             };
 
@@ -238,7 +259,7 @@ else
 
             { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
 
-            { x => x.ButtonText, "Teste"},   
+            { x => x.ButtonText, "Teste"},
 
 
             { x => x.Color, Color.Success }
@@ -247,7 +268,8 @@ else
 
         DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
 
-    } 
+    }
+   
     private async Task OpenDialogAsync( )
     {
         var CodigoRandom = GerarCodigo();
@@ -260,7 +282,7 @@ else
             {
                 CloseButton = false,
                 MaxWidth = MaxWidth.Large,
-                
+
                 Position = DialogPosition.Center,
 
             };
@@ -276,31 +298,30 @@ else
         //     }
         // }
     }
-            public string GerarCodigo( )
-            {
-                Random res = new Random();
+   
+    public string GerarCodigo( )
+    {
+        Random aleatorio = new Random();
 
-                // String that contain both alphabets and numbers
-                String str = "abcdefghijklmnopqrstuvwxyz0123456789";
-                int size = 8;
+        // String that contain both alphabets and numbers
+        String strings_Letras = "abcdefghijklmnopqrstuvwxyz0123456789";
+        int size = 8;
 
-                // Initializing the empty string
-                String randomstring = "";
+        // Initializing the empty string
+        String stringAleatoria = "";
 
-                for (int i = 0; i < size; i++)
-                {
+        for (int i = 0; i < size; i++)
+        {
 
-                    // Selecting a index randomly
-                    int x = res.Next(str.Length);
+            // Selecting a index randomly
+            int indexAleatorio = aleatorio.Next(strings_Letras.Length);
 
-                    // Appending the character at the
-                    // index to the random alphanumeric string.
-                    randomstring = randomstring + str[x];
-                }
+            stringAleatoria = stringAleatoria + strings_Letras[indexAleatorio];
+        }
 
-                return randomstring.ToUpper();
-            }
-    
+        return stringAleatoria;
+    }
+
 
 }
 
