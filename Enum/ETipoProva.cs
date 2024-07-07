@@ -2,17 +2,17 @@
 {
     public enum ETipoProva
     {
-        Conhecimento_Geral = 0,
-        Matematica = 1,
-        Portugues = 2,
-        Historia = 3,
+        Conhecimento_Gerais = 0,
+        Matemática = 1,
+        Português = 2,
+        História = 3,
         Geografia = 4,
-        Ciencias = 5,
+        Ciências = 5,
         Fisica = 6,
-        Quimica = 7,
+        Química = 7,
         Biologia = 8,
-        Ingles = 9,
+        Inglês = 9,
         Artes = 10,
-        Educacao_Fisica = 11
+        Educacao_Física = 11
     }
 }
