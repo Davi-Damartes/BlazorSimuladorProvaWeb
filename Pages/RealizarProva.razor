@@ -30,6 +30,21 @@ else
         <MudPaper Elevation="15" Height="100%" Width="100%" Class="pa-16 ma-2" Outlined="true"
                   Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
 
+            <div class="d-flex align-center justify-center ">
+                <MudText Typo="Typo.h2" Style="margin-bottom: 25px;" Align="Align.Center">
+                    <p>Realização da Prova!!!</p>
+                </MudText>
+            </div>
+            <div class="d-flex align-start justify-start ">
+                <MudText Typo="Typo.h4" Align="Align.Start">
+                    <p>Professor: <b>@Prova.ProvaInstancia.NomeProfessor</b></p>
+                </MudText>
+            </div>
+            <div class="d-flex align-start justify-start ">
+                <MudText Typo="Typo.h4" Style="margin-bottom: 50px" Align="Align.Start">
+                    <p>Matéria: <b>@Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")</b></p>
+                </MudText>
+            </div>
 
             @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
             {
@@ -40,7 +55,7 @@ else
                 </MudText>
                 @foreach (var questao in pergunta.Questoes)
                 {
-                    <MudRadioGroup @bind-selectValue="ProvaResposta!.RespostaSelecionada"
+                    <MudRadioGroup @bind-SelectValue="ProvaResposta.RespostaSelecionada"
                                    T="EOpcaoAlternativa"
                                    Style="margin-left: 15px"
                                    Required="true"
@@ -72,7 +87,7 @@ else
 
             <div class="d-flex align-center justify-center ">
                 <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
-                         Style="padding: 50px; height: 50px; width: 200px;">
+                         Style="height: 50px; width: 200px;">
                     <MudText Typo="Typo.h4">
                         @CodigoProva
                     </MudText>
@@ -84,20 +99,20 @@ else
                     Digite o código no campo abaixo para Enviar a Prova!
                 </MudText>
             </div>
-            <div class="d-flex align-center justify-center specific-page">
+            <div class="d-flex align-center justify-center ">
                 <MudPaper>
-                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus">
-                        <MudTextField @bind-Value="@CodigoDigitadoUser" Class="mud-input-slot"
-                                      T="string" Style="font-size: 20px;"
+                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus.None">
+                        <MudTextField @bind-Value="@CodigoDigitadoUser" T="string" 
+                                      Style="font-size: 20px; text-align: center"
+                                      Class="CentralizarTexto"
                                       Variant="Variant.Outlined" />
                     </MudFocusTrap>
                 </MudPaper>
             </div>
-
-
             <div class="d-flex align-center justify-center ">
                 <MudButton OnClick="ConfirmarEnvio" Color="Color.Success"
                            Variant="Variant.Filled"
+                           Disabled="habilitarbutton"
                            Class="CentralizarConteudo"
                            Style="border-radius: 12px; font-size: 30px; margin-top: 30px;">
                     Enviar Prova
@@ -118,7 +133,16 @@ else
 
     public RespostasDaProva? ProvaResposta { get; set; } = new();
 
+    public List<RespostasDaProva>? ListaRespotas { get; set; } = new();
+
+    public EOpcaoAlternativa OpcaoRadio { get; set; }
+
     public Alternativa? AlternativaProva { get; set; } = new();
+
+    public int NumeroAcertos { get; set; }
+
+
+    public bool habilitarbutton = true;
 
 
     public string? CodigoProva { get; set; }
@@ -129,25 +153,44 @@ else
     protected override void OnInitialized( )
     {
         CodigoProva = GerarCodigo();
+
     }
+
 
     private void GabaritoProva(Pergunta pergunta, Alternativa alternativa)
     {
-        if (alternativa!.IsCorreta == true &&
-            ProvaResposta.PerguntasCertas.All(x => x.NumeroPergunta != pergunta.NumeroPergunta))
+        var respostaExistente = ListaRespotas.FirstOrDefault(r => r.NumeroPergunta == pergunta.NumeroPergunta);
+
+        if (respostaExistente != null)
         {
-            ProvaResposta.PerguntasCertas.Add(pergunta);
-            ProvaResposta.NumeroPergunta.Add(pergunta.NumeroPergunta);
+            respostaExistente.RespostaSelecionada = alternativa.OpcaoAlternativa;
+            respostaExistente.AcertouPergunta = alternativa.IsCorreta;
         }
         else
         {
+            ListaRespotas.Add(new RespostasDaProva
+                {
+                    NumeroPergunta = pergunta.NumeroPergunta,
+                    RespostaSelecionada = alternativa.OpcaoAlternativa,
+                    AcertouPergunta = alternativa.IsCorreta
+                });
+        }
 
+        if(ListaRespotas.Count == Prova.ProvaInstancia.QuantidadePerguntas)
+        {
+            habilitarbutton = false;
         }
     }
 
-    private void ConfirmarEnvio( )
+
+
+    private void ConfirmarEnvio()
     {
-        if (CodigoDigitadoUser == CodigoProva)
+        
+        Prova.ProvaInstancia.QuantidadeAcertos = ListaRespotas!.AsQueryable().Where(x => x.AcertouPergunta == true).Count();
+
+
+        if (CodigoDigitadoUser.ToUpper() == CodigoProva)
         {
             NavigationManager.NavigateTo("/ResultadoProva");
         }
@@ -201,7 +244,7 @@ else
 
         // String that contain both alphabets and numbers
         String strings_Letras = "abcdefghijklmnopqrstuvwxyz0123456789";
-        int size = 8;
+        int size = 6;
 
         // Initializing the empty string
         String stringAleatoria = "";
@@ -215,7 +258,7 @@ else
             stringAleatoria = stringAleatoria + strings_Letras[indexAleatorio];
         }
 
-        return stringAleatoria;
+        return stringAleatoria.ToUpper();
     }
 
 }
