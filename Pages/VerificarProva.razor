@@ -9,27 +9,7 @@
 
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
-    <MudContainer>
-        <MudText Typo="Typo.h3"
-                 Align="Align.Center"
-                 Style="margin-top: 18px;"
-                 Color="Color.Warning">
-            <b>Não há perguntas Adicionadas a Prova!</b>
-        </MudText>
-        
-        <div class="d-flex justify-center align-center">
-            <MudButton ButtonType="ButtonType.Button"
-                       Variant="Variant.Filled"
-                       Color="Color.Error"
-                       Size="Size.Small"
-                       Href="/CriarPerguntas"
-                       Class="d-flex align-center"
-                       Style="margin-top: 20px; font-size: 35px; border-radius: 19px;">
-                Clique Aqui para Adicionar as Perguntas!
-            </MudButton>
-        </div>
-    </MudContainer>
-
+    NavigationManager.NavigateTo("/CriarPerguntas");
 }
 else if (Prova.ProvaInstancia.ProvaCriada == true)
 {
@@ -47,11 +27,10 @@ else
                          Color="Color.Warning"
                          Style="font-family: FontConteudo; margin-bottom: 40px;">
                         <b>Por favor, revise cuidadosamente as perguntas abaixo para garantir
-                        que não haja erros antes de confirmar o envio!!!.
-                    </b>
+                        que não haja erros antes de confirmar o envio!!!</b>
 
                 </MudText>
-                @foreach (var pergunta in ListaPerguntas)
+                @foreach (var pergunta in ListaPerguntas.OrderBy(x => x.NumeroPergunta))
                 {
                     <MudText Typo="Typo.h5" Class="QuebraLinha" 
                             Style="margin-bottom: 15px;"><b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
@@ -62,6 +41,7 @@ else
 
                         @foreach (var alternativa in questao.ListaAlternativas)
                         {
+                        
                             @if (alternativa.IsCorreta)
                             {
                                 <MudText Typo="Typo.h5" Color="Color.Success"
@@ -79,8 +59,6 @@ else
                                 
                             }
                         }
-                       <br />
-                       <br />
                     }
                 }
 
@@ -90,7 +68,7 @@ else
                                Variant="Variant.Filled"
                                Color="Color.Success"
                                Size="Size.Large"
-                               Style="margin-top: 15px; margin-bottom: 60px;">
+                               Style="margin-top: 15px; margin-bottom: 60px; font-size: 25px">
                         Clique Aqui para Confirmar o envio da Prova!!!
                     </MudButton>
                 </div>
