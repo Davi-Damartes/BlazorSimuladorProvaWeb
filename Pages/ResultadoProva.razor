@@ -1,8 +1,10 @@
 ﻿@page "/ResultadoProva"
 
-
 @inject ProvaService ProvaResultado
+@inject NavigationManager NavigationManager
 
+
+<PageTitle>Resultado Prova</PageTitle>
 
 @if (ProvaResultado.ProvaInstancia.ProvaCriada == false)
 {
@@ -11,19 +13,24 @@
                  Align="Align.Center"
                  Style="margin-top: 18px;"
                  Color="Color.Warning">
-            <b>Não há uma Prova criada!</b>
+            <b>Nenhuma Resultado encontrado!</b>
         </MudText>
         <div class="CentralizarConteudo">
             <MudButton ButtonType="ButtonType.Button"
                        Variant="Variant.Filled"
                        Color="Color.Error"
-                       Href="/ "
+                       Href="/RealizarProva "
                        Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">
-                Clique Aqui para Criar um Prova!
+                Clique Aqui para Criar um Fazer a Prova!
             </MudButton>
         </div>
     </MudContainer>
 }
+else if (ProvaResultado.ProvaInstancia.ProvaFinalizada == false)
+{
+    NavigationManager.NavigateTo("/RealizarProva");
+}
+
 else
 {
     <div class="d-flex flex-grow-1 justify-content-center align-items-center">
@@ -36,9 +43,65 @@ else
             <MudText Align="Align.Center" Typo="Typo.h1" Color="Color.Success">
                 <b>Total de  Acertos @ProvaResultado.ProvaInstancia.QuantidadeAcertos / @ProvaResultado.ProvaInstancia.QuantidadePerguntas</b>
             </MudText>
+
+            <div class="d-flex flex-column align-center">
+                <MudRating @bind-SelectedValue="valorSelecionado" 
+                           Size="Size.Large"
+                           Style="margin-top: 50px;"
+                           HoveredValueChanged="MudancaDeValores" />
+                <MudText Typo="Typo.subtitle2" Class="deep-purple-text mt-2">@textoFeedback</MudText>
+            </div>
+
+            <MudText Align="Align.Center" Typo="Typo.h2">
+                <b>Obrigado pelo se Acesso!!!</b>               
+            </MudText>
+
+            <MudText Align="Align.Center" Typo="Typo.h2">
+                <b>Se achou algum problema ou gostou do Projeto deixe um comentário no!!!</b>
+            </MudText>
+
+            <div class="d-flex justify-center align-center">
+                <MudLink Color="Color.Info" Typo="Typo.h4" href="https://www.linkedin.com/in/davi-lima-643870313/">
+                    <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Title="LinkedIn" 
+                    Color="Color.Info" />LinkedIn!
+                </MudLink>
+            </div>
+
+            <div class="d-flex justify-center align-center">
+                <MudLink Color="Color.Info" Typo="Typo.h4" href="https://github.com/Davi-Damartes/BlazorSimuladorProva/issues">
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Issues" 
+                    Color="Color.Dark" />Reporte um problema no GitHub!
+                </MudLink>
+            </div>
+
+            <div class="d-flex justify-center align-center">
+                <MudLink Color="Color.Info" Typo="Typo.h4" href="https://github.com/Davi-Damartes">
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Repositório" 
+                    Color="Color.Dark" />Visite o Repositório no GitHub com mais projetos!
+                </MudLink>
+            </div>
+
         </MudContainer>
     </div>
-    
+
+}
+
+@code{
+    private int valorSelecionado = 0;
+    private int? valorAtivo;
+
+    private void MudancaDeValores(int? valor) => valorAtivo = valor;
+
+    private string textoFeedback => (valorAtivo ?? valorSelecionado) switch
+    {
+        1 => "Muito Ruim!",
+        2 => "Ruim",
+        3 => "Bom",
+        4 => "Incrível",
+        5 => "Excelente!",
+        _ => "Avalie o Simulador!"
+    };
+
 }
 
 
