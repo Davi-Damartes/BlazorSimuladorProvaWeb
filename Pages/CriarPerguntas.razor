@@ -3,25 +3,11 @@
 @inject NavigationManager NavigationManager
 
 
+<PageTitle>Criar Perguntas </PageTitle>
+
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
-    <MudContainer>
-        <MudText Typo="Typo.h3"
-                 Style="margin-top: 18px;"
-                 Align="Align.Center"
-                 Color="Color.Warning">
-            <b>Não há uma Prova criada!</b>
-        </MudText>
-        <div class="d-flex align-center justify-center">
-            <MudButton ButtonType="ButtonType.Button"
-                       Variant="Variant.Filled"
-                       Color="Color.Error"
-                       Href="/CriarProva"
-                       Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">              
-                Clique Aqui para Criar uma Prova!
-            </MudButton>
-        </div>
-    </MudContainer>
+    NavigationManager.NavigateTo("/CriarProva");
 }
 else if (Prova.ProvaInstancia.ProvaCriada == true)
 {
