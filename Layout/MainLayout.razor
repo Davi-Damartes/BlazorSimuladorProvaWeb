@@ -16,16 +16,16 @@
                              Toggled="@_drawerOpen" />
 
 
-        <MudContainer>
-            <div class="d-flex justify-center align-center">
-                <MudText Typo="Typo.h5" Align="Align.Center">
-                    <MudElement HtmlTag="b"
-                                Style="font-size: 60px;">
-                        Simulador Prova
-                    </MudElement>
-                </MudText>
-            </div>
-        </MudContainer>
+        <MudSpacer />
+
+        <div style="position: absolute; left: 50%; transform: translateX(-50%);">
+            <MudText Typo="Typo.h5" Align="Align.Center">
+                <MudElement HtmlTag="b" Style="font-size: 60px;">
+                    Simulador Prova
+                </MudElement>
+            </MudText>
+        </div>
+
 
         <MudSpacer />
         <MudToggleIconButton @bind-Toggled="@_isDarkMode" Icon="@Icons.Material.Filled.DarkMode"
