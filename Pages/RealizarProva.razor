@@ -3,17 +3,21 @@
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
+
+<PageTitle>Realizar a Prova</PageTitle>
+
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
     <MudContainer>
-        <MudText Typo="Typo.h3"
-                 Align="Align.Center"
-                 Style="margin-top: 18px;"
-                 Color="Color.Warning">
-            <b>Não há uma Prova criada!</b>
-        </MudText>
-
-        <div class="CentralizarConteudo">
+        <div class="d-flex align-center justify-center ">
+            <MudText Typo="Typo.h3"
+                     Align="Align.Center"
+                     Style="margin-top: 18px;"
+                     Color="Color.Warning">
+                <b>Não há uma Prova criada!</b>
+            </MudText>
+        </div>
+        <div class="d-flex align-center justify-center ">
             <MudButton ButtonType="ButtonType.Button"
                        Variant="Variant.Filled"
                        Color="Color.Error"
@@ -22,105 +26,112 @@
                 Clique Aqui para Criar um Prova!
             </MudButton>
         </div>
+        <div class="d-flex align-center justify-center ">
+            <MudText Typo="Typo.h3"
+                     Align="Align.Center"
+                     Style="margin-top: 18px;"
+                     Color="Color.Warning">
+                <b>Ou entre em contato com o seu Professor!</b>
+            </MudText>
+        </div>
     </MudContainer>
 }
 else
 {
-    <MudContainer MaxWidth="MaxWidth.Medium">
-        <MudPaper Elevation="15" Height="100%" Width="100%" Class="pa-16 ma-2" Outlined="true"
-                  Style="@($"color:{Theme.Palette.Tertiary}; background:{Colors.Shades.White};")">
+    <MudPaper Class="mud-theme-provider">
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            <MudPaper Elevation="15" Height="100%" Width="100%" Class="pa-16 ma-2 mud-theme-provider-paper">
 
-            <div class="d-flex align-center justify-center ">
-                <MudText Typo="Typo.h2" Style="margin-bottom: 25px;" Align="Align.Center">
-                    <p>Realização da Prova!!!</p>
-                </MudText>
-            </div>
-            <div class="d-flex align-start justify-start ">
-                <MudText Typo="Typo.h4" Align="Align.Start">
-                    <p>Professor: <b>@Prova.ProvaInstancia.NomeProfessor</b></p>
-                </MudText>
-            </div>
-            <div class="d-flex align-start justify-start ">
-                <MudText Typo="Typo.h4" Style="margin-bottom: 50px" Align="Align.Start">
-                    <p>Matéria: <b>@Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")</b></p>
-                </MudText>
-            </div>
 
-            @foreach (var pergunta in Prova.ProvaInstancia.Perguntas)
-            {
-                <MudText Align="Align.Start"
-                         Style="@($"color:{Theme.Palette.DarkDarken}; font-size: 30px; margin-bottom: 10px;")"
-                         Class="QuebraLinha">
-                    <b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
-                </MudText>
-                @foreach (var questao in pergunta.Questoes)
-                {
-                    <MudRadioGroup @bind-SelectValue="ProvaResposta.RespostaSelecionada"
-                                   T="EOpcaoAlternativa"
-                                   Style="margin-left: 15px"
-                                   Required="true"
-                                   RequiredError="Campo obrigado">
-                        @foreach (var alternativa in questao.ListaAlternativas)
-                        {
-                            <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
-                                <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
-                                          Style="margin-bottom: 20px;" Width="100%">
-                                    <MudRadio Value="alternativa.OpcaoAlternativa"
-                                              Color="Color.Secondary"
-                                              Size="Size.Large"
-                                              @onchange="(e) => GabaritoProva(pergunta, alternativa)">
-                                    </MudRadio>
-                                    <MudText Class="QuebraLinha"
-                                             Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; font-size: 25px; Width: 80%;")"
-                                             Align="Align.Start">
-                                        <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
-                                    </MudText>
-                                </MudPaper>
-                            </MudItem>
-                        }
-                    </MudRadioGroup>
-
-                    <MudDivider Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-top: 20px;margin-bottom: 30px")">
-                    </MudDivider>
-                }
-            }
-
-            <div class="d-flex align-center justify-center ">
-                <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
-                         Style="height: 50px; width: 200px;">
-                    <MudText Typo="Typo.h4">
-                        @CodigoProva
+                <div class="d-flex align-center justify-center ">
+                    <MudText Typo="Typo.h2" Style="margin-bottom: 25px;" Align="Align.Center">
+                        <p>Realização da Prova!!!</p>
                     </MudText>
-                </MudChip>
-            </div>
-            <div class="d-flex align-center justify-center">
-                <MudText Color="Color.Info" Style="margin-top: 5px"
-                         Typo="Typo.h5" Align="Align.Center">
-                    Digite o código no campo abaixo para Enviar a Prova!
-                </MudText>
-            </div>
-            <div class="d-flex align-center justify-center ">
-                <MudPaper>
-                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus.None">
-                        <MudTextField @bind-Value="@CodigoDigitadoUser" T="string" 
-                                      Style="font-size: 20px; text-align: center"
-                                      Class="CentralizarTexto"
-                                      Variant="Variant.Outlined" />
-                    </MudFocusTrap>
-                </MudPaper>
-            </div>
-            <div class="d-flex align-center justify-center ">
-                <MudButton OnClick="ConfirmarEnvio" Color="Color.Success"
-                           Variant="Variant.Filled"
-                           Disabled="habilitarbutton"
-                           Class="CentralizarConteudo"
-                           Style="border-radius: 12px; font-size: 30px; margin-top: 30px;">
-                    Enviar Prova
-                </MudButton>
-            </div>
-        </MudPaper>
-    </MudContainer>
+                </div>
+                <div class="d-flex align-start justify-start ">
+                    <MudText Typo="Typo.h4" Align="Align.Start">
+                        <p>Professor: <b>@Prova.ProvaInstancia.NomeProfessor</b></p>
+                    </MudText>
+                </div>
+                <div class="d-flex align-start justify-start ">
+                    <MudText Typo="Typo.h4" Style="margin-bottom: 50px" Align="Align.Start">
+                        <p>Matéria: <b>@Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")</b></p>
+                    </MudText>
+                </div>
 
+                @foreach (var pergunta in Prova.ProvaInstancia.Perguntas.OrderBy(x => x.NumeroPergunta))
+                {
+                    <MudText Align="Align.Start" Style="font-size: 30px; margin-bottom: 10px;"
+                             Class="mud-theme-provider-text QuebraLinha">
+                        <b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
+                    </MudText>
+                    @foreach (var questao in pergunta.Questoes)
+                    {
+                        <MudRadioGroup @bind-SelectValue="ProvaResposta.RespostaSelecionada"
+                                       T="EOpcaoAlternativa"
+                                       Style="margin-left: 15px"
+                                       Required="true"
+                                       RequiredError="Campo obrigado">
+                            @foreach (var alternativa in questao.ListaAlternativas)
+                            {
+                                <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
+                                    <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
+                                              Style="margin-bottom: 20px;" Width="100%">
+                                        <MudRadio Value="alternativa.OpcaoAlternativa"
+                                                  Color="Color.Secondary"
+                                                  Size="Size.Large"
+                                                  @onchange="(e) => GabaritoProva(pergunta, alternativa)">
+                                        </MudRadio>
+                                        <MudText Class="QuebraLinha" Color="Color.Warning"
+                                                 Style="font-size: 25px; Width: 80%;"
+                                                 Align="Align.Start">
+                                            <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                        </MudText>
+                                    </MudPaper>
+                                </MudItem>
+                            }
+                        </MudRadioGroup>
+
+                        <MudDivider Style="@($"color:{Theme.Palette.Dark}; background:{Colors.Shades.White}; margin-top: 20px;margin-bottom: 30px")">
+                        </MudDivider>
+                    }
+                }
+
+                <div class="d-flex align-center justify-center ">
+                    <MudChip Color="Color.Info" T="string" Variant="Variant.Filled"
+                             Style="height: 50px; width: 200px; margin-left: 20px;">
+                        <MudText Typo="Typo.h4">
+                            @CodigoProva
+                        </MudText>
+                    </MudChip>
+                    <MudIconButton Style="" OnClick="GerarOutroCódigo" Variant="Variant.Outlined"
+                                   Icon="@Icons.Material.Filled.Refresh" Color="Color.Info">
+                    </MudIconButton>
+                </div>
+                <div class="d-flex align-center justify-center">
+                    <MudText Color="Color.Info" Style="margin-top: 5px;" Typo="Typo.h5" Align="Align.Center"
+                             Class="mud-theme-provider-text">
+                        Digite o código no campo abaixo para Enviar a Prova
+                    </MudText>
+                </div>
+                <div class="d-flex align-center justify-center">
+                    <MudFocusTrap Disabled="Disabled" DefaultFocus="DefaultFocus.None">
+                        <MudTextField @bind-Value="@CodigoDigitadoUser" T="string" Label="Digite Aqui!"
+                                      Style="font-size: 20px; margin-top: 20px;" Variant="Variant.Outlined"
+                                      Class="mud-theme-provider-textfield" />
+                    </MudFocusTrap>
+                </div>
+                <div class="d-flex align-center justify-center">
+                    <MudButton OnClick="ConfirmarEnvio" Color="Color.Success"
+                               Variant="Variant.Filled"
+                               Disabled="@habilitarbutton"
+                               Style="border-radius: 12px; margin-top: 30px; font-size: 32px;" Class="mud-theme-provider-button">
+                        <b>Enviar Prova</b>
+                    </MudButton>
+                </div>
+            </MudPaper>
+        </MudContainer>
+    </MudPaper>
 }
 @code {
 
@@ -176,7 +187,7 @@ else
                 });
         }
 
-        if(ListaRespotas.Count == Prova.ProvaInstancia.QuantidadePerguntas)
+        if (ListaRespotas.Count == Prova.ProvaInstancia.QuantidadePerguntas)
         {
             habilitarbutton = false;
         }
@@ -184,14 +195,15 @@ else
 
 
 
-    private void ConfirmarEnvio()
+    private void ConfirmarEnvio( )
     {
-        
+
         Prova.ProvaInstancia.QuantidadeAcertos = ListaRespotas!.AsQueryable().Where(x => x.AcertouPergunta == true).Count();
 
 
         if (CodigoDigitadoUser.ToUpper() == CodigoProva)
         {
+            Prova.ProvaInstancia.ProvaFinalizada = true;
             NavigationManager.NavigateTo("/ResultadoProva");
         }
         else
@@ -237,6 +249,10 @@ else
 
     }
 
+    private void GerarOutroCódigo( )
+    {
+        CodigoProva = GerarCodigo();
+    }
 
     public string GerarCodigo( )
     {
@@ -252,7 +268,6 @@ else
         for (int i = 0; i < size; i++)
         {
 
-            // Selecting a index randomly
             int indexAleatorio = aleatorio.Next(strings_Letras.Length);
 
             stringAleatoria = stringAleatoria + strings_Letras[indexAleatorio];
