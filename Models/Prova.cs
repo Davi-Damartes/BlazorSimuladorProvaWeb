@@ -19,14 +19,13 @@ namespace BlazorSimuladorProva.Models
         [Range(3,5, ErrorMessage = "Número de 3 a 5 Perguntas")]
         public int QuantidadePerguntas { get; set; }
 
-
         public int QuantidadeAcertos { get; set; }
 
-        public DateTime HoraEnvio { get; set; }
-
+        public bool PerguntasCriadas { get; set; }
         public bool ProvaCriada { get; set; }
+        public bool ProvaFinalizada { get; set; }
 
-
+        public DateTime HoraEnvio { get; set; }
         public List<Pergunta> Perguntas { get; set; } = new List<Pergunta>();
     }
 }
