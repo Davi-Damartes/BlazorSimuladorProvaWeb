@@ -11,7 +11,7 @@ namespace BlazorSimuladorProva.Models
 
         public bool IsCorreta { get; set; }
 
-        public bool alternativaAdicionada { get; set; }
+        public bool AlternativaAdicionada { get; set; }
 
         public EOpcaoAlternativa OpcaoAlternativa { get; set; }
     }
