@@ -1,50 +1,50 @@
 
-# Simulador de Prova - Blazor WASM
+## ğŸ’» Sobre o projeto - Simulador de Prova Blazor WASM
 
-Este projeto é um simulador de prova desenvolvido com Blazor WASM. Ele oferece uma experiência completa para a criação, validação, e realização de provas. Abaixo estão as principais funcionalidades implementadas:
+Este projeto Ã© um simulador de prova desenvolvido com Blazor WASM. Ele oferece uma experiÃªncia completa para a criaÃ§Ã£o, validaÃ§Ã£o, e realizaÃ§Ã£o de provas. Abaixo estÃ£o as principais funcionalidades implementadas:
 
 
-## Tecnologias Utilizadas
-- Blazor WASM: Framework utilizado para desenvolver está aplicação.
-- MudBlazor: Biblioteca utilizada nesse projeto para a criação do layout, dialogs, campos, formulários, formatação dos campos e interações com o usuário.
-## Funcionalidades
+## ğŸ›  Tecnologias
+- C#
+- Blazor WASM: Framework utilizado para desenvolver estÃ¡ aplicaÃ§Ã£o.
+- MudBlazor: Biblioteca utilizada nesse projeto para a criaÃ§Ã£o do layout, dialogs, campos, formulÃ¡rios, formataÃ§Ã£o dos campos e interaÃ§Ãµes com o usuÃ¡rio.
 
-### Temas dark e light
-    - Opção para a escolhar do tema escuro e light através do clique de um botão
+## âš™ Funcionalidades
+
+### ğŸŒšğŸŒ Temas dark e light 
+    - OpÃ§Ã£o para a escolhar do tema escuro e light atravÃ©s do clique de um botÃ£o
     
-### Layout Responsivo
-   
+### ğŸ–¼ Layout Responsivo
+    - Utilizando os componentes do MudBlazor como Container e Paper para a criaÃ§Ã£o de layouts dinÃ¢micos e ajustÃ¡veis a diferentes resoluÃ§Ãµes de tela.
 
-### Página de Cadastro de Prova:
+### ğŸ“ PÃ¡gina de Cadastro de Prova:
 
-    - Validação de campos com mensagens de erro customizadas.
-    - Utilização de Dialogs para interações adicionais.
-    - Escolha do número de perguntas da prova.
-    - Botão para verificação de Validação
+    - ValidaÃ§Ã£o de campos com mensagens de erro customizadas.
+    - UtilizaÃ§Ã£o de Dialogs para interaÃ§Ãµes adicionais.
+    - Escolha do nÃºmero de perguntas da prova.
+    - BotÃ£o para verificaÃ§Ã£o de ValidaÃ§Ã£o
 
-### Página de Criação de Perguntas:
-    - Validação de caracteres para garantir a integridade dos dados.
-    - Escolha de campos através de botões interativos.
-    - Validação de campos com mensagens de erro customizadas.
-    - Utilização de Dialogs para interações adicionais.
-
-
-### Página de Verificação das Perguntas:
-
-    - Visualização das Perguntas e uma caixa de confirmar o envio da Prova.
-
-#### Página de Realização da Prova
-    - Exibição das perguntas já criadas.
-    - Verificação de envio através de um código gerado para confirmar o envio da prova.
-    - Opção de gerar novos códigos de validação para o envio da Prova.
-
-### Página de Resultado da Prova
-    - Exibição do resultado após o envio da prova.
+### ğŸ—ƒ PÃ¡gina de CriaÃ§Ã£o de Perguntas:
+    - ValidaÃ§Ã£o de caracteres para garantir a integridade dos dados.
+    - Escolha de campos atravÃ©s de botÃµes interativos.
+    - ValidaÃ§Ã£o de campos com mensagens de erro customizadas.
+    - UtilizaÃ§Ã£o de Dialogs para interaÃ§Ãµes adicionais.
 
 
-## Demonstração
+### âœ… PÃ¡gina de VerificaÃ§Ã£o das Perguntas:
+
+    - VisualizaÃ§Ã£o das Perguntas e uma caixa de confirmar o envio da Prova.
+
+#### âœ  PÃ¡gina de RealizaÃ§Ã£o da Prova
+    - ExibiÃ§Ã£o das perguntas jÃ¡ criadas.
+    - VerificaÃ§Ã£o de envio atravÃ©s de um cÃ³digo gerado para confirmar o envio da prova.
+    - OpÃ§Ã£o de gerar novos cÃ³digos de validaÃ§Ã£o para o envio da Prova.
+
+### ğŸ“‹ PÃ¡gina de Resultado da Prova
+    - ExibiÃ§Ã£o do resultado apÃ³s o envio da prova.
 
 
+## DemonstraÃ§Ã£o
 
 
 ## Autores
