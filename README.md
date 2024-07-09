@@ -9,8 +9,11 @@ Este projeto é um simulador de prova desenvolvido com Blazor WASM. Ele oferece u
 - MudBlazor: Biblioteca utilizada nesse projeto para a criação do layout, dialogs, campos, formulários, formatação dos campos e interações com o usuário.
 ## Funcionalidades
 
-## Temas dark e light
-   - Opção para a escolhar do tema escuro e light através do clique de um botão
+### Temas dark e light
+    - Opção para a escolhar do tema escuro e light através do clique de um botão
+    
+### Layout Responsivo
+   
 
 ### Página de Cadastro de Prova:
 
@@ -41,7 +44,7 @@ Este projeto é um simulador de prova desenvolvido com Blazor WASM. Ele oferece u
 
 ## Demonstração
 
-Insira um gif ou um link de alguma demonstração
+
 
 
 ## Autores
@@ -49,7 +52,5 @@ Insira um gif ou um link de alguma demonstração
 - [@Davi-Damartes](https://github.com/Davi-Damartes/)
 
 
-## Apêndice
 
-Coloque qualquer informação adicional aqui
 

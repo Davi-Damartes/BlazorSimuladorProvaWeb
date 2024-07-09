@@ -50,7 +50,7 @@ else
                                       Label="Enunciado da Questão"
                                       Validation="@(new StringLengthAttribute(300)
                                       {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
-                                      Disabled="@botaoDasOpcoesCorretas"
+                                      Disabled="@BotaoDasOpcoesCorretas"
                                       Variant="Variant.Text" />
                     </MudPaper>
                </div>
@@ -75,7 +75,7 @@ else
                                     <MudRadio Value="true"
                                                 Color="Color.Secondary"
                                                 Size="Size.Large"
-                                                Disabled="botaoDasOpcoesCorretas"
+                                                Disabled="BotaoDasOpcoesCorretas"
                                                 @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1)">
                                         Alternativa Correta?
                                     </MudRadio>
@@ -111,7 +111,7 @@ else
                                     <MudRadio Value="true"
                                                 Color="Color.Secondary"
                                                 Size="Size.Large"
-                                                Disabled="botaoDasOpcoesCorretas"
+                                                Disabled="BotaoDasOpcoesCorretas"
                                                 @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel2)">
                                         Alternativa Correta?
                                     </MudRadio>
@@ -146,7 +146,7 @@ else
                                 </MudPaper>
                                     <MudRadio Value="true"
                                                 Color="Color.Secondary"
-                                                Disabled="botaoDasOpcoesCorretas"
+                                                Disabled="BotaoDasOpcoesCorretas"
                                                 @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel3)"
                                                 Size="Size.Large">
                                         Alternativa Correta?
@@ -184,7 +184,7 @@ else
                                     <MudRadio Value="true"
                                                 Color="Color.Secondary"
                                                 Size="Size.Large"
-                                                Disabled="botaoDasOpcoesCorretas"
+                                                Disabled="BotaoDasOpcoesCorretas"
                                                 @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel4)">
                                         Alternativa Correta?
                                     </MudRadio>
@@ -209,7 +209,7 @@ else
                                Variant="Variant.Filled"
                                Color="Color.Success"
                                Style="margin-bottom: 20px; margin-top: 15px; font-size: 25px;"
-                               Disabled="@habilitarBotaoAddPergunta">
+                               Disabled="@HabilitarBotaoAddPergunta">
                         Adicionar Pergunta
                     </MudButton>
                 </div>
@@ -276,18 +276,17 @@ else
     string[ ] errors = { };
 
 
-    bool desabilitarAlternativas = false;
+    bool DesabilitarAlternativas = false;
 
-    bool habilitarBotaoAddPergunta = true;
+    bool HabilitarBotaoAddPergunta = true;
 
-    bool botaoADDProvaCorreta = false;
+    bool BotaoAddProvaCorreta = false;
 
-    bool botaoDasOpcoesCorretas = false;
-
-    bool mostrarDialog = false;
+    bool BotaoDasOpcoesCorretas = false;
 
 
-    public string? Erros { get; set; } = string.Empty;
+
+    //public string? Erros { get; set; } = string.Empty;
     public string? Success { get; set; } = string.Empty;
 
     private bool mostrarAlert = false;
@@ -323,19 +322,7 @@ else
 
     }
 
-    private void MarcarAlternativaComoCorreta2(Alternativa alternativaSelecionada)
-    {
-        alternativaSelecionada.IsCorreta = true;
-
-        foreach (var alternativa in ListaAlternativas)
-        {
-            if (alternativa != alternativaSelecionada)
-            {
-                alternativa.IsCorreta = false;
-            }
-        }
-    }
-
+ 
 
     private void AdicionarAlternativaBotao(Alternativa alternativa)
     {
@@ -350,9 +337,13 @@ else
         else
         {
             alternativa.AlternativaAdicionada = true;
-            desabilitarAlternativas = true;
-            habilitarBotaoAddPergunta = false;
+            DesabilitarAlternativas = true;
 
+        }
+
+        if (ListaAlternativas.All(x => x.AlternativaAdicionada == true))
+        {
+            HabilitarBotaoAddPergunta = false;
         }
 
     }
@@ -371,7 +362,7 @@ else
             UmaPergunta.EnunciadoDaPergunta.Length > 300)
         {
             OpenDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
-                        $"Por favor, digite o enunciado da pergunta {NumeroQuestao}º antes de continuar.",
+                        $"Por favor, verifique o Enunciado da pergunta {NumeroQuestao}º antes de continuar.",
                         DialogPosition.Center);
         }
 
@@ -392,9 +383,9 @@ else
 
             Prova.ProvaInstancia.Perguntas.AddRange(ListaPerguntas);
 
-            habilitarBotaoAddPergunta = true;
+            HabilitarBotaoAddPergunta = true;
 
-            botaoDasOpcoesCorretas = true;
+            BotaoDasOpcoesCorretas = true;
 
             VerificarProvaQntERedirecionar();
         }
