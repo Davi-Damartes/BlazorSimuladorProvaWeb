@@ -132,9 +132,7 @@ else
 
     public Pergunta Pergunta { get; set; } = new Pergunta();
 
-    public string? perguntaAtual { get; set; }
-
-    public string ErroMessage { get; set; } = string.Empty;
+    public string ErroMessagem { get; set; } = string.Empty;
 
 
     private void CadastrarProva()
@@ -146,7 +144,7 @@ else
         }
         else
         {
-            ErroMessage = "Erro ao cadastra Prova!!!";
+            ErroMessagem = "Erro ao cadastra Prova!!!";
         }
     }
 
