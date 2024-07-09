@@ -80,12 +80,7 @@ else
 
 @code {
 
-
-
-    public Pergunta PerguntaAtual { get; set; } = new();
-
     public List<Pergunta> ListaPerguntas { get; set; } = new();
-
 
     protected override void OnInitialized( )
     {
@@ -112,7 +107,6 @@ else
 
         var dialog = DialogService.Show<DialogConfirmarProva>("ConfirmarProva", parameters, options);
 
-
         var result = await dialog.Result;
 
         if (!result.Canceled && result.Data is bool isConfirmed && isConfirmed)
@@ -122,7 +116,7 @@ else
             Prova.ProvaInstancia.HoraEnvio = DateTime.Now;
 
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             NavigationManager.NavigateTo("/RealizarProva");
             
         }
