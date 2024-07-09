@@ -146,7 +146,7 @@ else
 
     public List<RespostasDaProva>? ListaRespotas { get; set; } = new();
 
-    public EOpcaoAlternativa OpcaoRadio { get; set; }
+    public EOpcaoAlternativa OpcaoRadio { get; set; } = new();
 
     public Alternativa? AlternativaProva { get; set; } = new();
 
@@ -195,11 +195,16 @@ else
 
 
 
-    private void ConfirmarEnvio( )
+    private void ConfirmarEnvio()
     {
 
         Prova.ProvaInstancia.QuantidadeAcertos = ListaRespotas!.AsQueryable().Where(x => x.AcertouPergunta == true).Count();
 
+        if(string.IsNullOrWhiteSpace(CodigoDigitadoUser))
+        {
+            AbrirDialog("Código não declarado!", "Insira a código para Enviar a Prova!", "Ok");
+            return;
+        }
 
         if (CodigoDigitadoUser.ToUpper() == CodigoProva)
         {
@@ -208,72 +213,55 @@ else
         }
         else
         {
-            var diagloParams = new DialogParameters<DialogGenerico>()
-                {
-                    {x => x.Titulo, "Verificação Código"},
-                    {x => x.Conteudo, "Código Errado"},
-                    {x => x.TextoButao, "Ok"},
-
-                };
-            var diagloOptions = new DialogOptions()
-                {
-                    CloseButton = true,
-                    MaxWidth = MaxWidth.ExtraSmall,
-                    Position = DialogPosition.Center,
-                    CloseOnEscapeKey = true
-
-                };
-
-            DialogService.Show<DialogGenerico>(" ", diagloParams, diagloOptions);
+            AbrirDialog("Verificação Código", "Código Errado", "Ok");
         }
     }
 
-    private async Task OpenDialogAsync( )
+    private void AbrirDialog(string titulo, string conteudo, string textoBotao)
     {
-        var CodigoRandom = GerarCodigo();
-
-        var diagloParams = new DialogParameters<DialogEnvioProvaCodigo>()
+        var parameters = new DialogParameters<DialogGenerico>()
         {
-            {x => x.CodigoRandom, CodigoRandom},
+            {x => x.Titulo, titulo},
+            {x => x.Conteudo, conteudo},
+            {x => x.TextoButao, textoBotao}
         };
-        var diagloOptions = new DialogOptions()
+
+        var options = new DialogOptions()
             {
-                CloseButton = true,
+                CloseButton = false,
                 MaxWidth = MaxWidth.ExtraSmall,
                 Position = DialogPosition.Center,
-                CloseOnEscapeKey = true
 
             };
 
-        var dialog = await DialogService.ShowAsync<DialogEnvioProvaCodigo>(" ", diagloParams, diagloOptions);
-
+        DialogService.Show<DialogGenerico>("Confirmaçao", parameters, options);
     }
-
-    private void GerarOutroCódigo( )
+    
+    
+    
+    private void GerarOutroCódigo()
     {
         CodigoProva = GerarCodigo();
     }
 
-    public string GerarCodigo( )
+    private string GerarCodigo()
     {
         Random aleatorio = new Random();
 
-        // String that contain both alphabets and numbers
         String strings_Letras = "abcdefghijklmnopqrstuvwxyz0123456789";
-        int size = 6;
+        int tamanhoCodigo = 6;
 
-        // Initializing the empty string
-        String stringAleatoria = "";
+        String stringsAleatoria = "";
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < tamanhoCodigo; i++)
         {
 
             int indexAleatorio = aleatorio.Next(strings_Letras.Length);
 
-            stringAleatoria = stringAleatoria + strings_Letras[indexAleatorio];
+            stringsAleatoria = stringsAleatoria + strings_Letras[indexAleatorio];
         }
 
-        return stringAleatoria.ToUpper();
+        return stringsAleatoria.ToUpper();
     }
 
 }
