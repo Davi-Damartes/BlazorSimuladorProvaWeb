@@ -1,5 +1,6 @@
 ﻿@inject ProvaService Prova
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
@@ -224,8 +225,6 @@ else
 
 
 @code {
-    [Inject]
-    public NavigationManager? NavigationManager { get; set; }
 
     [Parameter]
     public int NumeroQuestao { get; set; }
@@ -273,7 +272,7 @@ else
 
     bool success;
 
-    string[ ] errors = { };
+    string[] errors = { };
 
 
     bool DesabilitarAlternativas = false;
@@ -285,12 +284,7 @@ else
     bool BotaoDasOpcoesCorretas = false;
 
 
-
-    //public string? Erros { get; set; } = string.Empty;
     public string? Success { get; set; } = string.Empty;
-
-    private bool mostrarAlert = false;
-    private bool fecharAlert = false;
 
 
     protected override void OnInitialized( )
@@ -330,7 +324,7 @@ else
                                     ||
             string.IsNullOrWhiteSpace(alternativa.TextoDasAlternativa))
         {
-            OpenDialog($"Campo inválido na Pergunta {NumeroQuestao}º",
+            AbrirDialog($"Campo inválido na Pergunta {NumeroQuestao}º",
             $"Por favor, preencha a alternativa ({alternativa.OpcaoAlternativa}) antes de continuar."
             , DialogPosition.Center);
         }
@@ -352,7 +346,7 @@ else
     {
         if (ListaAlternativas.All(x => x.IsCorreta == false))
         {
-            OpenDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º",
+            AbrirDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º",
                        "Por favor, Escolha uma alternativa como correta.",
                        DialogPosition.TopCenter);
         }
@@ -361,7 +355,7 @@ else
                                     ||
             UmaPergunta.EnunciadoDaPergunta.Length > 300)
         {
-            OpenDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
+            AbrirDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
                         $"Por favor, verifique o Enunciado da pergunta {NumeroQuestao}º antes de continuar.",
                         DialogPosition.Center);
         }
@@ -402,7 +396,7 @@ else
     }
 
 
-    private void OpenDialog(string titulo, string conteudo, DialogPosition dialogPosition)
+    private void AbrirDialog(string titulo, string conteudo, DialogPosition dialogPosition)
     {
         var parameters = new DialogParameters<DialogGenerico>()
         {
@@ -423,21 +417,5 @@ else
     }
 
 
-    private void CloseMe(bool value)
-    {
-        if (value)
-        {
-            fecharAlert = false;
-        }
-        else
-        {
-            mostrarAlert = false;
-        }
-    }
-    private void ShowAlerts( )
-    {
-        mostrarAlert = true;
-        fecharAlert = true;
-    }
 }
 
