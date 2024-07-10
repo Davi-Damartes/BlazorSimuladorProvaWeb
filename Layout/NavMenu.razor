@@ -1,21 +1,45 @@
-﻿<MudPaper Width="250px" Class="py-3" Elevation="0">
-    <MudNavMenu>
-        <MudText Typo="Typo.h6" Class="px-4">Escola Federal</MudText>
-        <MudDivider Class="my-2" />
-        
-        <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/">Home</MudNavLink>
-       
-        <MudNavLink Icon="@Icons.Material.Filled.CreateNewFolder" Href="/CriarProva">Criar Prova</MudNavLink>
-@* 
-        <MudNavLink Icon="@Icons.Material.Filled.Create" Href="/CriarPerguntas">Criar Perguntas</MudNavLink>
+﻿<MudPaper Width="100%" Class="py-3" Elevation="15">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">Settings</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu Color="Color.Primary">
 
-        <MudNavLink Icon="@Icons.Material.Filled.FactCheck" Href="/VerificarProva">Verificar Prova</MudNavLink> *@
-        
-        <MudNavLink Icon="@Icons.Material.Filled.LaptopMac" Href="/RealizarProva">Realizar Prova</MudNavLink>
+        <div class="d-flex align-center justify-center">
+            <MudNavLink Style="font-size: 20px;" Href="/ ">
+                        <MudIcon Icon="@Icons.Material.Filled.Home"
+                         Color="Color.Success"
+                         Title="Home" Style="align-items: start"
+                         Size="Size.Medium" /> Home
+            </MudNavLink>
+        </div>
+        <div class="d-flex align-center justify-center">
+            <MudNavLink Style="font-size: 20px;"
+                        Href="/CriarProva">
+                        <MudIcon Icon="@Icons.Material.Filled.LibraryBooks"  
+                         Color="Color.Success" 
+                         Title="CriarProva" Style="align-items: start"
+                         Size="Size.Medium"/> Criar Prova
+            </MudNavLink>
+        </div>
 
-        <MudNavLink Icon="@Icons.Material.Filled.PlaylistAddCheck" Href="/ResultadoProva">Resultado Prova</MudNavLink>
+        <div class="d-flex align-start justify-center">
+            <MudNavLink Style="font-size: 20px;" Href="/RealizarProva">
+                        <MudIcon Icon="@Icons.Material.Filled.LaptopMac"
+                         Color="Color.Success"
+                         Title="RealIzar Prova" Style="align-items: center; align-content: center;"
+                         Size="Size.Medium" /> Realizar Prova
+            </MudNavLink>
+        </div>
 
+            <MudNavLink Style="font-size: 20px; justify-content: center" 
+                        Href="/ResultadoProva">
+                     <MudIcon Icon="@Icons.Material.Filled.PendingActions"
+                             Color="Color.Success"
+                             Title="Resultado Prova"
+                             Size="Size.Medium" /> Resultado Prova
+            </MudNavLink>
 
     </MudNavMenu>
 </MudPaper>
+
 
