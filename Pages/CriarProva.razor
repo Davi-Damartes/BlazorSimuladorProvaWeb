@@ -7,7 +7,7 @@
 
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
-<MudPaper Style="@($"color:{Colors.Green.Accent2}; margin-top: 20px;")"
+<MudPaper Style="@($"color:{Colors.Green.Accent2};")"
           Height="100vh;" 
           Width="100%;">
 
@@ -15,8 +15,7 @@
 
         <MudText Typo="Typo.h3" Color="Color.Info"
                  Class="d-flex align-center justify-center"
-                     Style="font-family: FontConteudo;">
-                Criar Prova
+                     Style="margin-top: 20px;font-family: FontConteudo;"> Criar Prova
         </MudText>  
         
         <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"> 
@@ -26,6 +25,7 @@
                               Class="Tamanho-label"
                               T="string" 
                               Required="true"
+                              HelperText="Máximo 50 caracteres!"
                               Style="font-size: 25px;"
                               Label="Nome Professor"
                               Validation="@(new StringLengthAttribute(50)
@@ -39,13 +39,13 @@
                 <MudNumericField @bind-Value="ProvaClasse.QuantidadeAlunos"
                                 Class="Tamanho-label"
                                 T="int" 
-                                Label="Quantidade Alunos"
+                                Label="Quantidade de Alunos"
                                 Required="true"
                                 Style="font-size: 25px;"
                                 RequiredError="Campo Obrigatório!"
                                 HelperText="Minímo 5 Máximo 30 Alunos!"
                                 Validation="@(new RangeAttribute(5,30)
-                                {ErrorMessage= "Valores entre 5 e 30 Disponíveis!"})"/>
+                                {ErrorMessage= "Quantidade de Alunos entre 5 e 30 Disponíveis!"})"/>
             </div>
 
             <div class="mb-3">
@@ -57,14 +57,13 @@
                                  HelperText="Minímo 1 Máximo 10 Perguntas!"
                                  RequiredError="Campo Obrigatório!"
                                  Validation="@(new RangeAttribute(1,10)
-                                 {ErrorMessage= "Valores entre 1 e 10 Disponíveis!"})" />
+                                 {ErrorMessage= "Número de Perguntas entre 1 e 10 Disponíveis!"})" />
             </div>
 
             <MudSelect T="ETipoProva" @bind-Value="ProvaClasse.TipoProva" 
                        Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter" 
                        Variant="Variant.Outlined" Clearable
                        IconSize="Size.Large"
-                       Style="font-size: 900px;"
                        OpenIcon="@Icons.Material.Filled.MenuBook" 
                        FullWidth="true"
                        AdornmentColor="Color.Tertiary">
@@ -81,7 +80,7 @@
                              Color="Color.Primary"
                              RequiredError="Campo Obrigatório!"
                              Label="Termos de Uso!"
-                                 Style="font-size: 20px; color: deepskyblue; margin-bottom: 8px; position: relative" />
+                             Style="font-size: 20px; color: deepskyblue; margin-bottom: 8px; position: relative" />
             </div>
 
                 <div class=" d-flex justify-start flex-grow-1 gap-4">
