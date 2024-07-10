@@ -10,10 +10,13 @@ https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/616e67b1-a9f9-
 
 
 ### Cadastro para Criação da Prova
-https://github.com/Davi-Damartes/BlazorSimuladorProva/assets/167019873/f672a743-dd63-4236-a724-026e2dd00919
+https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/f28b4c14-7538-4fe0-adde-3cbd860c5ea2
 
 ### Campo para Criação das Perguntas (Simulação)
 https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/73f5f2c0-3ac6-44bb-8c08-b342f140ddfe
+
+### Fazendo a Prova
+https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/1cfa1d63-7763-45fa-a9fd-5faf194afead
 
 
 ## 🛠 Tecnologias utilizadas
