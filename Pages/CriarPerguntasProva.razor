@@ -49,6 +49,7 @@ else
                                       Required="true"
                                       RequiredError="Campo Obrigatorio"
                                       Label="Enunciado da Questão"
+                                      HelperText="Limite de 300 Caracteres"
                                       Validation="@(new StringLengthAttribute(300)
                                       {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                       Disabled="@BotaoDasOpcoesCorretas"
@@ -69,6 +70,7 @@ else
                                                     Label="Alternativa A"
                                                     InputType="InputType.Text"
                                                     Variant="Variant.Text"
+                                                    HelperText="Limite de 300 Caracteres"
                                                     Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                                     Disabled="@AlternativaModel1!.AlternativaAdicionada" />
@@ -104,6 +106,7 @@ else
                                                     Lines="4"
                                                     Variant="Variant.Text"
                                                     Label="Alternativa B"
+                                                    HelperText="Limite de 300 Caracteres"
                                                     InputType="InputType.Text"
                                                     Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
@@ -140,6 +143,7 @@ else
                                                     Lines="4"
                                                     Label="Alternativa C"
                                                     Variant="Variant.Text"
+                                                    HelperText="Limite de 300 Caracteres"
                                                     InputType="InputType.Text"
                                                     Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
@@ -177,8 +181,9 @@ else
                                                     Lines="4"
                                                     Label="Alternativa D"
                                                     Variant="Variant.Text"
+                                                    HelperText="Limite de 300 Caracteres"
                                                     Validation="@(new StringLengthAttribute(300)
-                                            {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
+                                                    {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
                                                     Disabled="@AlternativaModel4.AlternativaAdicionada"
                                                     InputType="InputType.Text" />
                                 </MudPaper>
