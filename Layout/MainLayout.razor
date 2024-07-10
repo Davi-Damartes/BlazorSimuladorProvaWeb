@@ -6,12 +6,14 @@
 
 <MudLayout>
     <MudAppBar Color="Color.Success">
-        <MudToggleIconButton @onclick="DrawerToggle"
+        <MudToggleIconButton @onclick="DrawerToggle" Size="Size.Large"
                              Icon="@Icons.Material.Filled.Menu"
                              Color="Color.Dark"
+                             Title="Abrir Menu"                        
                              ToggledIcon="@Icons.Material.Filled.MenuOpen"
                              ToggledTitle="Esconder Menu"
                              ToggledColor="Color.Inherit"
+                             ToggledSize="Size.Large"
                              Edge="Edge.Start"
                              Toggled="@_drawerOpen" />
 
@@ -29,10 +31,10 @@
 
         <MudSpacer />
         <MudToggleIconButton @bind-Toggled="@_isDarkMode" Icon="@Icons.Material.Filled.DarkMode"
-                             Title="Modo Escuro" Color="Color.Dark"
+                             Title="Tema Escuro" Color="Color.Dark"
                              ToggledIcon="@Icons.Material.Filled.LightMode"
                              ToggledColor="Color.Inherit"
-                             ToggledTitle="Modo Claro" />
+                             ToggledTitle="Tema Claro" />
 
         <MudLink Color="Color.Dark" href="https://github.com/Davi-Damartes">
             <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub" Color="Color.Inherit" />
@@ -45,9 +47,11 @@
         </MudLink>
 
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
+
+    <MudDrawer @bind-Open="@_drawerOpen" Width="320px;" Color="Color.Primary">
         <NavMenu></NavMenu>
     </MudDrawer>
+
     <MudMainContent>
         @Body
     </MudMainContent>
