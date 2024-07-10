@@ -3,10 +3,13 @@
 
 Este projeto é um simulador de prova desenvolvido com Blazor WASM. Ele oferece uma experiência completa para a criação, validação, e realização de provas. Abaixo estão as principais funcionalidades implementadas:
 
+## Demonstração
+https://github.com/Davi-Damartes/BlazorSimuladorProva/assets/167019873/ae1506b7-ac3d-481d-b470-ebb538f12313
 
-## 🛠 Tecnologias
+
+## 🛠 Tecnologias utilizadas
 - C#
-- Blazor WASM: Framework utilizado para desenvolver está aplicação.
+- Blazor WASM
 - MudBlazor: Biblioteca utilizada nesse projeto para a criação do layout, dialogs, campos, formulários, formatação dos campos e interações com o usuário.
 
 ## ⚙ Funcionalidades
@@ -43,8 +46,6 @@ Este projeto é um simulador de prova desenvolvido com Blazor WASM. Ele oferece 
 ### 📋 Página de Resultado da Prova
     - Exibição do resultado após o envio da prova.
 
-
-## Demonstração
 
 
 ## Autores
