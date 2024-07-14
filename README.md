@@ -20,8 +20,8 @@ https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/1cfa1d63-7763-
 
 
 ## 🛠 Tecnologias utilizadas
-- C#
-- Blazor WASM
+- C# (Csharp)
+- Blazor WASM (Blazor Client Side)
 - MudBlazor: Biblioteca utilizada nesse projeto para a criação do layout, dialogs, campos, formulários, formatação dos campos e interações com o usuário.
 
 ## ⚙ Funcionalidades
@@ -50,7 +50,7 @@ https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/1cfa1d63-7763-
 
     - Visualização das Perguntas e uma caixa de confirmar o envio da Prova.
 
-#### ✍  Página de Realização da Prova
+### ✍  Página de Realização da Prova
     - Exibição das perguntas já criadas.
     - Verificação de envio através de um código gerado para confirmar o envio da prova.
     - Opção de gerar novos códigos de validação para o envio da Prova.
@@ -59,8 +59,7 @@ https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/1cfa1d63-7763-
     - Exibição do resultado após o envio da prova.
 
 
-
-## Autores
+## Autor
 
 - [@Davi-Damartes](https://github.com/Davi-Damartes/)
 
