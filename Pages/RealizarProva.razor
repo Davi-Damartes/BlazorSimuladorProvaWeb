@@ -1,11 +1,16 @@
-﻿@page "/RealizarProva"
+﻿@page "/realizarProva"
+
 @inject ProvaService Prova
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
-
 <PageTitle>Realizar a Prova</PageTitle>
 
+
+@if (Prova.ProvaInstancia.ProvaFinalizada)
+{
+    NavigationManager.NavigateTo("resultadoProva");
+}
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
     <MudContainer>
@@ -21,7 +26,7 @@
             <MudButton ButtonType="ButtonType.Button"
                        Variant="Variant.Filled"
                        Color="Color.Error"
-                       Href="/CriarPerguntas"
+                       Href="criarPerguntas"
                        Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">
                 Clique Aqui para Criar uma Prova!
             </MudButton>
@@ -40,21 +45,23 @@ else
 {
     <MudPaper Class="mud-theme-provider">
         <MudContainer MaxWidth="MaxWidth.Medium">
-            <MudPaper Elevation="15" Height="100%" Width="100%" Class="pa-16 ma-2 mud-theme-provider-paper">
+            <MudPaper Elevation="15" Square="true"
+                      Height="auto" Width="100%"
+                      Class="pa-6 ma-2 mud-theme-provider-paper">
 
 
                 <div class="d-flex align-center justify-center ">
-                    <MudText Typo="Typo.h2" Style="margin-bottom: 25px;" Align="Align.Center">
+                    <MudText Typo="Typo.h3" Style="margin-bottom: 25px;" Align="Align.Center">
                         <p>Realização da Prova!!!</p>
                     </MudText>
                 </div>
                 <div class="d-flex align-start justify-start ">
-                    <MudText Typo="Typo.h4" Align="Align.Start">
-                        <p>Professor: <b>@Prova.ProvaInstancia.NomeProfessor</b></p>
+                    <MudText Typo="Typo.h5" Align="Align.Start">
+                        <p>Professor: <b>@Prova.ProvaInstancia.NomeProfessor.ToUpper()</b></p>
                     </MudText>
                 </div>
                 <div class="d-flex align-start justify-start ">
-                    <MudText Typo="Typo.h4" Style="margin-bottom: 50px" Align="Align.Start">
+                    <MudText Typo="Typo.h5" Style="margin-bottom: 50px" Align="Align.Start">
                         <p>Matéria: <b>@Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")</b></p>
                     </MudText>
                 </div>
@@ -74,8 +81,8 @@ else
                                        RequiredError="Campo obrigado">
                             @foreach (var alternativa in questao.ListaAlternativas)
                             {
-                                <MudItem xs="12" Class=" mud-elevation-4 mud-spacing">
-                                    <MudPaper Class="d-flex align-center justify-between mud-width-full py-8"
+                                <MudItem sm="12" s Class=" mud-elevation-4 mud-spacing">
+                                    <MudPaper Class="d-flex align-center justify-between"
                                               Style="margin-bottom: 20px;" Width="100%">
                                         <MudRadio Value="alternativa.OpcaoAlternativa"
                                                   Color="Color.Secondary"
@@ -83,9 +90,9 @@ else
                                                   @onchange="(e) => GabaritoProva(pergunta, alternativa)">
                                         </MudRadio>
                                         <MudText Class="QuebraLinha" Color="Color.Warning"
-                                                 Style="font-size: 25px; Width: 80%;"
+                                                 Style="font-size: 25px; Width: 90%;"
                                                  Align="Align.Start">
-                                            <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                            <b style="color: gray">@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
                                         </MudText>
                                     </MudPaper>
                                 </MudItem>
@@ -133,6 +140,11 @@ else
         </MudContainer>
     </MudPaper>
 }
+@if (Prova.ProvaInstancia.ProvaFinalizada)
+{
+    NavigationManager.NavigateTo("resultadoProva");
+}
+
 @code {
 
     bool Disabled { get; set; }
@@ -195,12 +207,15 @@ else
 
 
 
-    private void ConfirmarEnvio()
+    private void ConfirmarEnvio( )
     {
 
         Prova.ProvaInstancia.QuantidadeAcertos = ListaRespotas!.AsQueryable().Where(x => x.AcertouPergunta == true).Count();
 
-        if(string.IsNullOrWhiteSpace(CodigoDigitadoUser))
+        Prova.ProvaInstancia.AlternativasCorretas = ListaRespotas.Where(r => r.AcertouPergunta).Select(r => r.NumeroPergunta).ToList();
+
+
+        if (string.IsNullOrWhiteSpace(CodigoDigitadoUser))
         {
             AbrirDialog("Código não declarado!", "Insira a código para Enviar a Prova!", "Ok");
             return;
@@ -209,7 +224,7 @@ else
         if (CodigoDigitadoUser.ToUpper() == CodigoProva)
         {
             Prova.ProvaInstancia.ProvaFinalizada = true;
-            NavigationManager.NavigateTo("/ResultadoProva");
+            NavigationManager.NavigateTo("resultadoProva");
         }
         else
         {
@@ -236,15 +251,15 @@ else
 
         DialogService.Show<DialogGenerico>("Confirmaçao", parameters, options);
     }
-    
-    
-    
-    private void GerarOutroCódigo()
+
+
+
+    private void GerarOutroCódigo( )
     {
         CodigoProva = GerarCodigo();
     }
 
-    private string GerarCodigo()
+    private string GerarCodigo( )
     {
         Random aleatorio = new Random();
 
@@ -265,5 +280,3 @@ else
     }
 
 }
-
-
