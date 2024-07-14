@@ -1,10 +1,10 @@
-﻿<MudDialog ContentStyle="width: 400px;">
+﻿﻿<MudDialog ContentStyle="width: 400px;">
     <TitleContent>
         <MudTextField T="string" Style="text-align:center;" ReadOnly="true" Text="Código Confirmação" />
     </TitleContent>
     <DialogContent>
         <MudTextField T="string" ReadOnly="true" Label="Codigo Aleátorio">@CodigoRandom</MudTextField>
-    </DialogContent> 
+    </DialogContent>
     <DialogContent>
         <MudTextField @bind-Value="CodigoDigitado" Label="Digite o Código para o Envio da Prova">
 
@@ -27,9 +27,9 @@
     private string? CodigoDigitado { get; set; }
 
 
-    private void Verificacao()
+    private void Verificacao( )
     {
-        if(CodigoDigitado != CodigoRandom)
+        if (CodigoDigitado != CodigoRandom)
         {
             MudDialog?.Close(DialogResult.Ok(true));
         }
