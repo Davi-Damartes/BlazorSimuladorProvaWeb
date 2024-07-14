@@ -1,4 +1,4 @@
-﻿@page "/ResultadoProva"
+﻿@page "/resultadoProva"
 
 @inject ProvaService ProvaResultado
 @inject NavigationManager NavigationManager
@@ -19,7 +19,7 @@
             <MudButton ButtonType="ButtonType.Button"
                        Variant="Variant.Filled"
                        Color="Color.Error"
-                       Href="/RealizarProva "
+                       Href="realizarProva "
                        Style="margin-top: 15px; font-size: 35px; border-radius: 19px;">
                 Clique Aqui fazer a Prova!
             </MudButton>
@@ -28,56 +28,65 @@
 }
 else if (ProvaResultado.ProvaInstancia.ProvaFinalizada == false)
 {
-    NavigationManager.NavigateTo("/RealizarProva");
+    NavigationManager.NavigateTo("realizarProva");
 }
 
 else
 {
-    <div class="d-flex flex-grow-1 justify-content-center align-items-center">
-        <MudContainer MaxWidth="MaxWidth.Large" Style="height: 100vh; margin-top: 30px;">
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center" style="padding: 20px;">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="height: auto; width: 100%;">
+
             <MudText Align="Align.Center" Typo="Typo.h1">
                 <b>Resultado Prova</b>
-
             </MudText>
 
-            <MudText Align="Align.Center" Typo="Typo.h1" Color="Color.Success">
-                <b>Total de  Acertos @ProvaResultado.ProvaInstancia.QuantidadeAcertos / @ProvaResultado.ProvaInstancia.QuantidadePerguntas</b>
+            <MudText Align="Align.Center" Typo="Typo.h2" Color="Color.Success">
+                <b>Total de Acertos @ProvaResultado.ProvaInstancia.QuantidadeAcertos / @ProvaResultado.ProvaInstancia.QuantidadePerguntas</b>
+            </MudText>
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                <b>Alternativas acertadas:</b>
+                @foreach (var alternativa in @ProvaResultado.ProvaInstancia.AlternativasCorretas.Order())
+                {
+                    <MudChip Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success">
+                        @alternativa
+                    </MudChip>
+                }
             </MudText>
 
             <div class="d-flex flex-column align-center">
-                <MudRating @bind-SelectedValue="valorSelecionado" 
+                <MudRating @bind-SelectedValue="valorSelecionado"
                            Size="Size.Large"
                            Style="margin-top: 50px;"
                            HoveredValueChanged="MudancaDeValores" />
                 <MudText Typo="Typo.subtitle2" Class="deep-purple-text mt-2">@textoFeedback</MudText>
             </div>
 
-            <MudText Align="Align.Center" Typo="Typo.h2">
-                <b>Obrigado pelo se Acesso!!!</b>               
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                <b>Obrigado pelo seu Acesso!!!</b>
             </MudText>
 
-            <MudText Align="Align.Center" Typo="Typo.h2">
-                <b>Se achou algum problema ou gostou do Projeto deixe um comentário no!!!</b>
+            <MudText Align="Align.Center" Typo="Typo.h5">
+                <b>Se achou algum problema ou gostou do Projeto deixe um comentário no:</b>
             </MudText>
 
             <div class="d-flex justify-center align-center">
                 <MudLink Color="Color.Info" Typo="Typo.h4" href="https://www.linkedin.com/in/davi-lima-643870313/">
-                    <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Title="LinkedIn" 
-                    Color="Color.Info" />Linkedin!
+                    <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Title="LinkedIn"
+                                   Class="mud-palette-info-darken" />Linkedin!
                 </MudLink>
             </div>
 
             <div class="d-flex justify-center align-center">
                 <MudLink Color="Color.Info" Typo="Typo.h4" href="https://github.com/Davi-Damartes/BlazorSimuladorProva/issues/new">
-                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Issues" 
-                    Color="Color.Dark" />Reporte um problema no GitHub!
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Issues"
+                                   Class="mud-palette-success-lighten" />Deixe um comentário no github!
                 </MudLink>
             </div>
 
             <div class="d-flex justify-center align-center">
                 <MudLink Color="Color.Info" Typo="Typo.h4" href="https://github.com/Davi-Damartes">
-                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Repositório" 
-                    Color="Color.Dark" />Visite o Repositório no GitHub com mais Projetos!
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Title="GitHub Repositório"
+                                   Class="mud-palette-success-lighten" />Visite o meu Repositório no GitHub com mais Projetos!
                 </MudLink>
             </div>
 
@@ -86,7 +95,7 @@ else
 
 }
 
-@code{
+@code {
     private int valorSelecionado = 0;
     private int? valorAtivo;
 
@@ -103,5 +112,3 @@ else
     };
 
 }
-
-
