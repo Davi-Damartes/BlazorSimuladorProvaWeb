@@ -1,127 +1,129 @@
-﻿@page "/CriarProva"
+﻿@page "/criarProva"
 
 @inject ProvaService Prova
-@inject NavigationManager NavigationManager 
+@inject NavigationManager NavigationManager
 
-<PageTitle>Criar Prova</PageTitle>
 
+<PageTitle>Counter</PageTitle>
+@if (Prova.ProvaInstancia.ProvaFinalizada)
+{
+    NavigationManager.NavigateTo("resultadoProva");
+}
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
-<MudPaper Style="@($"color:{Colors.Green.Accent2};")"
-          Height="100vh;" 
-          Width="100%;">
+    <MudPaper Style="@($"color:{Colors.Green.Accent2};")"
+              Height="100vh;"
+              Width="100%;">
 
-    <MudContainer MaxWidth="MaxWidth.Large" Class="mud-theme-info; border-radius: 15px">
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="mud-theme-info; border-radius: 15px">
 
-        <MudText Typo="Typo.h3" Color="Color.Info"
-                 Class="d-flex align-center justify-center"
-                     Style="margin-top: 20px;font-family: FontConteudo;"> Criar Prova
-        </MudText>  
-        
-        <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors"> 
+            <MudText Typo="Typo.h3" Color="Color.Info"
+                     Class="d-flex align-center justify-center"
+                     Style="margin-top: 20px;font-family: FontConteudo;">
+                Criar Prova
+            </MudText>
 
-            <div class="mb-3">
-                <MudTextField @bind-Value="ProvaClasse.NomeProfessor"
-                              Class="Tamanho-label"
-                              T="string" 
-                              Required="true"
-                              HelperText="Máximo 50 caracteres!"
-                              Style="font-size: 25px;"
-                              Label="Nome Professor"
-                              Validation="@(new StringLengthAttribute(50)
-                              {ErrorMessage= "Máximo de 50 caracteres"})" 
-                              RequiredError="Campo Obrigatório!" >
-                          
-                          </MudTextField>
-            </div>
+            <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
 
-            <div class="mb-3">
-                <MudNumericField @bind-Value="ProvaClasse.QuantidadeAlunos"
-                                Class="Tamanho-label"
-                                T="int" 
-                                Label="Quantidade de Alunos"
-                                Required="true"
-                                Style="font-size: 25px;"
-                                RequiredError="Campo Obrigatório!"
-                                HelperText="Minímo 5 Máximo 30 Alunos!"
-                                Validation="@(new RangeAttribute(5,30)
-                                {ErrorMessage= "Quantidade de Alunos entre 5 e 30 Disponíveis!"})"/>
-            </div>
+                <div class="mb-3">
+                    <MudTextField @bind-Value="ProvaClasse.NomeProfessor"
+                                  Class="Tamanho-label"
+                                  T="string"
+                                  Required="true"
+                                  HelperText="Máximo 50 caracteres!"
+                                  Style="font-size: 25px;"
+                                  Label="Nome Professor"
+                                  Validation="@(new StringLengthAttribute(50)
+                              {ErrorMessage= "Máximo de 50 caracteres"})"
+                                  RequiredError="Campo Obrigatório!">
 
-            <div class="mb-3">
-                <MudNumericField @bind-Value="ProvaClasse.QuantidadePerguntas" Required="true"
-                                 Class="Tamanho-label"
-                                 Style="font-size: 25px;"
-                                 T="int" 
-                                 Label="Quantidade de Perguntas"                      
-                                 HelperText="Minímo 1 Máximo 10 Perguntas!"
-                                 RequiredError="Campo Obrigatório!"
-                                 Validation="@(new RangeAttribute(1,10)
+                    </MudTextField>
+                </div>
+
+                <div class="mb-3">
+                    <MudNumericField @bind-Value="ProvaClasse.QuantidadeAlunos"
+                                     Class="Tamanho-label"
+                                     T="int"
+                                     Label="Quantidade de Alunos"
+                                     Required="true"
+                                     Style="font-size: 25px;"
+                                     RequiredError="Campo Obrigatório!"
+                                     HelperText="Minímo 5 Máximo 30 Alunos!"
+                                     Validation="@(new RangeAttribute(5,30)
+                                {ErrorMessage= "Quantidade de Alunos entre 5 e 30 Disponíveis!"})" />
+                </div>
+
+                <div class="mb-3">
+                    <MudNumericField @bind-Value="ProvaClasse.QuantidadePerguntas" Required="true"
+                                     Class="Tamanho-label"
+                                     Style="font-size: 25px;"
+                                     T="int"
+                                     Label="Quantidade de Perguntas"
+                                     HelperText="Minímo 1 Máximo 10 Perguntas!"
+                                     RequiredError="Campo Obrigatório!"
+                                     Validation="@(new RangeAttribute(1,10)
                                  {ErrorMessage= "Número de Perguntas entre 1 e 10 Disponíveis!"})" />
-            </div>
+                </div>
 
-            <MudSelect T="ETipoProva" @bind-Value="ProvaClasse.TipoProva" 
-                       Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter" 
-                       Variant="Variant.Outlined" Clearable
-                       IconSize="Size.Large"
-                       OpenIcon="@Icons.Material.Filled.MenuBook" 
-                       FullWidth="true"
-                       AdornmentColor="Color.Tertiary">
+                <MudSelect T="ETipoProva" @bind-Value="ProvaClasse.TipoProva"
+                           Label="Selecione Matéria da Prova" AnchorOrigin="Origin.BottomCenter"
+                           Variant="Variant.Outlined" Clearable
+                           IconSize="Size.Large"
+                           OpenIcon="@Icons.Material.Filled.MenuBook"
+                           FullWidth="true"
+                           AdornmentColor="Color.Tertiary">
 
-                        @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
-                        {
-                            <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
-                        }
+                    @foreach (ETipoProva tipo in Enum.GetValues(typeof(ETipoProva)))
+                    {
+                        <MudSelectItem Value="@(tipo)">@tipo</MudSelectItem>
+                    }
 
-            </MudSelect>
-           
-            <div class="d-flex mt-5">
-                <MudCheckBox T="bool" Required="true"
-                             Color="Color.Primary"
-                             RequiredError="Campo Obrigatório!"
-                             Label="Termos de Uso!"
-                             Style="font-size: 20px; color: deepskyblue; margin-bottom: 8px; position: relative" />
-            </div>
+                </MudSelect>
 
-                <div class=" d-flex justify-start flex-grow-1 gap-4">
-                <MudButton Variant="Variant.Filled" Color="Color.Info" DisableElevation="true"
-                            OnClick="@(()=>form.Validate())"
-                            Style="border-radius: 10px;">
+                <div class="d-flex mt-5">
+                    <MudCheckBox T="bool" Required="true"
+                                 Color="Color.Primary"
+                                 RequiredError="Campo Obrigatório!"
+                                 Label="Termos de Uso!"
+                                 Style="font-size: 20px; color: deepskyblue; margin-bottom: 8px; position: relative" />
+                </div>
+
+                <div class="d-flex justify-space-between flex-grow-1 gap-4 mt-5">
+                    <MudButton Variant="Variant.Filled" Color="Color.Info" DisableElevation="true"
+                               OnClick="@(()=>form.Validate())"
+                               Style="border-radius: 10px;">
                         Validar Campos
-                 </MudButton>
+                    </MudButton>
 
-                <MudButton Variant="Variant.Filled" Color="Color.Warning"
-                            OnClick="@(()=>form.ResetAsync())"
-                            DisableElevation="true"
-                            Style="border-radius: 10px;">
-                            Limpar formulário
-                </MudButton>
-
-            </div>
-
-            <div class="d-flex justify-end align-end;">
-                <MudButton OnClick="@(()=> CadastrarProva())" Variant="Variant.Filled" 
-                           Color="Color.Primary"
-                           Disabled="@(!success)"
-                           Style="font-size: 20px;">
-                        Enviar Formulário                
-                </MudButton>
-            </div>
-        </MudForm> 
-    </MudContainer>
-</MudPaper>
+                    <MudButton Variant="Variant.Filled" Color="Color.Warning"
+                               OnClick="@(()=>form.ResetAsync())"
+                               DisableElevation="true"
+                               Style="border-radius: 10px;">
+                        Limpar formulário
+                    </MudButton>
+                    <MudButton OnClick="@(()=> CadastrarProva())" Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Disabled="@(!success)"
+                               Style="font-size: 20px; border-radius: 10px;">
+                        Enviar Formulário
+                    </MudButton>
+                </div>
+            </MudForm>
+        </MudContainer>
+    </MudPaper>
 
 }
 else
 {
-        NavigationManager.NavigateTo("/CriarPerguntas"); 
+    NavigationManager.NavigateTo("criarPerguntas ");
 }
 
 
-@code{
+
+@code {
     bool success;
 
-    string[] errors = { };
+    string[ ] errors = { };
 
     MudForm form = new MudForm();
 
@@ -134,12 +136,12 @@ else
     public string ErroMessagem { get; set; } = string.Empty;
 
 
-    private void CadastrarProva()
+    private void CadastrarProva( )
     {
-        if(ProvaClasse != null)
+        if (ProvaClasse != null)
         {
             Prova.ProvaInstancia = ProvaClasse;
-            NavigationManager.NavigateTo("/CriarPerguntas");
+            NavigationManager.NavigateTo("criarPerguntas");
         }
         else
         {
