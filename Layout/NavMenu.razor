@@ -1,30 +1,37 @@
-﻿<MudPaper Width="100%" Class="py-3" Elevation="15">
+﻿﻿<MudPaper Width="100%" Class="py-3" Elevation="15">
     <MudDrawerHeader>
         <div class="d-flex align-center justify-center">
             <MudText Typo="Typo.h5" Align="Align.Center"><b>Opções</b></MudText>
         </div>
     </MudDrawerHeader>
     <MudNavMenu>
-        <MudNavLink DisableRipple="false" Href="/ " IconColor="Color.Success" Icon="@Icons.Material.Filled.Home"                 
-                    Class="mud-light-text">Home
+        <MudNavLink DisableRipple="false" Href="" IconColor="Color.Success" Icon="@Icons.Material.Filled.Home"
+                    Class="mud-light-text">
+            Página Principal
         </MudNavLink>
 
-        <MudNavLink Href="/CriarProva" Icon="@Icons.Material.Filled.LibraryBooks"
+        <MudNavLink Href="criarProva" Icon="@Icons.Material.Filled.Archive"
                     IconColor="Color.Success"
-                    Class="mud-light-text">Criar Prova
+                    Class="mud-light-text">
+            Criar Prova
         </MudNavLink>
 
-        <MudNavLink Href="/RealizarProva" Icon="@Icons.Material.Filled.LaptopMac" 
+        <MudNavLink Href="criarPerguntas" Icon="@Icons.Material.Filled.LibraryBooks"
                     IconColor="Color.Success"
-                    Class="mud-light-text">RealizarProva
+                    Class="mud-light-text">
+            Criar Perguntas
         </MudNavLink>
 
-        <MudNavLink Href="/ResultadoProva" Icon="@Icons.Material.Filled.PendingActions"
+        <MudNavLink Href="realizarProva" Icon="@Icons.Material.Filled.LaptopMac"
                     IconColor="Color.Success"
-                    Class="mud-light-text">Resultado Prova
+                    Class="mud-light-text">
+            Realizar Prova
+        </MudNavLink>
+        <MudNavLink Href="resultadoProva" Icon="@Icons.Material.Filled.PendingActions"
+                    IconColor="Color.Success"
+                    Class="mud-light-text">
+            Resultado Prova
         </MudNavLink>
 
     </MudNavMenu>
 </MudPaper>
-
-
