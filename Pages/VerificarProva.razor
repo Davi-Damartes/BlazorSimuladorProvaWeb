@@ -1,39 +1,47 @@
-﻿@page "/VerificarProva"
+﻿@page "/verificarProva"
 
 @inject ProvaService Prova
+
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Verificar Prova</PageTitle>
 
+@if (Prova.ProvaInstancia.ProvaFinalizada)
+{
+    NavigationManager.NavigateTo("resultadoProva");
+}
 @if (Prova.ProvaInstancia.Perguntas.Count() == 0)
 {
-    NavigationManager.NavigateTo("/CriarPerguntas");
+    NavigationManager.NavigateTo("criarPerguntas");
 }
 else if (Prova.ProvaInstancia.ProvaCriada == true)
 {
-    NavigationManager.NavigateTo("/RealizarProva");
+    NavigationManager.NavigateTo("realizarProva");
 }
 else
 {
-    <div class="d-flex flex-grow-1 justify-content-center align-items-center" >
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center">
         <MudContainer MaxWidth="MaxWidth.Large" Style="height: 100vh; margin-top: 30px;">
             <MudPaper Elevation="25" Class="p-4" Style="width: 100%;">
 
-                <MudText Class="mud-secondary-dark" 
+                <MudText Class="mud-secondary-dark"
                          Typo="Typo.h4"
                          Align="Align.Center"
                          Color="Color.Warning"
                          Style="font-family: FontConteudo; margin-bottom: 40px;">
-                        <b>Por favor, revise cuidadosamente as perguntas abaixo para garantir
-                        que não haja erros antes de confirmar o envio!!!</b>
+                    <b>
+                        Por favor, revise cuidadosamente as perguntas abaixo para garantir
+                        que não haja erros antes de confirmar o envio!!!
+                    </b>
 
                 </MudText>
                 @foreach (var pergunta in ListaPerguntas.OrderBy(x => x.NumeroPergunta))
                 {
-                    <MudText Typo="Typo.h5" Class="QuebraLinha" 
-                            Style="margin-bottom: 15px;"><b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
+                    <MudText Typo="Typo.h5" Class="QuebraLinha"
+                             Style="margin-bottom: 15px;">
+                        <b>(@pergunta.NumeroPergunta)@pergunta.EnunciadoDaPergunta</b>
                     </MudText>
 
                     @foreach (var questao in pergunta.Questoes)
@@ -41,7 +49,7 @@ else
 
                         @foreach (var alternativa in questao.ListaAlternativas)
                         {
-                        
+
                             @if (alternativa.IsCorreta)
                             {
                                 <MudText Typo="Typo.h5" Color="Color.Success"
@@ -54,9 +62,10 @@ else
                             {
                                 <MudText Typo="Typo.h5" Color="Color.Error"
                                          Style="font-family: FontConteudo; margin-bottom: 15px;"
-                                         Class="mud-secondary-text QuebraLinha"> <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
+                                         Class="mud-secondary-text QuebraLinha">
+                                    <b>@alternativa.OpcaoAlternativa)</b>@alternativa.TextoDasAlternativa
                                 </MudText>
-                                
+
                             }
                         }
                     }
@@ -68,8 +77,8 @@ else
                                Variant="Variant.Filled"
                                Color="Color.Success"
                                Size="Size.Large"
-                               Style="margin-top: 15px; margin-bottom: 60px; font-size: 25px">
-                        Clique Aqui para Confirmar o envio da Prova!!!
+                               Style="margin-top: 15px; margin-bottom: 60px; font-size: 25px; border-radius: 18px;">
+                        Confirmar o envio da Prova!!!
                     </MudButton>
                 </div>
             </MudPaper>
@@ -99,7 +108,7 @@ else
         {
             { x => x.Titulo,  "Verificação do Envio da Prova !!!"},
 
-            { x => x.Conteudo, "Você tem certeza? Essa ação não pode ser defeita!" },
+            { x => x.Conteudo, "Você tem certeza? Esta ação não pode ser defeita!" },
 
             { x => x.Color, Color.Success }
 
@@ -116,13 +125,11 @@ else
             Prova.ProvaInstancia.HoraEnvio = DateTime.Now;
 
 
-            await Task.Delay(1000);
-            NavigationManager.NavigateTo("/RealizarProva");
-            
+            await Task.Delay(1500);
+            NavigationManager.NavigateTo("realizarProva");
+
         }
     }
 
 
 }
-
-
