@@ -1,4 +1,5 @@
-﻿@page "/CriarPerguntas"
+﻿@page "/criarPerguntas"
+
 @inject ProvaService Prova
 @inject NavigationManager NavigationManager
 
@@ -7,21 +8,21 @@
 
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
-    NavigationManager.NavigateTo("/CriarProva");
+    NavigationManager.NavigateTo("criarProva");
 }
-else if (Prova.ProvaInstancia.ProvaCriada == true)
+@if (Prova.ProvaInstancia.ProvaCriada == true)
 {
-    NavigationManager.NavigateTo("/RealizarProva");
+    NavigationManager.NavigateTo("realizarProva");
 }
 else
 {
-    <MudText Class="mt-5 d-flex align-center justify-center"
+    <MudText Class="mt-5"
+             Style="display: flex; justify-content: center; align-items: center; text-align: center; word-break: break-word; width: 100%;"
              Typo="Typo.h3">
-            Criar as perguntas da Prova @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ") 
+        Criar as perguntas da Prova @Prova.ProvaInstancia.TipoProva.ToString().Replace("_", " ")
     </MudText>
     @for (int x = 1; x <= Prova.ProvaInstancia.QuantidadePerguntas; x++)
     {
         <CriarPerguntasProva NumeroQuestao="@x"> </CriarPerguntasProva>
-
     }
 }

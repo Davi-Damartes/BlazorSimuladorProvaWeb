@@ -1,8 +1,12 @@
-﻿@inject ProvaService Prova
+﻿﻿
+@inject ProvaService Prova
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
-
+@if (Prova.ProvaInstancia.ProvaFinalizada)
+{
+    NavigationManager.NavigateTo("resultadoProva");
+}
 @if (string.IsNullOrEmpty(Prova.ProvaInstancia.NomeProfessor))
 {
     <MudText Typo="Typo.h3"
@@ -15,22 +19,22 @@
                Variant="Variant.Filled"
                Color="Color.Error"
                Size="Size.Small"
-               Href="/CriarProva"
+               Href="/criarProva"
                Class="d-flex align-center"
                Style="margin-top: 15px;">
         Clique Aqui para Criar uma Prova
     </MudButton>
 }
-else @if(Prova.ProvaInstancia.PerguntasCriadas == true)
-    {
-        NavigationManager!.NavigateTo("/VerificarProva");
-    }
+else @if (Prova.ProvaInstancia.PerguntasCriadas == true)
+{
+    NavigationManager!.NavigateTo("verificarProva");
+}
 
 else
 {
 
     <MudPaper Height="100%" Width="100%">
-        <MudContainer MaxWidth="MaxWidth.Large">
+        <MudContainer MaxWidth="MaxWidth.Medium">
             <MudForm @ref="@form" @bind-IsValid="@success" @bind-Errors="@errors">
                 <MudText Typo="Typo.h4"
                          Class="d-flex align-center justify-center"
@@ -41,10 +45,10 @@ else
                 <div class="mb-5">
                     <MudPaper Style="margin-bottom: 40px;">
                         <MudText Class="mud-spacing-md pd-4" Style="font-size: 20px;">
-                            <b>Digite o Enunciado da {@NumeroQuestao} Questão </b>
+                            <b>Digite o Enunciado da {@NumeroQuestao} Pergunta   </b>
                         </MudText>
                         <MudTextField @bind-Value="UmaPergunta.EnunciadoDaPergunta"
-                                      Lines="4"
+                                      Lines="3"
                                       T="string"
                                       Required="true"
                                       RequiredError="Campo Obrigatorio"
@@ -55,40 +59,40 @@ else
                                       Disabled="@BotaoDasOpcoesCorretas"
                                       Variant="Variant.Text" />
                     </MudPaper>
-               </div>
+                </div>
 
 
                 <MudRadioGroup @bind-Value="OpcaoSelecionadaRadio">
                     <div class="mb-3 mt-5">
                         <MudGrid>
-                            <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudItem sm="12" Class="mud-elevation-4 mud-spacing">
                                 <MudPaper>
                                     <MudTextField @bind-Value="AlternativaModel1!.TextoDasAlternativa"
-                                                    Required="true"
-                                                    RequiredError="Campo Obrigatório"
-                                                    Lines="4"
-                                                    Label="Alternativa A"
-                                                    InputType="InputType.Text"
-                                                    Variant="Variant.Text"
-                                                    HelperText="Limite de 300 Caracteres"
-                                                    Validation="@(new StringLengthAttribute(300)
+                                                  Required="true"
+                                                  RequiredError="Campo Obrigatório"
+                                                  Lines="3"
+                                                  Label="Alternativa A"
+                                                  InputType="InputType.Text"
+                                                  Variant="Variant.Text"
+                                                  HelperText="Limite de 300 Caracteres"
+                                                  Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
-                                                    Disabled="@AlternativaModel1!.AlternativaAdicionada" />
+                                                  Disabled="@AlternativaModel1!.AlternativaAdicionada" />
                                 </MudPaper>
-                                    <MudRadio Value="true"
-                                                Color="Color.Secondary"
-                                                Size="Size.Large"
-                                                Disabled="BotaoDasOpcoesCorretas"
-                                                @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1)">
-                                        Alternativa Correta?
-                                    </MudRadio>
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          Disabled="BotaoDasOpcoesCorretas"
+                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1)">
+                                    Alternativa Correta?
+                                </MudRadio>
                             </MudItem>
-                            <MudItem xs="12">
+                            <MudItem sm="12">
                                 <div class="mb-4">
                                     <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel1!))"
-                                                Variant="Variant.Filled"
-                                                Color="Color.Success"
-                                                Disabled="@AlternativaModel1!.AlternativaAdicionada">
+                                               Variant="Variant.Filled"
+                                               Color="Color.Success"
+                                               Disabled="@AlternativaModel1!.AlternativaAdicionada">
                                         Adicionar Alternativa A
                                     </MudButton>
                                 </div>
@@ -98,34 +102,34 @@ else
 
                     <div class="mb-3">
                         <MudGrid>
-                            <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudItem sm="12" Class="mud-elevation-4 mud-spacing">
                                 <MudPaper>
                                     <MudTextField @bind-Value="AlternativaModel2!.TextoDasAlternativa"
-                                                    Required="true"
-                                                    RequiredError="Campo Obrigatório"
-                                                    Lines="4"
-                                                    Variant="Variant.Text"
-                                                    Label="Alternativa B"
-                                                    HelperText="Limite de 300 Caracteres"
-                                                    InputType="InputType.Text"
-                                                    Validation="@(new StringLengthAttribute(300)
+                                                  Required="true"
+                                                  RequiredError="Campo Obrigatório"
+                                                  Lines="3"
+                                                  Variant="Variant.Text"
+                                                  Label="Alternativa B"
+                                                  HelperText="Limite de 300 Caracteres"
+                                                  InputType="InputType.Text"
+                                                  Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
-                                                    Disabled="@AlternativaModel2.AlternativaAdicionada" />
+                                                  Disabled="@AlternativaModel2.AlternativaAdicionada" />
                                 </MudPaper>
-                                    <MudRadio Value="true"
-                                                Color="Color.Secondary"
-                                                Size="Size.Large"
-                                                Disabled="BotaoDasOpcoesCorretas"
-                                                @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel2)">
-                                        Alternativa Correta?
-                                    </MudRadio>
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          Disabled="BotaoDasOpcoesCorretas"
+                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel2)">
+                                    Alternativa Correta?
+                                </MudRadio>
                             </MudItem>
-                            <MudItem xs="12">
+                            <MudItem sm="12">
                                 <div class="mb-4">
                                     <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel2))"
-                                                Variant="Variant.Filled"
-                                                Color="Color.Success"
-                                                Disabled="@AlternativaModel2.AlternativaAdicionada">
+                                               Variant="Variant.Filled"
+                                               Color="Color.Success"
+                                               Disabled="@AlternativaModel2.AlternativaAdicionada">
                                         Adicionar Alternativa B
                                     </MudButton>
                                 </div>
@@ -135,34 +139,34 @@ else
 
                     <div class="mb-3">
                         <MudGrid>
-                            <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudItem sm="12" Class="mud-elevation-4 mud-spacing">
                                 <MudPaper>
                                     <MudTextField @bind-Value="AlternativaModel3!.TextoDasAlternativa"
-                                                    Required="true"
-                                                    RequiredError="Campo Obrigatório"
-                                                    Lines="4"
-                                                    Label="Alternativa C"
-                                                    Variant="Variant.Text"
-                                                    HelperText="Limite de 300 Caracteres"
-                                                    InputType="InputType.Text"
-                                                    Validation="@(new StringLengthAttribute(300)
+                                                  Required="true"
+                                                  RequiredError="Campo Obrigatório"
+                                                  Lines="3"
+                                                  Label="Alternativa C"
+                                                  Variant="Variant.Text"
+                                                  HelperText="Limite de 300 Caracteres"
+                                                  InputType="InputType.Text"
+                                                  Validation="@(new StringLengthAttribute(300)
                                             {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
-                                                    Disabled="@AlternativaModel3.AlternativaAdicionada" />
+                                                  Disabled="@AlternativaModel3.AlternativaAdicionada" />
                                 </MudPaper>
-                                    <MudRadio Value="true"
-                                                Color="Color.Secondary"
-                                                Disabled="BotaoDasOpcoesCorretas"
-                                                @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel3)"
-                                                Size="Size.Large">
-                                        Alternativa Correta?
-                                    </MudRadio>
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Disabled="BotaoDasOpcoesCorretas"
+                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel3)"
+                                          Size="Size.Large">
+                                    Alternativa Correta?
+                                </MudRadio>
                             </MudItem>
-                            <MudItem xs="12">
+                            <MudItem sm="12">
                                 <div class="mb-4">
                                     <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel3))"
-                                                Variant="Variant.Filled"
-                                                Color="Color.Success"
-                                                Disabled="@AlternativaModel3.AlternativaAdicionada">
+                                               Variant="Variant.Filled"
+                                               Color="Color.Success"
+                                               Disabled="@AlternativaModel3.AlternativaAdicionada">
                                         Adicionar Alternativa C
                                     </MudButton>
                                 </div>
@@ -173,42 +177,42 @@ else
                     <div class="mb-3">
                         <MudGrid Style="margin-bottom: 20px;">
 
-                            <MudItem xs="12" Class="mud-elevation-4 mud-spacing">
+                            <MudItem sm="12" Class="mud-elevation-4 mud-spacing">
                                 <MudPaper>
                                     <MudTextField @bind-Value="AlternativaModel4!.TextoDasAlternativa"
-                                                    Required="true"
-                                                    RequiredError="Campo Obrigatório"
-                                                    Lines="4"
-                                                    Label="Alternativa D"
-                                                    Variant="Variant.Text"
-                                                    HelperText="Limite de 300 Caracteres"
-                                                    Validation="@(new StringLengthAttribute(300)
+                                                  Required="true"
+                                                  RequiredError="Campo Obrigatório"
+                                                  Lines="3"
+                                                  Label="Alternativa D"
+                                                  Variant="Variant.Text"
+                                                  HelperText="Limite de 300 Caracteres"
+                                                  Validation="@(new StringLengthAttribute(300)
                                                     {ErrorMessage= "Limite Máximo de 300 Caracteres"})"
-                                                    Disabled="@AlternativaModel4.AlternativaAdicionada"
-                                                    InputType="InputType.Text" />
+                                                  Disabled="@AlternativaModel4.AlternativaAdicionada"
+                                                  InputType="InputType.Text" />
                                 </MudPaper>
-                                    <MudRadio Value="true"
-                                                Color="Color.Secondary"
-                                                Size="Size.Large"
-                                                Disabled="BotaoDasOpcoesCorretas"
-                                                @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel4)">
-                                        Alternativa Correta?
-                                    </MudRadio>
+                                <MudRadio Value="true"
+                                          Color="Color.Secondary"
+                                          Size="Size.Large"
+                                          Disabled="BotaoDasOpcoesCorretas"
+                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel4)">
+                                    Alternativa Correta?
+                                </MudRadio>
                             </MudItem>
 
-                            <MudItem xs="12">
+                            <MudItem sm="12">
                                 <div class="mb-4">
                                     <MudButton OnClick="(() => AdicionarAlternativaBotao(AlternativaModel4))"
-                                                Variant="Variant.Filled"
-                                                Color="Color.Success"
-                                                Disabled="@AlternativaModel4.AlternativaAdicionada">
+                                               Variant="Variant.Filled"
+                                               Color="Color.Success"
+                                               Disabled="@AlternativaModel4.AlternativaAdicionada">
                                         Adicionar Alternativa D
                                     </MudButton>
                                 </div>
                             </MudItem>
                         </MudGrid>
                     </div>
-                    </MudRadioGroup>
+                </MudRadioGroup>
 
                 <div class="d-flex align-center justify-center">
                     <MudButton OnClick="(()=> AddPerguntaNaProva())"
@@ -277,7 +281,7 @@ else
 
     bool success;
 
-    string[] errors = { };
+    string[ ] errors = { };
 
 
     bool DesabilitarAlternativas = false;
@@ -321,7 +325,7 @@ else
 
     }
 
- 
+
 
     private void AdicionarAlternativaBotao(Alternativa alternativa)
     {
@@ -351,7 +355,7 @@ else
     {
         if (ListaAlternativas.All(x => x.IsCorreta == false))
         {
-            AbrirDialog($"Nenhuma Alternativa marcada como Correta na pergunta {NumeroQuestao}º",
+            AbrirDialog($"Nenhuma Alternativa marcada como Correta na Pergunta ({NumeroQuestao}º)",
                        "Por favor, Escolha uma alternativa como correta.",
                        DialogPosition.TopCenter);
         }
@@ -360,8 +364,8 @@ else
                                     ||
             UmaPergunta.EnunciadoDaPergunta.Length > 300)
         {
-            AbrirDialog($"Enunciado da Pergunta {NumeroQuestao}º Não Declarada!",
-                        $"Por favor, verifique o Enunciado da pergunta {NumeroQuestao}º antes de continuar.",
+            AbrirDialog($"Enunciado da Pergunta ({NumeroQuestao}º) Não Declarada!",
+                        $"Por favor, Verifique o Enunciado da pergunta {NumeroQuestao}º antes de continuar.",
                         DialogPosition.Center);
         }
 
@@ -396,7 +400,7 @@ else
         if (Prova.ProvaInstancia.Perguntas.Count() == Prova.ProvaInstancia.QuantidadePerguntas)
         {
             Prova.ProvaInstancia.PerguntasCriadas = true;
-            NavigationManager!.NavigateTo("/VerificarProva");
+            NavigationManager.NavigateTo("verificarProva");
         }
     }
 
@@ -423,4 +427,3 @@ else
 
 
 }
-
