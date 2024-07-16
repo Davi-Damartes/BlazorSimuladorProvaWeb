@@ -2,7 +2,7 @@
 
 on:
   push:
-    branchs: ["feature"]
+    branchs: ["main"]
 
   workflow_dispatch: 
 
