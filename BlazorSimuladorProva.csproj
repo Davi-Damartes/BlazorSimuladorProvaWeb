@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".github\workflows\master.yml" />
+    <None Include=".github\workflows\feature.yml" />
   </ItemGroup>
 
   <ItemGroup>
