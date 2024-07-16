@@ -1,4 +1,4 @@
-﻿﻿@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 <MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="@_isDarkMode" />
 <MudDialogProvider />
@@ -8,7 +8,7 @@
         <MudToggleIconButton @onclick="DrawerToggle" Size="Size.Large"
                              Icon="@Icons.Material.Filled.Menu"
                              Color="Color.Dark"
-                             Title="Abrir Menu"                        
+                             Title="Abrir Menu"
                              ToggledIcon="@Icons.Material.Filled.MenuOpen"
                              ToggledTitle="Esconder Menu"
                              ToggledColor="Color.Inherit"
@@ -48,7 +48,7 @@
     </MudAppBar>
 
     <MudDrawer @bind-Open="@_drawerOpen" Width="320px;" Color="Color.Primary">
-        <NavMenu/>
+        <NavMenu />
     </MudDrawer>
 
     <MudMainContent>
