@@ -1,8 +1,8 @@
-﻿﻿name: Deploy
+﻿name: Deploy
 
-on:
+on: 
   push:
-    branchs: ["feature"]
+    branchs: ["main"]
 
   workflow_dispatch: 
 
