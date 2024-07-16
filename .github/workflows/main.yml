@@ -1,6 +1,6 @@
-﻿﻿name: Deploy
+﻿name: Deploy
 
-on:
+on: 
   push:
     branchs: ["main"]
 
