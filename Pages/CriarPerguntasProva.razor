@@ -83,7 +83,7 @@ else
                                           Color="Color.Secondary"
                                           Size="Size.Large"
                                           Disabled="BotaoDasOpcoesCorretas"
-                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1)">
+                                          @onchange="(e) => MarcarAlternativaComoCorreta(AlternativaModel1!)">
                                     Alternativa Correta?
                                 </MudRadio>
                             </MudItem>
@@ -293,8 +293,7 @@ else
     bool BotaoDasOpcoesCorretas = false;
 
 
-    public string? Success { get; set; } = string.Empty;
-
+   
 
     protected override void OnInitialized( )
     {

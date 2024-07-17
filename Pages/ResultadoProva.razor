@@ -39,12 +39,13 @@ else
             <MudText Align="Align.Center" Typo="Typo.h1">
                 <b>Resultado Prova</b>
             </MudText>
-
             <MudText Align="Align.Center" Typo="Typo.h2" Color="Color.Success">
                 <b>Total de Acertos @ProvaResultado.ProvaInstancia.QuantidadeAcertos / @ProvaResultado.ProvaInstancia.QuantidadePerguntas</b>
             </MudText>
             <MudText Align="Align.Center" Typo="Typo.h5">
                 <b>Alternativas acertadas:</b>
+            </MudText>
+            <MudText Align="Align.Center" Typo="Typo.h5">
                 @foreach (var alternativa in @ProvaResultado.ProvaInstancia.AlternativasCorretas.Order())
                 {
                     <MudChip Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success">
@@ -56,7 +57,6 @@ else
             <div class="d-flex flex-column align-center">
                 <MudRating @bind-SelectedValue="valorSelecionado"
                            Size="Size.Large"
-                           Style="margin-top: 50px;"
                            HoveredValueChanged="MudancaDeValores" />
                 <MudText Typo="Typo.subtitle2" Class="deep-purple-text mt-2">@textoFeedback</MudText>
             </div>
