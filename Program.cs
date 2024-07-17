@@ -13,6 +13,6 @@ builder.Services.AddSingleton<ProvaService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddMudServices();
 
- 
+await Task.Delay(2500);
 
 await builder.Build().RunAsync();
