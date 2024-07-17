@@ -3,7 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 docs
-github/
+github/workflows/feature.yml
 # User-specific files
 *.rsuser
 *.suo
