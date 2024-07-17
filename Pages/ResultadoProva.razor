@@ -45,6 +45,8 @@ else
             </MudText>
             <MudText Align="Align.Center" Typo="Typo.h5">
                 <b>Alternativas acertadas:</b>
+            </MudText>
+            <MudText Align="Align.Center" Typo="Typo.h5">
                 @foreach (var alternativa in @ProvaResultado.ProvaInstancia.AlternativasCorretas.Order())
                 {
                     <MudChip Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success">
