@@ -9,13 +9,13 @@ namespace BlazorSimuladorProva.Models
         [MaxLength(100, ErrorMessage = "Nome deve ter no máximo 150 caracteres")]
         public string NomeProfessor { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Campo Quantidade de Alunos é obrigatório")]
+        [Required(ErrorMessage = "Campo Quantidade de Alunos é obrigatório==========")]
         [Range(5, 30, ErrorMessage = "Número de 5 a 30 Alunos")]
         public int QuantidadeAlunos { get; set; }
 
         public ETipoProva TipoProva { get; set; }
 
-        [Required(ErrorMessage = "Campo Quantidade Perguntas é obrigatório")]
+        [Required(ErrorMessage = "Campo Quantidade Perguntas é obrigatório==========")]
         [Range(3, 5, ErrorMessage = "Número de 3 a 5 Perguntas")]
         public int QuantidadePerguntas { get; set; }
 
