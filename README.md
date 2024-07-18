@@ -15,8 +15,8 @@ https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/f28b4c14-7538-
 ### Campo para Criação das Perguntas (Simulação)
 https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/73f5f2c0-3ac6-44bb-8c08-b342f140ddfe
 
-### Fazendo a Prova
-https://github.com/Davi-Damartes/BlazorCafeteria/assets/167019873/1cfa1d63-7763-45fa-a9fd-5faf194afead
+### Realizando a Prova
+https://github.com/user-attachments/assets/08163a8e-c01d-498a-a1f0-fb2fbe88ea72
 
 
 ## 🛠 Tecnologias utilizadas
